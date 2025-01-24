@@ -1,0 +1,118 @@
+/* 
+  Header Comments:
+  This CSS file provides global styles for the Inventory Management System application.
+  It includes styles for the main container, specific sections, and various elements within the app.
+*/
+
+/* 
+  .container class:
+  Styles the main container with flexbox layout, column direction, gap between elements, padding, and background color.
+*/
+.container {
+  display: flex; /* Use flexbox for layout */
+  flex-direction: column; /* Arrange children in a column */
+  gap: 20px; /* Space between children */
+  padding: 20px; /* Padding inside the container */
+  background-color: #ffffff; /* White background color */
+  border-radius: 10px; /* Rounded corners */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Light shadow effect */
+}
+
+/* 
+  .productManager, .productTable, .ruleManager classes:
+  Placeholder for specific styles for these sections if needed.
+  Currently, no specific styles are applied.
+*/
+.productManager, .productTable, .ruleManager {
+  /* Add any specific styles for these sections if needed */
+}
+
+/* 
+  .editProductForm class:
+  Styles the edit product form with margin at the top.
+*/
+.editProductForm {
+  margin-top: 20px; /* Space above the form */
+}
+
+/* 
+  .App class:
+  Styles the main app container with text alignment.
+*/
+.App {
+  text-align: center; /* Center text horizontally */
+}
+
+/* 
+  .App-logo class:
+  Styles the app logo with height and pointer events.
+*/
+.App-logo {
+  height: 40vmin; /* Set height relative to viewport size */
+  pointer-events: none; /* Disable pointer events */
+}
+
+/* 
+  Media query for reduced motion preference:
+  Applies animation to the app logo if the user has not requested reduced motion.
+*/
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear; /* Apply spin animation */
+  }
+}
+
+/* 
+  .App-header class:
+  Styles the app header with background color, minimum height, flexbox layout, alignment, font size, and text color.
+*/
+.App-header {
+  background-color: #ffffff; /* White background color */
+  min-height: 100vh; /* Minimum height to fill the viewport */
+  display: flex; /* Use flexbox for layout */
+  flex-direction: column; /* Arrange children in a column */
+  align-items: center; /* Center children horizontally */
+  justify-content: center; /* Center children vertically */
+  font-size: calc(10px + 2vmin); /* Responsive font size */
+  color: #333; /* Dark grey text color */
+}
+
+/* 
+  .App-link class:
+  Styles the app link with color.
+*/
+.App-link {
+  color: #61dafb; /* Light blue color */
+}
+
+/* 
+  @keyframes App-logo-spin:
+  Defines the keyframes for the logo spin animation.
+  Rotates the logo from 0 to 360 degrees.
+*/
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg); /* Start rotation at 0 degrees */
+  }
+  to {
+    transform: rotate(360deg); /* End rotation at 360 degrees */
+  }
+}
+
+/* 
+  Explanation of Imports:
+  - This CSS file does not have traditional imports like JavaScript files.
+  - Instead, it defines global styles for the Inventory Management System application, which are imported and applied in the corresponding React components.
+  
+  Why it’s implemented this way:
+  - The .container class styles the main container to create a visually appealing and user-friendly layout.
+  - The .productManager, .productTable, .ruleManager classes are placeholders for specific styles for these sections if needed.
+  - The .editProductForm class styles the edit product form to add spacing above the form.
+  - The .App class styles the main app container to center text horizontally.
+  - The .App-logo class styles the app logo to set its height and disable pointer events.
+  - The media query applies the logo spin animation if the user has not requested reduced motion.
+  - The .App-header class styles the app header to create a visually appealing and user-friendly layout with responsive font size.
+  - The .App-link class styles the app link to set its color.
+  - The @keyframes App-logo-spin defines the keyframes for the logo spin animation to rotate the logo from 0 to 360 degrees.
+ */
+
