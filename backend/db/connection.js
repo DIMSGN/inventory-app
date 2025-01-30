@@ -10,10 +10,10 @@ const mysql = require("mysql");
  * - database: The name of the database to connect to
  */
 const db = mysql.createConnection({
-    host: "localhost", // The hostname of the database server
-    user: "root", // The username to connect to the database
-    password: "olympiacos7", // The password to connect to the database
-    database: "inventory_db", // The name of the database to connect to
+    host: process.env.DB_HOST || "localhost", // The hostname of the database server
+    user: process.env.DB_USER || "root", // The username to connect to the database
+    password: process.env.DB_PASSWORD || "olympiacos7", // The password to connect to the database
+    database: process.env.DB_NAME || "inventory_db", // The name of the database to connect to
 });
 
 /**

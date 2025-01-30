@@ -1,7 +1,10 @@
-import React, { forwardRef, useState } from "react";
+import React, { forwardRef, useState, useEffect } from "react";
 import styles from "./ProductTable.module.css";
 import { jsPDF } from 'jspdf';
 import 'jspdf-autotable';
+import RuleForm from "../RuleForm/RuleForm";
+import CustomDropdown from "../common/CustomDropdown/CustomDropdown"; // Import CustomDropdown
+import axios from "axios"; // Import axios for API calls
 
 /**
  * ProductTable Component
@@ -16,7 +19,30 @@ import 'jspdf-autotable';
  * - rules: An array of rule objects to apply color rules to the product rows.
  * - selectedCategories: An array of selected categories to filter products.
  */
-const ProductTable = forwardRef(({ products, onEditProduct, onDeleteProduct, onAddProductClick, rules, selectedCategories }, ref) => {
+const ProductTable = forwardRef(({ products, onEditProduct, onDeleteProduct, onAddProductClick, rules: initialRules, selectedCategories }, ref) => {
+    const [rules, setRules] = useState(initialRules); // Define rules state and its updater function
+    const [isRuleModalOpen, setIsRuleModalOpen] = useState(false);
+    const [currentProduct, setCurrentProduct] = useState(null);
+    const [formData, setFormData] = useState({
+        rules: "",
+        comparison: "",
+        amount: "",
+        color: ""
+    });
+
+    const colors = [
+        { name: "Red", value: "#ff0000" },
+        { name: "Green", value: "#00ff00" },
+        { name: "Blue", value: "#0000ff" },
+        { name: "Yellow", value: "#ffff00" },
+        { name: "Orange", value: "#ffa500" },
+        { name: "Purple", value: "#800080" },
+        { name: "Pink", value: "#ffc0cb" },
+        { name: "Brown", value: "#a52a2a" },
+        { name: "Gray", value: "#808080" },
+        { name: "Black", value: "#000000" }
+    ];
+
     /**
      * Get the row color based on product rules
      * This function checks the product's rules and returns the corresponding color based on the comparison and amount.
@@ -83,47 +109,47 @@ const ProductTable = forwardRef(({ products, onEditProduct, onDeleteProduct, onA
     };
 
     /**
-     * CustomDropdown Component for Rules
-     * This component renders a dropdown menu with the provided options and a color preview.
-     * 
-     * Props:
-     * - name: The name of the dropdown.
-     * - value: The current value of the dropdown.
-     * - onChange: Function to handle the change event.
-     * - options: Array of options for the dropdown.
+     * Fetch rules from the server
+     * This function sends a GET request to fetch all rules and updates the state of the rule list.
      */
-    const CustomDropdown = ({ name, value, onChange, options }) => {
-        const [isOpen, setIsOpen] = useState(false);
+    const fetchRules = async () => {
+        try {
+            const response = await axios.get("http://localhost:5000/api/rules");
+            setRules(response.data); // Update the state of the rule list
+        } catch (error) {
+            console.error("Error fetching rules:", error);
+        }
+    };
 
-        const handleOptionClick = (optionValue) => {
-            onChange({ target: { name, value: optionValue } });
-            setIsOpen(false);
-        };
+    /**
+     * Handle input change for the rule form
+     */
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setFormData((prevData) => ({ ...prevData, [name]: value }));
+    };
 
-        const activeRule = options.find(option => option.id === value);
+    /**
+     * Handle form submit for the rule form
+     */
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        try {
+            await axios.post("http://localhost:5000/api/rules", { ...formData, product_id: currentProduct.product_id });
+            setIsRuleModalOpen(false);
+            setFormData({ rules: "", comparison: "", amount: "", color: "" });
+            fetchRules(); // Fetch updated rules
+        } catch (error) {
+            console.error("Error adding rule:", error);
+        }
+    };
 
-        return (
-            <div className={styles.dropdownContainer}>
-                <div className={styles.dropdownHeader} onClick={() => setIsOpen(!isOpen)}>
-                    <span className={styles.colorPreview} style={{ backgroundColor: activeRule?.color || 'transparent' }}></span>
-                    {activeRule ? `${activeRule.rules} (${activeRule.comparison} ${activeRule.amount})` : "Select a rule"}
-                </div>
-                {isOpen && (
-                    <div className={styles.dropdownList}>
-                        {options.map((option) => (
-                            <div
-                                key={option.id}
-                                className={styles.dropdownOption}
-                                onClick={() => handleOptionClick(option.id)}
-                            >
-                                <span className={styles.colorPreview} style={{ backgroundColor: option.color }}></span>
-                                {option.rules} ({option.comparison} {option.amount})
-                            </div>
-                        ))}
-                    </div>
-                )}
-            </div>
-        );
+    /**
+     * Open the rule modal for a specific product
+     */
+    const openRuleModal = (product) => {
+        setCurrentProduct(product);
+        setIsRuleModalOpen(true);
     };
 
     // Filter products based on selected categories
@@ -170,11 +196,26 @@ const ProductTable = forwardRef(({ products, onEditProduct, onDeleteProduct, onA
                             <td>
                                 <button className={styles.editButton} onClick={() => onEditProduct(product)}>Edit</button>
                                 <button className={styles.deleteButton} onClick={() => onDeleteProduct(product.product_id)}>Delete</button>
+                                <button className={styles.addRuleButton} onClick={() => openRuleModal(product)}>Add Rule</button>
                             </td>
                         </tr>
                     ))}
                 </tbody>
             </table>
+            {isRuleModalOpen && (
+                <div className={styles.modal}>
+                    <div className={styles.modalContent}>
+                        <h3>Add Rule for {currentProduct.product_name}</h3>
+                        <RuleForm
+                            formData={formData}
+                            handleChange={handleChange}
+                            handleSubmit={handleSubmit}
+                            colors={colors}
+                        />
+                        <button className={styles.closeButton} onClick={() => setIsRuleModalOpen(false)}>Close</button>
+                    </div>
+                </div>
+            )}
         </div>
     );
 });

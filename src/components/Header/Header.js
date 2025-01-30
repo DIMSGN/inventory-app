@@ -1,6 +1,6 @@
 // Import necessary modules and components
-import React from "react";
-import { motion } from "framer-motion";
+import React, { useState } from "react";
+import { motion, useAnimation } from "framer-motion";
 import Select from "react-select";
 import styles from "./Header.module.css";
 
@@ -14,6 +14,9 @@ import styles from "./Header.module.css";
  * - onFilterChange: Function to call when the selected categories change.
  */
 const Header = ({ categories, onFilterChange }) => {
+    const controls = useAnimation();
+    const [isBroken, setIsBroken] = useState(false);
+
     // Convert categories to options for react-select
     const categoryOptions = categories.map((category) => ({
         value: category,
@@ -26,13 +29,22 @@ const Header = ({ categories, onFilterChange }) => {
         onFilterChange(selectedCategories);
     };
 
+    // Punch effect function
+    const punchEffect = async () => {
+        await controls.start({ scale: 1.02, rotate: 2, transition: { duration: 0.1 } });
+        await controls.start({ scale: 1, rotate: 0, transition: { duration: 0.1 } });
+        setIsBroken(true);
+    };
+
     return (
         <header className={styles.header}>
             <motion.div
                 className={styles.inventoryBox}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 1 }}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.6 }}
+                onClick={punchEffect}
+                animate={controls}
             >
                 Inventory Management System
             </motion.div>
@@ -54,7 +66,7 @@ export default Header;
 /**
  * Explanation of Imports:
  * - React: This module is used to create React components and manage component state.
- * - motion: This module from framer-motion is used to add animations to the component.
+ * - motion, useAnimation: These modules from framer-motion are used to add animations to the component.
  * - Select: This module from react-select is used to create a customizable multi-select dropdown.
  * - styles: This imports the CSS module for styling the component.
  * 
