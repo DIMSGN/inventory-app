@@ -142,17 +142,3 @@ router.delete("/:id", async (req, res) => {
 
 // Export the router to be used in other parts of the application
 module.exports = router;
-
-/**
- * Explanation of Imports:
- * - express: This module is used to create a router and handle HTTP requests.
- * - db: This module provides a connection to the MySQL database, allowing the application to execute queries.
- * 
- * Why it’s implemented this way:
- * - The express.Router() method is used to create a modular, mountable route handler.
- * - The queryDatabase function is a helper function that wraps the db.query method in a promise, making it easier to work with asynchronous database queries.
- * - The router.get method defines a route to fetch all products and their associated rules, using a LEFT JOIN to combine data from the products and rules tables.
- * - The router.post method defines a route to add a new product to the database, ensuring that all required fields are provided.
- * - The router.put method defines a route to update an existing product, allowing partial updates by only modifying the provided fields.
- * - The router.delete method defines a route to delete a product from the database based on the product ID.
- */

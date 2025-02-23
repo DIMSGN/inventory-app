@@ -1,535 +1,230 @@
-/* 
-  Header Comments:
-  This CSS module provides styling for the ProductTable component.
-  It includes styles for the container, table, table headers, table cells, rules cell, select dropdown, and buttons.
-*/
-
-/* 
-  .container class:
-  Styles the container element with padding, background color, border radius, box shadow, width, and margin.
-  Centers the container horizontally and adds spacing inside.
-*/
-.container {
-    padding: 20px; /* Padding inside the container */
-    background-color: #ffffff; /* Light gray background color */
-    border-radius: 10px; /* Rounded corners */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Light shadow effect */
-    max-width: 90%; /* Set maximum width */
-    margin: 20px auto; /* Center the container horizontally */
-}
-
-/* 
-  .tableContainer class:
-  Styles the container element for the table with padding, background color, border, border-radius, and box shadow.
-  Centers the container horizontally and adds spacing above and below.
-*/
-.tableContainer {
-    padding: 20px; /* Padding inside the container */
-    background-color: #ffffff; /* White background color */
-    border: 1px solid #ddd; /* Light grey border */
-    border-radius: 10px; /* Rounded corners */
-    max-width: 1200px; /* Maximum width for the container */
-    margin: 20px auto; /* Center the container horizontally with margin */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Add a subtle shadow */
-}
-
-/* 
-  .heading class:
-  Styles the heading element with margin, color, font size, font weight, and alignment.
-*/
-.heading {
-    margin-bottom: 20px; /* Space below the heading */
-    color: #333; /* Dark grey text color */
-    font-size: 24px; /* Increase font size */
-    font-weight: bold; /* Make heading bold */
-    align-items: center; /* Center align items */
-    text-align: center; /* Center align text */
-}
-
-/* 
-  .table class:
-  Styles the table element with width, border, and spacing.
-*/
-.table {
-    width: 100%; /* Set table width to 100% */
-    border-collapse: collapse; /* Collapse table borders */
-    margin: 20px 0; /* Space above and below the table */
-    background-color: #f9f9f9; /* Light grey background color */
-}
-
-/* 
-  th and td elements:
-  Styles the table header and table cell elements with padding, border, and text alignment.
-  Adds spacing inside the cells and borders around them.
-*/
-th, td {
-    padding: 11px; /* Padding inside the cells */
-    border: 0.8px solid #8d8d8d79; /* Gray border */
-    text-align: left; /* Align text to the left */
-}
-
-/* 
-  .table th, .table td classes:
-  Styles the table header and data cells with padding, border, and text alignment.
-*/
-.table th, .table td {
-    padding: 12px 15px; /* Padding inside the table cells */
-    border: 1px solid #ddd; /* Light grey border */
-    text-align: left; /* Align text to the left */
-}
-
-/* 
-  .table th class:
-  Styles the table header cells with background color and text color.
-*/
-.table th {
-    background-color: #929292; /* Light grey background color */
-    color: white; /* White text color */
-    font-weight: bold; /* Make header text bold */
-    padding: 10px; /* Padding inside the header cells */
-    box-shadow: inset 0 1px 0 #b3b3b3, inset 0 -1px 0 #7a7a7a; /* Add inner shadow */
-    text-shadow: 1px 1px 0 #7a7a7a; /* Add text shadow */
-}
-
-/* 
-  .table tr:nth-child(even) class:
-  Styles the even rows of the table with a different background color.
-*/
-.table tr:nth-child(even) {
-    background-color: #f2f2f2; /* Slightly darker grey background color for even rows */
-}
-
-/* 
-  .table tr:hover class:
-  Styles the table rows when hovered to change the background color.
-*/
-.table tr:hover {
-    background-color: #ddd; /* Darker grey background color on hover */
-}
-
-/* 
-  .rulesCell class:
-  Styles the rules cell to display as a flex container and align items vertically in the center.
-*/
-.rulesCell {
-    display: flex; /* Use flexbox for layout */
-    align-items: center; /* Align items vertically in the center */
-    position: relative; /* Position relative for z-index */
-    z-index: 2; /* Ensure the rules cell appears above the row color */
-}
-
-/* 
-  .select class:
-  Styles the select dropdown with width, padding, border, border radius, and margin.
-  Adds spacing inside and around the dropdown.
-*/
-.select {
-    width: 70%; /* Set width to fill the container */
-    padding: 5px; /* Padding inside the dropdown */
-    margin-right: 10px; /* Space to the right of the dropdown */
-}
-
-/* 
-  .editButton, .deleteButton, .addRuleButton classes:
-  Styles the edit, delete, and add rule buttons with padding, margin, border, border radius, cursor, and transition effects.
-  Adds hover effects for background color.
-*/
-.editButton, .deleteButton, .addRuleButton {
-    padding: 10px 20px; /* Padding inside the buttons */
-    margin-right: 5px; /* Space to the right of the buttons */
-    border: none; /* No border */
-    border-radius: 5px; /* Rounded corners */
-    cursor: pointer; /* Pointer cursor on hover */
-    transition: background-color 0.3s, box-shadow 0.2s, transform 0.2s; /* Smooth transition for background color */
-}
-
-/* 
-  .editButton class:
-  Styles the edit button with background color, text color, and margin.
-  Adds hover effect for background color.
-*/
-.editButton {
-    background-color: #008cff; /* Blue background color */
-    color: white; /* White text color */
-    margin-right: auto; /* Align the button to the start of the flex container */
-}
-
-/* 
-  .deleteButton class:
-  Styles the delete button with background color and text color.
-  Adds hover effect for background color.
-*/
-.deleteButton {
-    background-color: #583a38; /* Red background color */
-    color: white; /* White text color */
-}
-
-/* 
-  .addRuleButton class:
-  Styles the add rule button with background color and text color.
-  Adds hover effect for background color.
-*/
-.addRuleButton {
-    background-color: #4caf50; /* Green background color */
-    color: white; /* White text color */
-}
-
-/* 
-  .editButton:hover class:
-  Styles the edit button when hovered to change the background color.
-*/
-.editButton:hover {
-    background-color: #0066b9; /* Darker blue background color on hover */
-}
-
-/* 
-  .deleteButton:hover class:
-  Styles the delete button when hovered to change the background color.
-*/
-.deleteButton:hover {
-    background-color: #e53935; /* Darker red background color on hover */
-}
-
-/* 
-  .addRuleButton:hover class:
-  Styles the add rule button when hovered to change the background color.
-*/
-.addRuleButton:hover {
-    background-color: #388e3c; /* Darker green background color on hover */
-}
-
-/* 
-  .productTableContainer class:
-  Styles the container element for the product table.
-*/
 .productTableContainer {
-    padding: 20px; /* Padding inside the container */
-    background-color: #ffffff; /* Light grey background color */
-    border: 1px solid #ddd; /* Light grey border */
-    border-radius: 10px; /* Rounded corners */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Add a subtle shadow */
-    margin: 20px auto; /* Center the container horizontally with margin */
+    padding: 20px;
+    background-color: #ffffff;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    max-width: 1920px;
+    margin: 20px auto;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.title {
+    margin-bottom: 20px;
+    font-size: 24px;
+    font-weight: bold;
+    color: #333333; /* Dark text color for contrast */
+    text-align: center;
+}
+
+.productTable {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.productTable th, .productTable td {
+    padding: 10px;
+    border: 1px solid #ddd;
+    text-align: left;
+}
+
+.productTable th {
+    background-color: #f8f9fa;
+    font-weight: bold;
+}
+
+.rulesCell {
     position: relative;
 }
 
-/* 
-  .controls class:
-  Styles the controls container with flexbox layout, alignment, and gap.
-  Aligns the controls to the right within the container.
-*/
+.productTableControls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.productTableControls .buttonGroup {
+    display: flex;
+    gap: 20px;
+}
+
+.productTableControls .exportButton, .productTableControls .addButton, .productTableControls .exportOrdersButton {
+    padding: 10px 20px;
+    background-color: #008cff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.productTableControls .exportButton:hover, .productTableControls .addButton:hover, .productTableControls .exportOrdersButton:hover {
+    background-color: #0066b9;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Shadow on hover for depth */
+}
+
+.productTableControls .exportButton {
+    background-color: #4CAF50; /* Green color for Export to PDF */
+}
+
+.productTableControls .addButton {
+    background-color: #008CBA; /* Blue color for Add Product */
+}
+
+.productTableControls .exportOrdersButton {
+    background-color: #FF9800; /* Orange color for Export Orders */
+}
+
 .controls {
-    display: flex; /* Use flexbox for layout */
-    justify-content: space-between; /* Space out the controls */
-    gap: 10px; /* Space between controls */
-    margin-bottom: 20px; /* Space below the controls */
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
 }
 
-/* 
-  .exportButton class:
-  Styles the "Export as PDF" button with padding, background color, text color, border, border-radius, cursor, and margin-top.
-  Adds hover effect for background color.
-*/
+.exportButton, .addButton, .editButton, .deleteButton, .addRuleButton, .closeButton {
+    padding: 10px 20px;
+    margin-right: 10px;
+    background-color: #008cff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.exportButton:hover, .addButton:hover, .editButton:hover, .deleteButton:hover, .addRuleButton:hover, .closeButton:hover {
+    background-color: #0066b9;
+}
+
 .exportButton {
-    padding: 10px 20px; /* Padding inside the button */
-    background-color: #008cff; /* Blue background color */
-    color: white; /* White text color */
-    border: none; /* No border */
-    border-radius: 5px; /* Rounded corners */
-    cursor: pointer; /* Pointer cursor on hover */
-    font-size: 16px; /* Increase font size */
-    box-shadow: 0 4px #3275ac; /* Add shadow for 3D effect */
-    transition: background-color 0.3s, box-shadow 0.2s, transform 0.2s; /* Smooth transition for background color */
+    background: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 5px;
+    margin-right: 10px;
 }
 
-/* 
-  .exportButton:hover class:
-  Styles the button element when hovered to change the background color.
-*/
-.exportButton:hover {
-    background-color: #0066b9; /* Darker blue background color on hover */
-}
-
-/* 
-  .exportButton:active class:
-  Styles the button element when active to change the box shadow and transform.
-*/
-.exportButton:active {
-    box-shadow: 0 2px #008cff; /* Change shadow for pressed effect */
-    transform: translateY(1px); /* Move button down slightly */
-}
-
-/* 
-  .addButton class:
-  Styles the "Add Product" button with padding, background color, text color, border, border-radius, cursor, and margin-top.
-  Adds hover effect for background color.
-*/
 .addButton {
-    padding: 10px 20px; /* Padding inside the button */
-    background-color: #008cff; /* Blue background color */
-    color: white; /* White text color */
-    border: none; /* No border */
-    border-radius: 5px; /* Rounded corners */
-    cursor: pointer; /* Pointer cursor on hover */
-    font-size: 16px; /* Increase font size */
-    box-shadow: 0 4px #3275ac; /* Add shadow for 3D effect */
-    transition: background-color 0.3s, box-shadow 0.2s, transform 0.2s; /* Smooth transition for background color */
+    background: #008CBA;
+    color: white;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 5px;
 }
 
-/* 
-  .addButton:hover class:
-  Styles the button element when hovered to change the background color.
-*/
-.addButton:hover {
-    background-color: #0066b9; /* Darker blue background color on hover */
+.editButton {
+    background: linear-gradient(145deg, #FFC107, #FFB300);
+    color: #ffffff;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 8px;
+    margin-right: 10px;
+    border: none;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
 }
 
-/* 
-  .addButton:active class:
-  Styles the button element when active to change the box shadow and transform.
-*/
-.addButton:active {
-    box-shadow: 0 2px #008cff; /* Change shadow for pressed effect */
-    transform: translateY(1px); /* Move button down slightly */
+.editButton:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
 }
 
-/* 
-  .productTable class:
-  Styles the table element with width, border, and spacing.
-*/
-.productTable {
-    width: 100%; /* Set table width to 100% */
-    border-collapse: collapse; /* Collapse table borders */
-    margin: 20px 0; /* Space above and below the table */
-    background-color: #f9f9f9; /* Light grey background color */
+.deleteButton {
+    background: linear-gradient(145deg, #ff1100, #e60000);
+    color: #ffffff;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 8px;
+    margin-right: 10px;
+    border: none;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
 }
 
-/* 
-  .productTable th, .productTable td classes:
-  Styles the table header and data cells with padding, border, and text alignment.
-*/
-.productTable th, .productTable td {
-    padding: 12px 15px; /* Padding inside the cells */
-    border: 1px solid #ddd; /* Light grey border */
-    text-align: left; /* Align text to the left */
+.deleteButton:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
 }
 
-/* 
-  .productTable th class:
-  Styles the table header cells with background color and text color.
-*/
-.productTable th {
-    background-color: #929292; /* Light grey background color */
-    color: white; /* White text color */
-    padding: 10px; /* Padding inside the header cells */
-    border: 1px solid #7a7a7a; /* Border color */
-    box-shadow: inset 0 1px 0 #b3b3b3, inset 0 -1px 0 #7a7a7a; /* Add inner shadow */
-    text-shadow: 1px 1px 0 #7a7a7a; /* Add text shadow */
+.addRuleButton {
+    background: linear-gradient(145deg, #4CAF50, #43A047);
+    color: #ffffff;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 8px;
+    margin-right: 10px;
+    border: none;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
 }
 
-/* 
-  .productTable tr:nth-child(even) class:
-  Styles the even rows of the table with a different background color.
-*/
-.productTable tr:nth-child(even) {
-    background-color: #f2f2f2; /* Slightly darker grey background color for even rows */
+.addRuleButton:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
 }
 
-/* 
-  .productTable tr:hover class:
-  Styles the table rows when hovered to change the background color.
-*/
-.productTable tr:hover {
-    background-color: #ddd; /* Darker grey background color on hover */
-}
-
-/* 
-  .dropdownContainer class:
-  Styles the dropdown container with position, display, and width.
-*/
-.dropdownContainer {
-    position: relative; /* Position relative for dropdown */
-    display: inline-block; /* Inline block for dropdown */
-    width: 100%; /* Full width */
-}
-
-/* 
-  .dropdownHeader class:
-  Styles the dropdown header with padding, border, border radius, font size, display, alignment, and cursor.
-*/
-.dropdownHeader {
-    padding: 10px; /* Padding inside the header */
-    border: 1px solid #ccc; /* Light grey border */
-    border-radius: 5px; /* Rounded corners */
-    font-size: 16px; /* Font size */
-    display: flex; /* Flexbox for layout */
-    align-items: center; /* Center align items */
-    cursor: pointer; /* Pointer cursor on hover */
-}
-
-/* 
-  .dropdownList class:
-  Styles the dropdown list with position, width, border, border radius, background color, z-index, max height, and overflow.
-*/
-.dropdownList {
-    position: absolute; /* Absolute position for dropdown */
-    top: 100%; /* Position below the header */
-    left: 0; /* Align to the left */
-    width: 100%; /* Full width */
-    border: 1px solid #ccc; /* Light grey border */
-    border-radius: 5px; /* Rounded corners */
-    background-color: #fff; /* White background color */
-    z-index: 1; /* Ensure dropdown appears above other elements */
-    max-height: 200px; /* Maximum height */
-    overflow-y: auto; /* Scrollable if content overflows */
-}
-
-/* 
-  .dropdownOption class:
-  Styles the dropdown options with padding, display, alignment, and cursor.
-*/
-.dropdownOption {
-    padding: 10px; /* Padding inside the option */
-    display: flex; /* Flexbox for layout */
-    align-items: center; /* Center align items */
-    cursor: pointer; /* Pointer cursor on hover */
-}
-
-/* 
-  .dropdownOption:hover class:
-  Styles the dropdown options when hovered to change the background color.
-*/
-.dropdownOption:hover {
-    background-color: #f0f0f0; /* Light grey background color on hover */
-}
-
-/* 
-  .colorPreview class:
-  Styles the color preview element with width, height, border, border radius, and margin.
-*/
-.colorPreview {
-    width: 20px; /* Width of the color preview */
-    height: 20px; /* Height of the color preview */
-    border: 1px solid #ccc; /* Light grey border */
-    border-radius: 3px; /* Rounded corners */
-    margin-right: 10px; /* Space to the right of the color preview */
-}
-
-/* 
-  Explanation of Imports:
-  - This CSS module does not have traditional imports like JavaScript files.
-  - Instead, it defines styles for the ProductTable component, which are imported and applied in the corresponding React component.
-  
-  Why it’s implemented this way:
-  - The .container class styles the container element to create a visually appealing and user-friendly layout.
-  - The .table class styles the table element to ensure it takes up the full width of the container and removes spacing between cells.
-  - The th and td elements style the table headers and cells to add spacing inside and borders around them.
-  - The .rulesCell class styles the rules cell to align items properly within the cell.
-  - The .select class styles the dropdown to provide a consistent look and feel, with spacing inside and around the element.
-  - The .editButton and .deleteButton classes style the buttons to create visually appealing buttons with hover effects to enhance user interaction.
-  - The .editButton and .deleteButton:hover classes add hover effects to the buttons to change the background color when hovered.
- */
-
-/* 
-  .closeButton class:
-  Styles the close button with padding, background color, text color, border, border-radius, cursor, and transition effects.
-  Adds hover effects for background color.
-*/
-.closeButton {
-    padding: 10px 20px; /* Padding inside the button */
-    background-color: #008cff; /* Blue background color */
-    color: white; /* White text color */
-    border: none; /* No border */
-    border-radius: 5px; /* Rounded corners */
-    cursor: pointer; /* Pointer cursor on hover */
-    transition: background-color 0.3s ease; /* Smooth transition for background color */
-}
-
-/* 
-  .closeButton:hover class:
-  Styles the close button when hovered to change the background color.
-*/
-.closeButton:hover {
-    background-color: #0066b9; /* Darker blue background color on hover */
-}
-
-/* 
-  .modal class:
-  Styles the modal with position, width, height, background color, display, and alignment.
-*/
 .modal {
-    position: fixed; /* Fixed position for modal */
-    top: 0; /* Align to the top */
-    left: 0; /* Align to the left */
-    width: 100%; /* Full width */
-    height: 100%; /* Full height */
-    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black background */
-    display: flex; /* Flexbox for layout */
-    align-items: center; /* Center align items */
-    justify-content: center; /* Center align items */
-    z-index: 1000;
-    overflow-y: auto; /* Ensure the modal content is scrollable if it exceeds the viewport height */
-}
-
-/* 
-  .modalContent class:
-  Styles the modal content with background color, padding, border radius, box shadow, width, and max width.
-*/
-.modalContent {
-    background-color: #fff; /* White background color */
-    padding: 20px; /* Padding inside the modal content */
-    border-radius: 10px; /* Rounded corners */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Add a subtle shadow */
-    width: 90%; /* Set width to 90% */
-    max-width: 840px; /* Maximum width for the modal content */
-    max-height: 90%; /* Ensure the modal content does not exceed the viewport height */
-    overflow-y: auto; /* Add scroll if the content exceeds the modal height */
-    overflow-x: hidden; /* Prevent horizontal scroll */
-}
-
-/* 
-  .rulePanel class:
-  Styles the rule panel with position, width, height, background color, box shadow, z-index, transform, and transition.
-*/
-.rulePanel {
     position: fixed;
     top: 0;
-    right: 0;
-    width: 300px;
+    left: 0;
+    width: 100%;
     height: 100%;
-    background-color: #ffffff;
-    box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);
-    z-index: 1000;
-    transform: translateX(0);
-    transition: transform 0.3s ease-in-out;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000; /* Ensure the modal is above all other elements */
 }
 
-/* 
-  .rulePanelContent class:
-  Styles the rule panel content with padding.
-*/
-.rulePanelContent {
+.modalContent {
+    background: white;
     padding: 20px;
+    border-radius: 8px;
+    width: 80%;
+    max-width: 1000px;
+    height: 70%;
+    max-height: 380px;
+    overflow-y: auto;
 }
 
-/* 
-  .arrow class:
-  Styles the arrow with position, width, height, and border.
-*/
-.arrow {
-    position: absolute;
-    top: 20px;
-    left: -20px;
-    width: 0;
-    height: 0;
-    border-top: 10px solid transparent;
-    border-bottom: 10px solid transparent;
-    border-right: 10px solid #ffffff;
+.closeButton {
+    margin-top: 20px;
+    background: #f44336;
+    color: white;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 5px;
 }
 
-/* 
-  .rulePanelClosed class:
-  Styles the rule panel when it's closed to hide it.
-*/
-.rulePanelClosed {
-    transform: translateX(100%);
+.closeButton:hover {
+    background-color: #d16565;
+}
+
+.actionsCell {
+    background-color: #ffffff;
+    z-index: 1; /* Ensure it is below the modal */
+    position: relative;
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+    .controls {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .productTable th, .productTable td {
+        padding: 8px;
+    }
+
+    .modalContent {
+        width: 90%;
+        height: 80%;
+    }
 }

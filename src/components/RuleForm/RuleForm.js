@@ -1,5 +1,5 @@
 import React from "react";
-import CustomDropdown from "../common/CustomDropdown/CustomDropdown";
+import CustomDropdown from "../common/RuleManagerDropdown/RuleManagerDropdown"; // Correct import path
 import styles from "./RuleForm.module.css";
 
 /**

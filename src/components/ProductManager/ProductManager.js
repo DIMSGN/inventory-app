@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import axios from "axios";
+import productService from "../../services/productService";
+import Button from "../common/Button/Button"; // Correct import path
 import styles from "./ProductManager.module.css";
 
 /**
@@ -28,7 +29,7 @@ const ProductManager = ({ fetchProducts, categories }) => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            await axios.post("http://localhost:5000/api/products", formData);
+            await productService.addProduct(formData);
             fetchProducts();
             setFormData({ name: "", category: "", price: "", quantity: "" });
         } catch (error) {
@@ -70,7 +71,7 @@ const ProductManager = ({ fetchProducts, categories }) => {
                                 placeholder="Enter new category"
                                 required
                             />
-                            <button type="button" onClick={handleAddCategory}>Add</button>
+                            <Button type="button" onClick={handleAddCategory}>Add</Button>
                         </div>
                     ) : (
                         <select
@@ -115,7 +116,7 @@ const ProductManager = ({ fetchProducts, categories }) => {
                         required
                     />
                 </label>
-                <button type="submit">Add Product</button>
+                <Button type="submit">Add Product</Button>
             </form>
         </div>
     );

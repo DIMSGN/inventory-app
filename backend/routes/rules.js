@@ -88,34 +88,20 @@ router.put("/:id", async (req, res) => {
  * Route to delete a rule.
  * This route deletes a rule from the rules table based on the rule ID.
  */
-router.delete("/:id", (req, res) => {
+router.delete("/:id", async (req, res) => {
     const { id } = req.params;
     const query = "DELETE FROM rules WHERE id = ?";
-    db.query(query, [id], (err, results) => {
-        if (err) {
-            console.error("Error deleting rule:", err);
-            return res.status(500).json({ error: err.message });
-        }
+    try {
+        const results = await queryDatabase(query, [id]);
         if (results.affectedRows === 0) {
             return res.status(404).json({ error: "Rule not found" });
         }
         res.status(200).json({ message: "Rule deleted" });
-    });
+    } catch (err) {
+        console.error("Error deleting rule:", err);
+        res.status(500).json({ error: err.message });
+    }
 });
 
 // Export the router to be used in other parts of the application
 module.exports = router;
-
-/**
- * Explanation of Imports:
- * - express: This module is used to create a router and handle HTTP requests.
- * - db: This module provides a connection to the MySQL database, allowing the application to execute queries.
- * 
- * Why it’s implemented this way:
- * - The express.Router() method is used to create a modular, mountable route handler.
- * - The queryDatabase function is a helper function that wraps the db.query method in a promise, making it easier to work with asynchronous database queries.
- * - The router.get method defines a route to fetch all rules from the database.
- * - The router.post method defines a route to add a new rule to the database, ensuring that all required fields are provided.
- * - The router.put method defines a route to update an existing rule, allowing partial updates by only modifying the provided fields.
- * - The router.delete method defines a route to delete a rule from the database based on the rule ID.
- */

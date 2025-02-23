@@ -1,17 +1,7 @@
 import React, { useState } from "react";
 import styles from "./CustomDropdown.module.css";
 
-/**
- * CustomDropdown Component
- * This component renders a dropdown menu with the provided options.
- * 
- * Props:
- * - name: The name of the dropdown.
- * - value: The current value of the dropdown.
- * - onChange: Function to handle the change event.
- * - options: Array of options for the dropdown.
- */
-const CustomDropdown = ({ name, value, onChange, options }) => {
+const RuleManagerDropdown = ({ name, value, onChange, options }) => {
     const [isOpen, setIsOpen] = useState(false);
 
     const handleOptionClick = (optionValue) => {
@@ -19,11 +9,15 @@ const CustomDropdown = ({ name, value, onChange, options }) => {
         setIsOpen(false);
     };
 
-    const activeOption = options.find(option => option.value === value);
+    const handleDropdownToggle = () => {
+        setIsOpen(!isOpen);
+    };
+
+    const activeOption = options.find(option => option.value === value) || options[0]; // Default to first rule
 
     return (
         <div className={styles.dropdownContainer}>
-            <div className={styles.dropdownHeader} onClick={() => setIsOpen(!isOpen)}>
+            <div className={styles.dropdownHeader} onClick={handleDropdownToggle}>
                 <span className={styles.colorPreview} style={{ backgroundColor: activeOption?.value || 'transparent' }}></span>
                 {activeOption ? activeOption.name : "Select a color"}
             </div>
@@ -45,4 +39,4 @@ const CustomDropdown = ({ name, value, onChange, options }) => {
     );
 };
 
-export default CustomDropdown;
+export default RuleManagerDropdown;

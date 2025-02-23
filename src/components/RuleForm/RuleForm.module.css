@@ -104,3 +104,19 @@ button:focus {
     outline: none; /* Remove default outline */
     box-shadow: 0 0 0 3px rgba(0, 136, 255, 0.5); /* Add custom outline */
 }
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+    .form {
+        padding: 10px;
+    }
+
+    .formRow {
+        flex-direction: column;
+    }
+
+    .buttonGroup {
+        flex-direction: column;
+        gap: 5px;
+    }
+}

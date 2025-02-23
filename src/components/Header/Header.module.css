@@ -7,7 +7,7 @@
 /* Header Styles */
 .header {
     padding: 20px;
-    background-color: #919191; /* Minimal and professional background color */
+    background-color: #b4b4b4; /* Minimal and professional background color */
     color: #333333; /* Dark text color for contrast */
     display: flex;
     justify-content: center; /* Center content horizontally */
@@ -15,15 +15,20 @@
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Subtle shadow for depth */
     border-bottom: 3px solid #cccccc; /* Light grey border at the bottom for separation */
     position: relative;
+    z-index: 1000; /* Ensure header is above other elements */
     animation: punchIn 0.6s ease-in-out forwards; /* Apply the punch animation */
 }
 
-.header h1 {
+.headerTitle {
     margin: 0;
     font-size: 28px; /* Slightly larger font size for prominence */
     font-weight: bold;
     text-align: center;
     letter-spacing: 1px; /* Slight letter spacing for a cleaner look */
+    flex: 1; /* Allow the title to take up available space */
+    display: flex;
+    justify-content: center; /* Center the text horizontally */
+    align-items: center; /* Center the text vertically */
 }
 
 .header select {
@@ -57,62 +62,6 @@
     margin-top: 20px;
     position: relative;
     animation: punchInBox 0.6s ease-in-out forwards; /* Apply the punch animation */
-}
-
-.breakEffect {
-    display: none; /* Remove the break effect */
-}
-
-.brokenGlass {
-    display: none; /* Remove the broken glass image */
-}
-
-/* Filter Dropdown Styles */
-.filterDropdown {
-    padding: 10px;
-    border: 2px solid #5c5c5c;
-    border-radius: 5px;
-    background-color: #e0e0e0; /* Light grey background color */
-    color: #333333; /* Dark text color for visibility */
-    cursor: pointer;
-    width: 100px;
-    transition: background-color 0.3s, color 0.3s;
-}
-
-.filterDropdown:hover {
-    background-color: #d0d0d0;
-    color: #000000;
-    border-color: #000000;
-}
-
-/* Title Styles */
-.title {
-    margin: 0;
-    color: #333333; /* Dark text color for contrast */
-    font-size: 24px;
-    font-weight: bold;
-}
-
-/* Filter Container Styles */
-.filterContainer {
-    display: flex;
-    gap: 15px;
-    align-items: center;
-}
-
-/* Filter Label Styles */
-.filterLabel {
-    font-weight: bold;
-    color: #333333; /* Dark text color for contrast */
-}
-
-/* Filter Select Styles */
-.filterSelect {
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    font-size: 16px;
-    color: #333333; /* Dark text color for visibility */
 }
 
 /* Add Button Styles */
@@ -163,13 +112,24 @@
     }
 }
 
-/* 
-  Explanation of Imports:
-  - This CSS module does not have traditional imports like JavaScript files.
-  - Instead, it defines styles for the Header component, which are imported and applied in the corresponding React component.
-  
-  Why it’s implemented this way:
-  - The .header class styles the header container to create a visually appealing and user-friendly layout.
-  - The .header h1 element styles ensure that the title is prominently displayed and takes up available space.
-  - The .controls class styles the filter controls to be aligned to the right within the header.
-  - The .filterDropdown class styles the dropdown to provide a consistent look and feel, with hover effects to enhance user interaction.*/
+/* Responsive Styles */
+@media (max-width: 768px) {
+    .header {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .headerTitle {
+        font-size: 24px;
+    }
+
+    .controls {
+        position: static;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .inventoryBox {
+        font-size: 20px;
+    }
+}

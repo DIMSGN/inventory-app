@@ -1,4 +1,5 @@
 import React from "react";
+import Button from "../common/Button/Button";
 import styles from "./RuleList.module.css";
 
 /**
@@ -23,18 +24,18 @@ const RuleList = ({ rules, handleEdit, handleDelete }) => {
                         ></div>
                     </div>
                     <div className={styles.buttonGroup}>
-                        <button
+                        <Button
                             className={styles.editButton}
                             onClick={() => handleEdit(rule)}
                         >
                             Edit
-                        </button>
-                        <button
+                        </Button>
+                        <Button
                             className={styles.deleteButton}
                             onClick={() => handleDelete(rule.id)}
                         >
                             Delete
-                        </button>
+                        </Button>
                     </div>
                 </li>
             ))}

@@ -86,3 +86,16 @@
 .deleteButton:hover {
     background-color: #e53935; /* Darker red background color on hover */
 }
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+    .listItem {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .buttonGroup {
+        flex-direction: column;
+        gap: 5px;
+    }
+}

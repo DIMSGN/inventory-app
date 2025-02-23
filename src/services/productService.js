@@ -53,18 +53,3 @@ const productService = {
 
 // Export the productService object to be used in other parts of the application
 export default productService;
-
-/**
- * Explanation of Imports:
- * - axios: This module is used to make HTTP requests from the browser to the server.
- * 
- * Why it’s implemented this way:
- * - The axios module is used to simplify making HTTP requests to the product API.
- * - The API_URL constant defines the base URL for the product API, making it easy to update the URL if needed.
- * - The productService object provides a set of methods to interact with the product API, encapsulating the API calls and making them reusable throughout the application.
- * - The getProducts method sends a GET request to fetch all products from the API.
- * - The addProduct method sends a POST request to add a new product to the API.
- * - The updateProduct method sends a PUT request to update an existing product in the API.
- * - The deleteProduct method sends a DELETE request to delete a product from the API.
- * - The productService object is exported to be used in other parts of the application, allowing for easy integration of product-related API calls.
- */

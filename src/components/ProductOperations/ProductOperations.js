@@ -1,6 +1,6 @@
 // Import necessary modules and components
-import React, { useState, useEffect, useRef } from "react";
-import axios from "axios";
+import { useEffect, useRef, useCallback } from "react";
+import { fetchData, updateData, deleteData } from "../../utils/apiUtils";
 
 /**
  * ProductOperations Component
@@ -21,23 +21,23 @@ const ProductOperations = ({ setProducts, setFilteredProducts, setCategories, se
      * Fetch all products from the server
      * This function sends a GET request to fetch all products and updates the state of the product list, filtered products, and categories.
      */
-    const fetchProducts = async () => {
+    const fetchProducts = useCallback(async () => {
         try {
-            const response = await axios.get("http://localhost:5000/api/products");
-            setProducts(response.data); // Update the state of the product list
-            setFilteredProducts(response.data); // Update the state of the filtered product list
-            const uniqueCategories = [...new Set(response.data.map(product => product.category))]; // Extract unique categories
+            const response = await fetchData("http://localhost:5000/api/products");
+            setProducts(response); // Update the state of the product list
+            setFilteredProducts(response); // Update the state of the filtered product list
+            const uniqueCategories = [...new Set(response.map(product => product.category))]; // Extract unique categories
             setCategories(uniqueCategories); // Update the state of the categories
         } catch (error) {
             console.error("Error fetching products:", error);
             alert(`Failed to fetch products: ${error.response?.data?.error || error.message}`);
         }
-    };
+    }, [setProducts, setFilteredProducts, setCategories]);
 
     // Fetch products when the component mounts
     useEffect(() => {
         fetchProducts();
-    }, []);
+    }, [fetchProducts]);
 
     /**
      * Handle filter change event
@@ -70,7 +70,7 @@ const ProductOperations = ({ setProducts, setFilteredProducts, setCategories, se
      */
     const handleUpdateProduct = async (updatedProduct) => {
         try {
-            await axios.put(`http://localhost:5000/api/products/${updatedProduct.product_id}`, updatedProduct);
+            await updateData(`http://localhost:5000/api/products/${updatedProduct.product_id}`, updatedProduct);
             fetchProducts(); // Refresh the product list
             setEditingProduct(null); // Clear the currently editing product
         } catch (error) {
@@ -86,7 +86,7 @@ const ProductOperations = ({ setProducts, setFilteredProducts, setCategories, se
      */
     const handleDeleteProduct = async (productId) => {
         try {
-            await axios.delete(`http://localhost:5000/api/products/${productId}`);
+            await deleteData(`http://localhost:5000/api/products/${productId}`);
             fetchProducts(); // Refresh the product list
         } catch (error) {
             console.error("Error deleting product:", error);
