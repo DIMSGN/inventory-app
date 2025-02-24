@@ -1,12 +1,14 @@
 // Import the mysql module to interact with the MySQL database
 const mysql = require("mysql");
+require('dotenv').config(); // Load environment variables from .env file
 
 // Create a connection to the MySQL database
 const db = mysql.createConnection({
-    host: process.env.DB_HOST || "localhost",
-    user: process.env.DB_USER || "root",
-    password: process.env.DB_PASSWORD || "olympiacos7",
-    database: process.env.DB_NAME || "inventory_db",
+    host: process.env.MYSQL_ADDON_HOST,
+    user: process.env.MYSQL_ADDON_USER,
+    password: process.env.MYSQL_ADDON_PASSWORD,
+    database: process.env.MYSQL_ADDON_DB,
+    port: process.env.MYSQL_ADDON_PORT,
 });
 
 // Connect to the MySQL database
