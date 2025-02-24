@@ -26,12 +26,12 @@
 
 .productTable th, .productTable td {
     padding: 10px;
-    border: 1px solid #ddd;
+    border: 1px solid #e4e4e4;
     text-align: left;
 }
 
 .productTable th {
-    background-color: #f8f9fa;
+    background-color: #e2e2e2;
     font-weight: bold;
 }
 

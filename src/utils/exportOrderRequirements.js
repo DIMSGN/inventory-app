@@ -1,36 +1,12 @@
 import { jsPDF } from 'jspdf';
 import 'jspdf-autotable';
 
-const getRowColor = (product, rules) => {
-    const productRules = rules.filter(rule => rule.product_id === product.product_id);
-    const sortedRules = productRules.sort((a, b) => a.amount - b.amount);
-
-    for (const rule of sortedRules) {
-        const { comparison, amount, color } = rule;
-        switch (comparison) {
-            case '=':
-                if (product.amount === amount) return color;
-                break;
-            case '<':
-                if (product.amount < amount) return color;
-                break;
-            case '>':
-                if (product.amount > amount) return color;
-                break;
-            case '<=':
-                if (product.amount <= amount) return color;
-                break;
-            case '>=':
-                if (product.amount >= amount) return color;
-                break;
-            default:
-                break;
-        }
+const exportOrderRequirements = (products, rules) => {
+    if (!Array.isArray(products)) {
+        console.error("Expected an array of products");
+        return;
     }
-    return 'transparent';
-};
 
-export const exportOrderRequirements = (products, rules) => {
     const doc = new jsPDF();
     doc.setFont("Arial");
     doc.text('Order Requirements', 14, 16);
@@ -66,3 +42,5 @@ export const exportOrderRequirements = (products, rules) => {
 
     doc.save('order_requirements.pdf');
 };
+
+export default exportOrderRequirements;

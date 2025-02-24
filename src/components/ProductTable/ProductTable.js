@@ -5,7 +5,7 @@ import ProductTableControls from "./ProductTableControls/ProductTableControls";
 import ProductTableRow from "./ProductTableRow/ProductTableRow";
 import useForm from "../../hooks/useForm";
 import useFetch from "../../hooks/useFetch";
-import { exportOrderRequirements } from "../../utils/exportOrderRequirements";
+import exportOrderRequirements from "../../utils/exportOrderRequirements"; // Correct import
 import { colors } from "../../utils/colors"; // Import colors from utils
 import { exportToPDF } from "../../utils/exportToPDF";
 import { handleSubmit } from "../../utils/handleSubmit";
@@ -34,13 +34,21 @@ const ProductTable = forwardRef(({ products, onEditProduct, onDeleteProduct, onA
         ? products.filter(product => selectedCategories.includes(product.category))
         : products;
 
+    const handleExportOrders = () => {
+        if (!Array.isArray(products)) {
+            console.error("Expected an array of products");
+            return;
+        }
+        exportOrderRequirements(products, rules);
+    };
+
     return (
         <div className={styles.productTableContainer}>
             <h2 className={styles.title}>Product Table</h2> {/* Add title for Product Table */}
             <ProductTableControls
                 exportToPDF={() => exportToPDF(products)}
                 onAddProductClick={onAddProductClick}
-                exportOrderRequirements={exportOrderRequirements}
+                exportOrderRequirements={handleExportOrders} // Correct function call
                 products={products}
                 rules={rules}
             />
