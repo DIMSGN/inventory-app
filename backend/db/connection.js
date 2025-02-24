@@ -1,20 +1,25 @@
+// Import the mysql module to interact with the MySQL database
 const mysql = require("mysql");
+require('dotenv').config(); // Load environment variables from .env file
 
-const connection = mysql.createConnection({
-  host: process.env.DB_HOST,      // Clever Cloud MySQL host
-  user: process.env.DB_USER,      // Clever Cloud MySQL username
-  password: process.env.DB_PASSWORD,  // Clever Cloud MySQL password
-  database: process.env.DB_NAME,  // Clever Cloud MySQL database name
-  port: process.env.DB_PORT || 3306,
-  ssl: { rejectUnauthorized: false }, // Required for Clever Cloud
+// Create a connection to the MySQL database
+const db = mysql.createConnection({
+    host: process.env.MYSQL_ADDON_HOST,
+    user: process.env.MYSQL_ADDON_USER,
+    password: process.env.MYSQL_ADDON_PASSWORD,
+    database: process.env.MYSQL_ADDON_DB,
+    port: process.env.MYSQL_ADDON_PORT,
+    ssl: { rejectUnauthorized: false }, // Required for Clever Cloud
 });
 
-connection.connect((err) => {
-  if (err) {
-    console.error("Error connecting to database:", err);
-  } else {
-    console.log("Connected to Clever Cloud MySQL database");
-  }
+// Connect to the MySQL database
+db.connect((err) => {
+    if (err) {
+        console.error("Error connecting to database:", err);
+        return;
+    }
+    console.log("Connected to MySQL database");
 });
 
-module.exports = connection;
+// Export the database connection object for use in other parts of the application
+module.exports = db;
