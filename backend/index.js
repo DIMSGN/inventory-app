@@ -13,7 +13,7 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 
 // Middleware to enable Cross-Origin Resource Sharing
-app.use(cors());
+app.use(cors({ origin: "https://dimsgn.github.io" })); // Allows requests from any origin
 // Middleware to parse incoming JSON requests
 app.use(express.json());
 
