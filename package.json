@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node backend/index.js",
     "build": "cd frontend && npm install && npm run build",
-    "start-frontend": "cd frontend && npm start",
+    "start-frontend": "cd frontend && npm run serve",
     "start-backend": "cd backend && node index.js"
   },
   "engines": {
