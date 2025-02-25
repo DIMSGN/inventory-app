@@ -23,7 +23,7 @@ export const fetchData = async (url) => {
  * @param {string} url - The URL to post data to.
  * @param {Object} data - The data to post.
  */
-const postData = async (url, data) => {
+export const postData = async (url, data) => {
     try {
         const response = await axios.post(`${API_BASE_URL}${url}`, data);
         return response.data;
@@ -61,5 +61,3 @@ export const deleteData = async (url) => {
         throw error;
     }
 };
-
-export { postData };
