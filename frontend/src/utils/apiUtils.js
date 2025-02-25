@@ -25,10 +25,10 @@ export const fetchData = async (url) => {
  */
 export const postData = async (url, data) => {
     try {
-        const response = await axios.post(`${API_BASE_URL}${url}`, data);
+        const response = await axios.post(url, data);
         return response.data;
     } catch (error) {
-        console.error(`Error posting data to ${url}:`, error);
+        console.error("Error posting data:", error);
         throw error;
     }
 };
