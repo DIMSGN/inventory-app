@@ -5,10 +5,10 @@
   "dependencies": {
     "axios": "^1.7.9",
     "framer-motion": "^10.18.0",
-    "jspdf": "^3.0.0",
-    "jspdf-autotable": "^3.5.6",
-    "react": "^19.0.0",
-    "react-dom": "^19.0.0",
+    "jspdf": "^2.5.1",
+    "jspdf-autotable": "^3.8.4",
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0",
     "react-router-dom": "^7.2.0",
     "react-scripts": "^5.0.1",
     "react-select": "^5.10.0",
@@ -17,7 +17,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "npm run build",
+    "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "serve": "serve -s build"
