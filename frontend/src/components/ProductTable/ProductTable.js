@@ -2,8 +2,6 @@ import React, { useEffect, useState } from "react";
 import ProductTableControls from "./ProductTableControls/ProductTableControls";
 import useFetch from "../../hooks/useFetch";
 import styles from "./ProductTable.module.css";
-import exportOrderRequirements from "../../utils/exportOrderRequirements"; // Correct import
-import { exportToPDF } from "../../utils/exportToPDF";
 
 const ProductTable = ({ products, onAddProductClick, exportToPDF }) => {
     const [rules, setRules] = useState([]);
