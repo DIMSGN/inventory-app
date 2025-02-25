@@ -7,7 +7,7 @@ const ProductOperations = ({ setProducts, setFilteredProducts, setCategories, se
     const fetchProducts = useCallback(async () => {
         try {
             const response = await fetchData("/api/products");
-            console.log("API Response:", response); // Add this line to log the response
+            console.log("API Response:", response); // Log the response
             if (!Array.isArray(response)) {
                 throw new Error("Expected an array of products");
             }

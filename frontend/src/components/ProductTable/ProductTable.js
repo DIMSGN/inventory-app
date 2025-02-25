@@ -21,6 +21,8 @@ const ProductTable = ({ products, onAddProductClick, exportToPDF }) => {
         exportOrderRequirements(products, rules);
     };
 
+    console.log("Products Data:", products); // Log the products data
+
     return (
         <div className={styles.productTableContainer}>
             <h2 className={styles.title}>Product Table</h2>

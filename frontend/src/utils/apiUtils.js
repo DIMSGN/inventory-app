@@ -10,7 +10,7 @@ const API_BASE_URL = process.env.REACT_APP_API_URL;
 export const fetchData = async (url) => {
     try {
         const response = await axios.get(url);
-        console.log("API Response Data:", response.data); // Add this line to log the response data
+        console.log("API Response Data:", response.data); // Log the response data
         return response.data;
     } catch (error) {
         console.error("Error fetching data:", error);
