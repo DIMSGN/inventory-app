@@ -1,8 +1,9 @@
 require('dotenv').config(); // Load environment variables from .env file
 const mysql = require("mysql");
 
-// Create a connection to the MySQL database
-const connection = mysql.createConnection({
+// Create a connection pool to the MySQL database
+const pool = mysql.createPool({
+    connectionLimit: 10, // Set the maximum number of connections in the pool
     host: process.env.MYSQL_ADDON_HOST,
     user: process.env.MYSQL_ADDON_USER,
     password: process.env.MYSQL_ADDON_PASSWORD,
@@ -11,14 +12,5 @@ const connection = mysql.createConnection({
     ssl: { rejectUnauthorized: false }, // Required for Clever Cloud
 });
 
-// Connect to the MySQL database
-connection.connect((err) => {
-    if (err) {
-        console.error("Error connecting to the database:", err);
-        return;
-    }
-    console.log("Connected to the database");
-});
-
-// Export the database connection object for use in other parts of the application
-module.exports = connection;
+// Export the pool object for use in other parts of the application
+module.exports = pool;

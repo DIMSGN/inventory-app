@@ -2,7 +2,6 @@ const express = require("express");
 const path = require("path");
 const cors = require("cors");
 const dotenv = require("dotenv");
-const mysql = require("mysql");
 const productRoutes = require("./routes/products");
 const ruleRoutes = require("./routes/rules");
 
@@ -26,24 +25,6 @@ app.use("/api/rules", ruleRoutes);
 // Serve the frontend
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, '../frontend/build', 'index.html'));
-});
-
-// Database connection
-const connection = mysql.createConnection({
-  host: process.env.MYSQL_ADDON_HOST,
-  user: process.env.MYSQL_ADDON_USER,
-  password: process.env.MYSQL_ADDON_PASSWORD,
-  database: process.env.MYSQL_ADDON_DB,
-  port: process.env.MYSQL_ADDON_PORT,
-  ssl: { rejectUnauthorized: false }, // Required for Clever Cloud
-});
-
-connection.connect((err) => {
-  if (err) {
-    console.error('Error connecting to the database:', err);
-    return;
-  }
-  console.log('Connected to the database');
 });
 
 app.listen(PORT, () => {
