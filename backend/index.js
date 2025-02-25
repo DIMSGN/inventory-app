@@ -6,7 +6,8 @@ const ruleRoutes = require("./routes/rules");
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-app.use(cors({ origin: "https://dimsgn.github.io" })); // Allow requests from your GitHub Pages site
+// Allow requests from any origin
+app.use(cors({ origin: "*" }));
 app.use(express.json());
 
 app.use("/api/products", productRoutes);
