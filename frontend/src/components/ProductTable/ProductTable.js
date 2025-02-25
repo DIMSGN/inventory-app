@@ -5,7 +5,7 @@ import styles from "./ProductTable.module.css";
 
 const ProductTable = ({ products, onAddProductClick, exportToPDF }) => {
     const [rules, setRules] = useState([]);
-    const { data: fetchedRules, loading } = useFetch("https://app-d118d68a-4c2e-42ad-b162-dd8cc2db6692.cleverapps.io/api/rules");
+    const { data: fetchedRules, loading } = useFetch("/api/rules");
 
     useEffect(() => {
         if (!loading && fetchedRules) {

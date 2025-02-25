@@ -6,7 +6,7 @@ const ProductOperations = ({ setProducts, setFilteredProducts, setCategories, se
 
     const fetchProducts = useCallback(async () => {
         try {
-            const response = await fetchData("https://app-d118d68a-4c2e-42ad-b162-dd8cc2db6692.cleverapps.io/api/products");
+            const response = await fetchData("/api/products");
             console.log("API Response:", response); // Add this line to log the response
             if (!Array.isArray(response)) {
                 throw new Error("Expected an array of products");
@@ -41,7 +41,7 @@ const ProductOperations = ({ setProducts, setFilteredProducts, setCategories, se
 
     const handleUpdateProduct = async (updatedProduct) => {
         try {
-            await updateData(`https://app-d118d68a-4c2e-42ad-b162-dd8cc2db6692.cleverapps.io/api/products/${updatedProduct.product_id}`, updatedProduct);
+            await updateData(`/api/products/${updatedProduct.product_id}`, updatedProduct);
             fetchProducts(); // Refresh the product list
             setEditingProduct(null); // Clear the currently editing product
         } catch (error) {
@@ -52,7 +52,7 @@ const ProductOperations = ({ setProducts, setFilteredProducts, setCategories, se
 
     const handleDeleteProduct = async (productId) => {
         try {
-            await deleteData(`https://app-d118d68a-4c2e-42ad-b162-dd8cc2db6692.cleverapps.io/api/products/${productId}`);
+            await deleteData(`/api/products/${productId}`);
             fetchProducts(); // Refresh the product list
         } catch (error) {
             console.error("Error deleting product:", error);
