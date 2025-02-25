@@ -41,7 +41,7 @@ const ProductTable = ({ products, onAddProductClick, exportToPDF }) => {
                     </tr>
                 </thead>
                 <tbody>
-                    {products.map((product) => (
+                    {Array.isArray(products) ? products.map((product) => (
                         <tr key={product.product_id}>
                             <td>{product.product_id}</td>
                             <td>{product.product_name}</td>
@@ -53,7 +53,7 @@ const ProductTable = ({ products, onAddProductClick, exportToPDF }) => {
                                 <button onClick={() => onDeleteProduct(product.product_id)}>Delete</button>
                             </td>
                         </tr>
-                    ))}
+                    )) : <tr><td colSpan="6">No products found</td></tr>}
                 </tbody>
             </table>
         </div>
