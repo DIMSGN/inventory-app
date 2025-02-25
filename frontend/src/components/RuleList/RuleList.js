@@ -12,6 +12,14 @@ import styles from "./RuleList.module.css";
  * - handleDelete: Function to handle deleting a rule.
  */
 const RuleList = ({ rules, handleEdit, handleDelete }) => {
+    if (!rules) {
+        return <div>Loading...</div>;
+    }
+
+    if (rules.length === 0) {
+        return <div>No rules available</div>;
+    }
+
     return (
         <ul className={styles.list}>
             {rules.map((rule) => (

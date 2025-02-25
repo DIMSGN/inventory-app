@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_BASE_URL = "https://inventory-app-om90.onrender.com/api"; // Use the actual backend URL
+const API_BASE_URL = process.env.REACT_APP_API_URL;
 
 /**
  * Utility function to fetch data from the server.
