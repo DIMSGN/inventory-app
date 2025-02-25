@@ -1,17 +1,16 @@
 const mysql = require('mysql');
 const dotenv = require('dotenv');
 
-// Load environment variables from .env file
 dotenv.config();
 
 const pool = mysql.createPool({
-  connectionLimit: 10, // Set the maximum number of connections in the pool
+  connectionLimit: 10, 
   host: process.env.MYSQL_ADDON_HOST,
   user: process.env.MYSQL_ADDON_USER,
   password: process.env.MYSQL_ADDON_PASSWORD,
   database: process.env.MYSQL_ADDON_DB,
   port: process.env.MYSQL_ADDON_PORT,
-  ssl: { rejectUnauthorized: false }, // Required for Clever Cloud
+  ssl: { rejectUnauthorized: false }, 
 });
 
 const queryDatabase = (query, params = []) => {
