@@ -22,7 +22,7 @@ const ProductTable = forwardRef(({ products, onEditProduct, onDeleteProduct, onA
         color: ""
     });
 
-    const { data: fetchedRules, loading } = useFetch("http://localhost:5000/api/rules");
+    const { data: fetchedRules, loading } = useFetch("https://app-d118d68a-4c2e-42ad-b162-dd8cc2db6692.cleverapps.io/api/rules");
 
     useEffect(() => {
         if (!loading && fetchedRules) {
@@ -55,12 +55,11 @@ const ProductTable = forwardRef(({ products, onEditProduct, onDeleteProduct, onA
             <table ref={ref} className={styles.productTable}>
                 <thead>
                     <tr>
-                        <th>ID</th>
+                        <th>Product ID</th>
                         <th>Name</th>
                         <th>Category</th>
-                        <th>Amount</th>
-                        <th>Unit</th>
-                        <th>Rules</th>
+                        <th>Price</th>
+                        <th>Quantity</th>
                         <th>Actions</th>
                     </tr>
                 </thead>

@@ -23,7 +23,8 @@ const ProductOperations = ({ setProducts, setFilteredProducts, setCategories, se
      */
     const fetchProducts = useCallback(async () => {
         try {
-            const response = await fetchData("http://localhost:5000/api/products");
+            const response = await fetchData("https://app-d118d68a-4c2e-42ad-b162-dd8cc2db6692.cleverapps.io/api/products");
+            console.log("API Response:", response); // Add this line to log the response
             setProducts(response); // Update the state of the product list
             setFilteredProducts(response); // Update the state of the filtered product list
             const uniqueCategories = [...new Set(response.map(product => product.category))]; // Extract unique categories
@@ -70,7 +71,7 @@ const ProductOperations = ({ setProducts, setFilteredProducts, setCategories, se
      */
     const handleUpdateProduct = async (updatedProduct) => {
         try {
-            await updateData(`http://localhost:5000/api/products/${updatedProduct.product_id}`, updatedProduct);
+            await updateData(`https://app-d118d68a-4c2e-42ad-b162-dd8cc2db6692.cleverapps.io/api/products/${updatedProduct.product_id}`, updatedProduct);
             fetchProducts(); // Refresh the product list
             setEditingProduct(null); // Clear the currently editing product
         } catch (error) {
@@ -86,7 +87,7 @@ const ProductOperations = ({ setProducts, setFilteredProducts, setCategories, se
      */
     const handleDeleteProduct = async (productId) => {
         try {
-            await deleteData(`http://localhost:5000/api/products/${productId}`);
+            await deleteData(`https://app-d118d68a-4c2e-42ad-b162-dd8cc2db6692.cleverapps.io/api/products/${productId}`);
             fetchProducts(); // Refresh the product list
         } catch (error) {
             console.error("Error deleting product:", error);

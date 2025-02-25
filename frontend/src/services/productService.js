@@ -2,7 +2,7 @@
 import axios from "axios";
 
 // Define the base URL for the product API
-const API_URL = "http://localhost:5000/api/products";
+const API_URL = "https://app-d118d68a-4c2e-42ad-b162-dd8cc2db6692.cleverapps.io/api/products";
 
 /**
  * productService
