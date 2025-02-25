@@ -36,7 +36,7 @@ const App = () => {
         handleUpdateProduct,
         handleDeleteProduct,
         handleCancelEdit,
-        fetchProducts, // Ensure fetchProducts is destructured
+        fetchProducts,
     } = ProductOperations({
         setProducts,
         setFilteredProducts,
@@ -44,7 +44,7 @@ const App = () => {
         setEditingProduct,
     });
 
-    const { data: rules, loading: rulesLoading } = useFetch("http://localhost:5000/api/rules");
+    const { data: rules, loading: rulesLoading } = useFetch("https://app-d118d68a-4c2e-42ad-b162-dd8cc2db6692.cleverapps.io/api/rules");
 
     // Fetch products when the component mounts
     useEffect(() => {

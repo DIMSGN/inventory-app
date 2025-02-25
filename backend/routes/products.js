@@ -1,34 +1,9 @@
-// Import the express module to create a router and handle HTTP requests
-const express = require("express");
-// Import the database connection module to interact with the MySQL database
-const db = require("../db/connection");
-// Create a new router instance
+const express = require('express');
 const router = express.Router();
+const queryDatabase = require('../utils/queryDatabase');
 
-/**
- * Helper function to handle database queries.
- * This function returns a promise that resolves with the query results or rejects with an error.
- * @param {string} query - The SQL query to execute.
- * @param {Array} params - The parameters for the SQL query.
- * @returns {Promise} - A promise that resolves with the query results or rejects with an error.
- */
-const queryDatabase = async (query, params = []) => {
-    return new Promise((resolve, reject) => {
-        db.query(query, params, (err, results) => {
-            if (err) {
-                return reject(err);
-            }
-            resolve(results);
-        });
-    });
-};
-
-/**
- * Route to get all products with their associated rules.
- * This route performs a LEFT JOIN between the products and rules tables to fetch all products and their rules.
- * The results are then formatted into a nested structure where each product contains its associated rules.
- */
-router.get("/", async (req, res) => {
+// Route to get all products
+router.get('/', async (req, res) => {
     const query = `
         SELECT p.product_id, p.product_name, p.unit, p.category, p.amount,
                r.id AS rule_id, r.rules, r.comparison, r.amount AS rule_amount, r.color
@@ -37,11 +12,9 @@ router.get("/", async (req, res) => {
     `;
     try {
         const results = await queryDatabase(query);
-        // Reduce the results into a nested structure
         const products = results.reduce((acc, row) => {
             const product = acc.find(p => p.product_id === row.product_id);
             if (product) {
-                // If the product already exists, add the rule to its rules array
                 product.rules.push({
                     rule_id: row.rule_id,
                     rules: row.rules,
@@ -50,7 +23,6 @@ router.get("/", async (req, res) => {
                     color: row.color
                 });
             } else {
-                // If the product does not exist, create a new product entry
                 acc.push({
                     product_id: row.product_id,
                     product_name: row.product_name,
@@ -140,5 +112,4 @@ router.delete("/:id", async (req, res) => {
     }
 });
 
-// Export the router to be used in other parts of the application
 module.exports = router;

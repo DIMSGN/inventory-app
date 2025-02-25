@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_BASE_URL = "https://inventory-app-om90.onrender.com/api"; // Use the actual backend URL
+const API_BASE_URL = "https://app-d118d68a-4c2e-42ad-b162-dd8cc2db6692.cleverapps.io/"; // Use the actual backend URL
 
 axios.get(`${API_BASE_URL}/products`)
   .then(response => console.log(response.data))
