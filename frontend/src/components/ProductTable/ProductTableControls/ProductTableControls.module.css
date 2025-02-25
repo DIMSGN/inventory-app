@@ -1,0 +1,47 @@
+.controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding: 10px;
+    background-color: #d8d8d8; /* Light background color for contrast */
+    border-radius: 8px; /* Rounded corners for a modern look */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+}
+
+.buttonGroup {
+    display: flex;
+    gap: 20px; /* Space between buttons */
+}
+
+.exportButton, .addButton, .exportOrdersButton {
+    padding: 10px 20px;
+    background-color: #008cff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.exportButton:hover, .addButton:hover, .exportOrdersButton:hover {
+    background-color: #0066b9;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Shadow on hover for depth */
+}
+
+.exportButton {
+    background-color: #008CBA; 
+}
+
+.addButton:hover {
+    background-color: rgb(59, 117, 0); 
+}
+
+.addButton {
+    background-color: rgb(74, 148, 0); 
+}
+
+.exportOrdersButton {
+    background-color: #008CBA; 
+}

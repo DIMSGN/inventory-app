@@ -1,0 +1,87 @@
+/* Global Styles */
+body {
+  margin: 0;
+  font-family: 'Arial', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: #f4f6f9; /* Light grey background color */
+  color: #333; /* Dark grey text color */
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+/* Container Styles */
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 20px;
+  background-color: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* App Header Styles */
+.App-header {
+  background-color: #ffffff;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: #333;
+}
+
+/* App Link Styles */
+.App-link {
+  color: #61dafb;
+}
+
+/* Keyframes for Logo Spin Animation */
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+  .container {
+    padding: 10px;
+  }
+
+  .App-header {
+    font-size: calc(8px + 2vmin);
+  }
+
+  .controls {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .productTable th, .productTable td {
+    padding: 8px;
+  }
+
+  .form {
+    padding: 10px;
+  }
+
+  .formRow {
+    flex-direction: column;
+  }
+
+  .buttonGroup {
+    flex-direction: column;
+    gap: 5px;
+  }
+}

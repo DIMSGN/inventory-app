@@ -1,0 +1,130 @@
+/* 
+  .container class:
+il  Styles the container element with padding, background color, border radius, box shadow, width, and margin.
+  Centers the container horizontally and adds spacing inside.
+*/
+.container {
+    padding: 20px; /* Padding inside the container */
+    background-color: #ffffff; /* White background color */
+    border: 1px solid #ddd; /* Light grey border */
+    border-radius: 10px; /* Rounded corners */
+    max-width: 1200px; /* Maximum width for the container */
+    margin: 20px auto; /* Center the container horizontally with margin */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Add a subtle shadow */
+}
+
+/* 
+  .heading class:
+  Styles the heading element with margin, color, font size, font weight, and alignment.
+*/
+.heading {
+    margin-bottom: 20px; /* Space below the heading */
+    color: #333; /* Dark grey text color */
+    font-size: 24px; /* Increase font size */
+    font-weight: bold; /* Make heading bold */
+    text-align: center; /* Center align text */
+}
+
+/* 
+  .form class:
+  Styles the form element to display as a flex container with a column direction.
+  Adds padding, background color, border, border-radius, width, and margin.
+*/
+.form {
+    display: flex; /* Use flexbox for layout */
+    flex-direction: column; /* Arrange children in a column */
+    gap: 15px; /* Space between children */
+    padding: 20px; /* Padding inside the form */
+    background-color: #f9f9f9; /* Light grey background color */
+    border: 1px solid #ddd; /* Light grey border */
+    border-radius: 10px; /* Rounded corners */
+    width: 100%; /* Set form width to 100% */
+    max-width: 800px; /* Maximum width for the form */
+    margin: 20px auto; /* Center the form horizontally with margin */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Add a subtle shadow */
+}
+
+/* 
+  label element:
+  Styles the label element to display as a flex container with a column direction.
+  Adds gap between the label text and the input field.
+*/
+label {
+    display: flex; /* Use flexbox for layout */
+    flex-direction: column; /* Arrange children in a column */
+    gap: 5px; /* Space between label text and input field */
+    font-weight: bold; /* Make label text bold */
+    color: #333; /* Darker text color for labels */
+}
+
+/* 
+  input and select elements:
+  Styles the input and select elements with padding, border, border-radius, and width.
+*/
+input, select {
+    padding: 10px; /* Padding inside the input */
+    border: 1px solid #ddd; /* Light grey border */
+    border-radius: 5px; /* Rounded corners */
+    width: 100%; /* Set input width to 100% */
+    box-sizing: border-box; /* Include padding and border in element's total width and height */
+    font-size: 16px; /* Increase font size */
+}
+
+/* 
+  .newCategoryInput class:
+  Styles the container for the new category input.
+*/
+.newCategoryInput {
+    display: flex; /* Use flexbox for layout */
+    align-items: center; /* Center the content vertically */
+    gap: 10px; /* Space between input and button */
+}
+
+/* 
+  button element:
+  Styles the button element with padding, background color, text color, border, border-radius, cursor, and margin-top.
+  Adds hover effect for background color.
+*/
+button {
+    padding: 12px 20px; /* Padding inside the button */
+    background-color: #008cff; /* Blue background color */
+    color: white; /* White text color */
+    border: none; /* No border */
+    border-radius: 5px; /* Rounded corners */
+    cursor: pointer; /* Pointer cursor on hover */
+    font-size: 16px; /* Increase font size */
+    transition: background-color 0.3s ease; /* Smooth transition for background color */
+}
+
+/* 
+  button:hover:
+  Styles the button element when hovered to change the background color.
+*/
+button:hover {
+    background-color: #0066b9; /* Darker blue background color on hover */
+}
+
+/* 
+  button:focus:
+  Styles the button element when focused to add an outline.
+*/
+button:focus {
+    outline: none; /* Remove default outline */
+    box-shadow: 0 0 0 3px rgba(0, 136, 255, 0.5); /* Add custom outline */
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+    .form {
+        padding: 10px;
+    }
+
+    .formRow {
+        flex-direction: column;
+    }
+
+    .buttonGroup {
+        flex-direction: column;
+        gap: 5px;
+    }
+}

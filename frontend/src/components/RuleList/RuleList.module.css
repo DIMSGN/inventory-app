@@ -1,0 +1,101 @@
+/* 
+  .list class:
+  Styles the list element to remove default list styling.
+  Adds padding and margin.
+*/
+.list {
+    list-style-type: none; /* Remove default list styling */
+    padding: 0; /* Remove default padding */
+    margin-top: 20px; /* Space above the list */
+}
+
+/* 
+  .listItem class:
+  Styles the list item element with padding, margin, border, border radius, and display properties.
+  Aligns items vertically and adds spacing below.
+*/
+.listItem {
+    padding: 10px; /* Padding inside the list item */
+    margin-bottom: 10px; /* Space below the list item */
+    border-radius: 5px; /* Rounded corners */
+    display: flex; /* Use flexbox for layout */
+    align-items: center; /* Align items vertically */
+    justify-content: space-between; /* Space out items horizontally */
+    border-bottom: 1px solid #ccc; /* Light gray border at the bottom */
+}
+
+/* 
+  .ruleInfo class:
+  Styles the container for the rule information to display them inline.
+*/
+.ruleInfo {
+    display: flex; /* Use flexbox for layout */
+    align-items: center; /* Align items vertically */
+    gap: 10px; /* Space between rule text and color box */
+}
+
+/* 
+  .colorBox class:
+  Styles the color box element with width, height, border, and margin.
+  Adds spacing around the element.
+*/
+.colorBox {
+    width: 20px; /* Set width */
+    height: 20px; /* Set height */
+    border: 1px solid #ccc; /* Light gray border */
+    margin-left: 10px; /* Space to the left of the color box */
+}
+
+/* 
+  .buttonGroup class:
+  Styles the container for the buttons to display them inline.
+*/
+.buttonGroup {
+    display: flex; /* Use flexbox for layout */
+    gap: 10px; /* Space between buttons */
+}
+
+/* 
+  .editButton and .deleteButton classes:
+  Styles the edit and delete buttons with padding, background color, text color, border, border radius, cursor, and transition effects.
+  Adds hover effects for background color.
+*/
+.editButton, .deleteButton {
+    padding: 5px 10px; /* Padding inside the buttons */
+    margin-left: 10px; /* Space to the left of the buttons */
+    border: none; /* No border */
+    border-radius: 5px; /* Rounded corners */
+    cursor: pointer; /* Pointer cursor on hover */
+    transition: background-color 0.3s ease; /* Smooth transition for background color */
+}
+
+.editButton {
+    background-color: #008cff; /* Green background color */
+    color: white; /* White text color */
+}
+
+.editButton:hover {
+    background-color: #0066b9; /* Darker green background color on hover */
+}
+
+.deleteButton {
+    background-color: #f44336; /* Red background color */
+    color: white; /* White text color */
+}
+
+.deleteButton:hover {
+    background-color: #e53935; /* Darker red background color on hover */
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+    .listItem {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .buttonGroup {
+        flex-direction: column;
+        gap: 5px;
+    }
+}
