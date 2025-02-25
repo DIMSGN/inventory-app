@@ -12,6 +12,7 @@ router.get('/', async (req, res) => {
     `;
     try {
         const results = await queryDatabase(query);
+        console.log("API Response:", results); // Add this line to log the response
         const products = results.reduce((acc, row) => {
             const product = acc.find(p => p.product_id === row.product_id);
             if (product) {
