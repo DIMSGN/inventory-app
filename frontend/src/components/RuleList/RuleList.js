@@ -15,6 +15,7 @@ const RuleList = ({ rules, handleEdit, handleDelete }) => {
     console.log("Rules prop:", rules); // Add this line to log the rules prop
 
     if (!Array.isArray(rules)) {
+        console.log("Rules is not an array:", rules); // Add this line to log if rules is not an array
         return <div>Loading...</div>;
     }
 
@@ -25,7 +26,7 @@ const RuleList = ({ rules, handleEdit, handleDelete }) => {
     return (
         <ul className={styles.list}>
             {rules.map((rule) => (
-                <li key={rule.id} className={styles.listItem}>
+                <li key={rule.rule_id} className={styles.listItem}>
                     <div className={styles.ruleInfo}>
                         <span>{rule.rules} ({rule.comparison} {rule.amount})</span>
                         <div
@@ -42,7 +43,7 @@ const RuleList = ({ rules, handleEdit, handleDelete }) => {
                         </Button>
                         <Button
                             className={styles.deleteButton}
-                            onClick={() => handleDelete(rule.id)}
+                            onClick={() => handleDelete(rule.rule_id)}
                         >
                             Delete
                         </Button>

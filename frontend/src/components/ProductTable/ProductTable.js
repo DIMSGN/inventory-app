@@ -41,8 +41,8 @@ const ProductTable = ({ products, onAddProductClick, exportToPDF, onEditProduct,
                         <th>Product ID</th>
                         <th>Name</th>
                         <th>Category</th>
-                        <th>Price</th>
-                        <th>Quantity</th>
+                        <th>Unit</th>
+                        <th>Amount</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
@@ -52,8 +52,8 @@ const ProductTable = ({ products, onAddProductClick, exportToPDF, onEditProduct,
                             <td>{product.product_id}</td>
                             <td>{product.product_name}</td>
                             <td>{product.category}</td>
-                            <td>{product.price}</td>
-                            <td>{product.quantity}</td>
+                            <td>{product.unit}</td>
+                            <td>{product.amount}</td>
                             <td>
                                 <button onClick={() => onEditProduct(product)}>Edit</button>
                                 <button onClick={() => onDeleteProduct(product.product_id)}>Delete</button>
