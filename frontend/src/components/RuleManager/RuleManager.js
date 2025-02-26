@@ -10,7 +10,7 @@ const RuleManager = () => {
     const [rules, setRules] = useState([]);
     const [currentRule, setCurrentRule] = useState(null);
 
-    const { data: fetchedRules, loading } = useFetch("http://localhost:5000/api/rules");
+    const { data: fetchedRules, loading } = useFetch("https://inventory-app.cleverapps.io/api/rules");
 
     useEffect(() => {
         if (!loading) {

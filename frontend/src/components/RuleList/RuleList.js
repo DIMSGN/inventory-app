@@ -17,7 +17,7 @@ const RuleList = ({ rules, handleEdit, handleDelete }) => {
     return (
         <ul className={styles.list}>
             {rules.map((rule) => (
-                <li key={rule.rule_id} className={styles.listItem}>
+                <li key={rule.id} className={styles.listItem}>
                     <div className={styles.ruleInfo}>
                         <span>{rule.rules} ({rule.comparison} {rule.amount})</span>
                         <div
@@ -34,7 +34,7 @@ const RuleList = ({ rules, handleEdit, handleDelete }) => {
                         </Button>
                         <Button
                             className={styles.deleteButton}
-                            onClick={() => handleDelete(rule.rule_id)}
+                            onClick={() => handleDelete(rule.id)}
                         >
                             Delete
                         </Button>
