@@ -5,7 +5,7 @@ import styles from "./ProductTable.module.css";
 
 const ProductTable = ({ products, onAddProductClick, exportToPDF }) => {
     const [rules, setRules] = useState([]);
-    const { data: fetchedRules, loading } = useFetch("/api/rules");
+    const { data: fetchedRules, loading } = useFetch("/rules");
 
     useEffect(() => {
         if (!loading && fetchedRules) {

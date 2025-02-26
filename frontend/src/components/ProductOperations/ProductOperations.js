@@ -1,15 +1,16 @@
-import { useEffect, useRef, useCallback } from "react";
+import { useEffect, useRef, useCallback, useState } from "react";
 import { fetchData, updateData, deleteData } from "../../utils/apiUtils";
 
 const ProductOperations = ({ setProducts, setFilteredProducts, setCategories, setEditingProduct }) => {
     const productTableRef = useRef();
+    const [products, setProducts] = useState([]); // Initialize state as an empty array
 
     const fetchProducts = useCallback(async () => {
         try {
             const response = await fetchData("/products");
-            console.log("API Response:", response);
+            console.log("Fetched response:", response);
             if (!Array.isArray(response)) {
-                throw new Error("Expected an array of products");
+                throw new Error("Expected an array but got: " + JSON.stringify(response));
             }
             setProducts(response);
             setFilteredProducts(response);
