@@ -3,7 +3,7 @@ import ProductTableControls from "./ProductTableControls/ProductTableControls";
 import useFetch from "../../hooks/useFetch";
 import styles from "./ProductTable.module.css";
 
-const ProductTable = ({ products, onAddProductClick, exportToPDF }) => {
+const ProductTable = ({ products, onAddProductClick, exportToPDF, onEditProduct, onDeleteProduct, exportOrderRequirements }) => {
     const [rules, setRules] = useState([]);
     const { data: fetchedRules, loading } = useFetch("/rules");
 
