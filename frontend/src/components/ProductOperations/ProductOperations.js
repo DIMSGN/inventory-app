@@ -1,7 +1,7 @@
 import { useEffect, useRef, useCallback, useState } from "react";
 import { fetchData, updateData, deleteData } from "../../utils/apiUtils";
 
-const ProductOperations = ({ setProducts, setFilteredProducts, setCategories, setEditingProduct }) => {
+const ProductOperations = ({ setFilteredProducts, setCategories, setEditingProduct }) => {
     const productTableRef = useRef();
     const [products, setProducts] = useState([]); // Initialize state as an empty array
 
