@@ -10,10 +10,10 @@ const RuleManager = () => {
     const [rules, setRules] = useState([]);
     const [currentRule, setCurrentRule] = useState(null);
 
-    const { data: fetchedRules, loading } = useFetch("https://inventory-app.cleverapps.io/api/rules");
+    const { data: fetchedRules, loading, error } = useFetch("/rules");
 
     useEffect(() => {
-        if (!loading) {
+        if (!loading && fetchedRules) {
             setRules(fetchedRules);
         }
     }, [fetchedRules, loading]);
@@ -49,6 +49,14 @@ const RuleManager = () => {
             console.error("Error deleting rule:", error);
         }
     };
+
+    if (loading) {
+        return <div>Loading...</div>;
+    }
+
+    if (error) {
+        return <div>Error: {error.message}</div>;
+    }
 
     return (
         <div className={styles.ruleManager}>
