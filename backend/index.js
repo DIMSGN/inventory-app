@@ -3,6 +3,7 @@ const path = require("path");
 const cors = require("cors");
 const dotenv = require("dotenv");
 const productRoutes = require("./routes/products");
+const rulesRoutes = require("./routes/rules"); // Import the rules routes
 
 // Load environment variables from .env file
 dotenv.config();
@@ -19,6 +20,7 @@ app.use(express.static(path.join(__dirname, '../frontend/build')));
 
 // API routes
 app.use("/api/products", productRoutes);
+app.use("/api/rules", rulesRoutes); // Mount the rules routes
 
 // Serve the frontend
 app.get('*', (req, res) => {
