@@ -19,7 +19,7 @@ const ProductTableDropdown = ({ name, value, onChange, options }) => {
         <div className={styles.dropdownContainer}>
             <div className={styles.dropdownHeader} onClick={handleDropdownToggle}>
                 <span className={styles.colorPreview} style={{ backgroundColor: activeOption?.value || 'transparent' }}></span>
-                {activeOption ? `${activeOption.name} (${activeOption.comparison} ${activeOption.amount})` : "   No rules set"}
+                {activeOption ? `${activeOption.name} (${activeOption.comparison} ${activeOption.amount})` : "No rules set"}
             </div>
             {isOpen && (
                 <div className={styles.dropdownList}>

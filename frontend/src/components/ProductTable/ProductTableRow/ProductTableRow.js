@@ -1,6 +1,7 @@
 import React from "react";
 import styles from "./ProductTableRow.module.css";
 import { getRowColor } from "../../../utils/getRowColor";
+import ProductTableDropdown from "../ProductTableDropdown/ProductTableDropdown";
 
 const ProductTableRow = ({ product, rules, onEditProduct, onDeleteProduct, openRuleModal }) => {
     return (
@@ -10,6 +11,20 @@ const ProductTableRow = ({ product, rules, onEditProduct, onDeleteProduct, openR
             <td>{product.category}</td>
             <td>{product.amount}</td>
             <td>{product.unit}</td>
+            <td className={styles.rulesCell}>
+                <ProductTableDropdown
+                    name="rules"
+                    value={rules.find(rule => rule.product_id === product.product_id && getRowColor(product, rules) === rule.color)?.id || ""}
+                    onChange={() => {}}
+                    options={rules.filter(rule => rule.product_id === product.product_id).map(rule => ({
+                        id: rule.id,
+                        name: rule.rules,
+                        comparison: rule.comparison,
+                        amount: rule.amount,
+                        value: rule.color
+                    }))}
+                />
+            </td>
             <td className={styles.actionsCell}>
                 <button className={styles.editButton} onClick={() => onEditProduct(product)}>Edit</button>
                 <button className={styles.deleteButton} onClick={() => onDeleteProduct(product.product_id)}>Delete</button>

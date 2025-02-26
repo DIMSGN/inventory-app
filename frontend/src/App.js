@@ -85,28 +85,20 @@ const App = () => {
                     />
                 </div>
                 {editingProduct && (
-                    <div className={styles.editProductForm}>
-                        {/* EditProductForm component to edit the selected product */}
-                        <EditProductForm 
-                            product={editingProduct} 
-                            onUpdate={handleUpdateProduct} 
-                            onCancel={handleCancelEdit} 
-                            fetchProducts={fetchProducts} 
-                        />
-                    </div>
+                    <EditProductForm
+                        product={editingProduct}
+                        onUpdateProduct={handleUpdateProduct}
+                        onCancelEdit={handleCancelEdit}
+                    />
                 )}
-            </div>
-            {showAddProductForm && (
-                <div className={styles.productManager}>
-                    {/* ProductManager component to add new products */}
-                    <ProductManager fetchProducts={fetchProducts} categories={categories} />
-                </div>
-            )}
-            <div className={styles.ruleManager}>
-                {/* RuleManager component to manage rules */}
+                {showAddProductForm && (
+                    <ProductManager
+                        onAddProduct={fetchProducts}
+                        onCancel={() => setShowAddProductForm(false)}
+                    />
+                )}
                 <RuleManager />
             </div>
-            {rulesLoading && <div>Loading rules...</div>} {/* Display loading indicator */}
         </>
     );
 };

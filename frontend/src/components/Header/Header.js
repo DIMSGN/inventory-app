@@ -1,7 +1,6 @@
 // Import necessary modules and components
 import React from "react";
 import { motion, useAnimation } from "framer-motion";
-import CategorySelect from "./CategorySelect/CategorySelect"; // Update import path
 import styles from "./Header.module.css";
 
 /**
@@ -16,22 +15,9 @@ import styles from "./Header.module.css";
 const Header = ({ categories, onFilterChange }) => {
     const controls = useAnimation();
 
-    // Convert categories to options for react-select
-    const categoryOptions = categories.map((category) => ({
-        value: category,
-        label: category,
-    }));
-
     // Handle change in selected categories
-    const handleCategoryChange = (selectedOptions) => {
-        const selectedCategories = selectedOptions ? selectedOptions.map(option => option.value) : [];
-        onFilterChange(selectedCategories);
-    };
-
-    // Punch effect function
-    const punchEffect = async () => {
-        await controls.start({ scale: 1.02, rotate: 2, transition: { duration: 0.1 } });
-        await controls.start({ scale: 1, rotate: 0, transition: { duration: 0.1 } });
+    const handleCategoryChange = (e) => {
+        onFilterChange(e.target.value);
     };
 
     return (
@@ -41,14 +27,23 @@ const Header = ({ categories, onFilterChange }) => {
                 initial={{ opacity: 0 }}
                 animate={controls}
                 transition={{ duration: 0.6 }}
-                onClick={punchEffect}
             >
                 Inventory Management System
             </motion.div>
-            <CategorySelect
-                categoryOptions={categoryOptions}
-                handleCategoryChange={handleCategoryChange}
-            />
+            <div className={styles.filterContainer}>
+                <label htmlFor="categoryFilter">Filter by Category:</label>
+                <select
+                    id="categoryFilter"
+                    onChange={handleCategoryChange}
+                >
+                    <option value="">All Categories</option>
+                    {categories.map((category) => (
+                        <option key={category} value={category}>
+                            {category}
+                        </option>
+                    ))}
+                </select>
+            </div>
         </header>
     );
 };

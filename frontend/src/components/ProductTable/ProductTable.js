@@ -45,7 +45,7 @@ const ProductTable = ({ onAddProductClick, exportToPDF, onEditProduct, onDeleteP
                     </tr>
                 </thead>
                 <tbody>
-                    {products.map((product) => (
+                    {Array.isArray(products) && products.map((product) => (
                         <ProductTableRow
                             key={product.product_id}
                             product={product}
