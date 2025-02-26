@@ -50,6 +50,10 @@ const RuleManager = () => {
         }
     };
 
+    const handleOpenRuleModal = (product) => {
+        setCurrentRule({ ...currentRule, product_id: product.product_id });
+    };
+
     if (loading) {
         return <div>Loading...</div>;
     }
@@ -63,7 +67,7 @@ const RuleManager = () => {
             <div className={styles.formContainer}>
                 <h2 className={styles.title}>Rule Form</h2>
                 <RuleForm
-                    formData={currentRule || { rules: "", comparison: "", amount: "", color: "" }}
+                    formData={currentRule || { rules: "", comparison: "", amount: "", color: "", product_id: "" }}
                     handleChange={(e) => setCurrentRule({ ...currentRule, [e.target.name]: e.target.value })}
                     handleSubmit={(e) => {
                         e.preventDefault();
