@@ -8,7 +8,7 @@ router.get("/", async (req, res) => {
         const rows = await queryDatabase(`
             SELECT 
                 p.product_id, p.product_name, p.unit, p.category, p.amount,
-                r.rule_id, r.rules, r.comparison, r.amount AS rule_amount, r.color
+                r.rules, r.comparison, r.amount AS rule_amount, r.color
             FROM products p
             LEFT JOIN rules r ON p.product_id = r.product_id
         `);
@@ -16,7 +16,6 @@ router.get("/", async (req, res) => {
         const products = rows.reduce((acc, row) => {
             const product = acc.find(p => p.product_id === row.product_id);
             const rule = {
-                rule_id: row.rule_id,
                 rules: row.rules,
                 comparison: row.comparison,
                 amount: row.rule_amount,
@@ -32,7 +31,7 @@ router.get("/", async (req, res) => {
                     unit: row.unit,
                     category: row.category,
                     amount: row.amount,
-                    rules: row.rule_id ? [rule] : []
+                    rules: row.rules ? [rule] : []
                 });
             }
 

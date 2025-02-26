@@ -2,10 +2,7 @@ const express = require("express");
 const router = express.Router();
 const queryDatabase = require("../utils/queryDatabase");
 
-/**
- * Route to get all rules.
- * This route fetches all rules from the rules table.
- */
+// GET /api/rules
 router.get("/", async (req, res) => {
     try {
         const rows = await queryDatabase("SELECT * FROM rules");
@@ -16,11 +13,7 @@ router.get("/", async (req, res) => {
     }
 });
 
-/**
- * Route to add a new rule.
- * This route inserts a new rule into the rules table.
- * The request body must contain the product_id, rules, comparison, amount, and color fields.
- */
+// POST /api/rules
 router.post("/", async (req, res) => {
     const { product_id, rules, comparison, amount, color } = req.body;
     if (!product_id || !rules || !comparison || amount === undefined || !color) {
@@ -36,11 +29,7 @@ router.post("/", async (req, res) => {
     }
 });
 
-/**
- * Route to update an existing rule.
- * This route updates the specified fields of an existing rule in the rules table.
- * The request body can contain any combination of the rules, comparison, amount, and color fields.
- */
+// PUT /api/rules/:id
 router.put("/:id", async (req, res) => {
     const { id } = req.params;
     const { rules, comparison, amount, color } = req.body;
@@ -62,10 +51,7 @@ router.put("/:id", async (req, res) => {
     }
 });
 
-/**
- * Route to delete a rule.
- * This route deletes a rule from the rules table based on the rule ID.
- */
+// DELETE /api/rules/:id
 router.delete("/:id", async (req, res) => {
     const { id } = req.params;
     const query = "DELETE FROM rules WHERE id = ?";
