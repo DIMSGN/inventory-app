@@ -33,18 +33,18 @@ const RuleManager = () => {
 
     const handleUpdateRule = async (updatedRule) => {
         try {
-            await ruleService.updateRule(updatedRule.id, updatedRule);
-            setRules(rules.map(r => (r.id === updatedRule.id ? updatedRule : r)));
+            await ruleService.updateRule(updatedRule.rules, updatedRule.comparison, updatedRule.amount, updatedRule);
+            setRules(rules.map(r => (r.rules === updatedRule.rules && r.comparison === updatedRule.comparison && r.amount === updatedRule.amount ? updatedRule : r)));
             setCurrentRule(null);
         } catch (error) {
             console.error("Error updating rule:", error);
         }
     };
 
-    const handleDeleteRule = async (ruleId) => {
+    const handleDeleteRule = async (rules, comparison, amount) => {
         try {
-            await ruleService.deleteRule(ruleId);
-            setRules(rules.filter(r => r.id !== ruleId));
+            await ruleService.deleteRule(rules, comparison, amount);
+            setRules(rules.filter(r => !(r.rules === rules && r.comparison === comparison && r.amount === amount)));
         } catch (error) {
             console.error("Error deleting rule:", error);
         }
@@ -59,7 +59,7 @@ const RuleManager = () => {
                     handleChange={(e) => setCurrentRule({ ...currentRule, [e.target.name]: e.target.value })}
                     handleSubmit={(e) => {
                         e.preventDefault();
-                        if (currentRule && currentRule.id) {
+                        if (currentRule && currentRule.rules && currentRule.comparison && currentRule.amount) {
                             handleUpdateRule(currentRule);
                         } else {
                             handleAddRule(currentRule);
