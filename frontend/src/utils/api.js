@@ -8,17 +8,8 @@ axios.get(`${API_BASE_URL}/products`)
 
 export const fetchProducts = async () => {
     try {
-        const response = await fetch(`${API_BASE_URL}/products`);
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        const contentType = response.headers.get('content-type');
-        if (contentType && contentType.includes('application/json')) {
-            return response.json();
-        } else {
-            console.error('Unexpected response format:', response);
-            throw new Error('Unexpected response format');
-        }
+        const response = await axios.get(`${API_BASE_URL}/products`);
+        return response.data;
     } catch (error) {
         console.error("Failed to fetch products:", error);
         throw error;
@@ -36,10 +27,5 @@ export const fetchRules = async () => {
             return response.json();
         } else {
             console.error('Unexpected response format:', response);
-            throw new Error('Unexpected response format');
-        }
-    } catch (error) {
-        console.error("Failed to fetch rules:", error);
-        throw error;
-    }
-};
+        const response = await axios.get(`${API_BASE_URL}/rules`);
+        return response.data;
