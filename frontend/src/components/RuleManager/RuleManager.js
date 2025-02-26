@@ -33,18 +33,18 @@ const RuleManager = () => {
 
     const handleUpdateRule = async (updatedRule) => {
         try {
-            await ruleService.updateRule(updatedRule.rules, updatedRule.comparison, updatedRule.amount, updatedRule);
-            setRules(rules.map(r => (r.rules === updatedRule.rules && r.comparison === updatedRule.comparison && r.amount === updatedRule.amount ? updatedRule : r)));
+            await ruleService.updateRule(updatedRule.id, updatedRule); // Ensure correct parameters
+            setRules(rules.map(r => (r.id === updatedRule.id ? updatedRule : r))); // Ensure correct comparison
             setCurrentRule(null);
         } catch (error) {
             console.error("Error updating rule:", error);
         }
     };
 
-    const handleDeleteRule = async (rules, comparison, amount) => {
+    const handleDeleteRule = async (id) => {
         try {
-            await ruleService.deleteRule(rules, comparison, amount);
-            setRules(rules.filter(r => !(r.rules === rules && r.comparison === comparison && r.amount === amount)));
+            await ruleService.deleteRule(id); // Ensure correct parameter
+            setRules(rules.filter(r => r.id !== id)); // Ensure correct comparison
         } catch (error) {
             console.error("Error deleting rule:", error);
         }
@@ -61,13 +61,13 @@ const RuleManager = () => {
     return (
         <div className={styles.ruleManager}>
             <div className={styles.formContainer}>
-                <h2 className={styles.title}>Rule Form</h2> {/* Add title for Rule Form */}
+                <h2 className={styles.title}>Rule Form</h2>
                 <RuleForm
                     formData={currentRule || { rules: "", comparison: "", amount: "", color: "" }}
                     handleChange={(e) => setCurrentRule({ ...currentRule, [e.target.name]: e.target.value })}
                     handleSubmit={(e) => {
                         e.preventDefault();
-                        if (currentRule && currentRule.rules && currentRule.comparison && currentRule.amount) {
+                        if (currentRule && currentRule.id) {
                             handleUpdateRule(currentRule);
                         } else {
                             handleAddRule(currentRule);
@@ -75,11 +75,11 @@ const RuleManager = () => {
                     }}
                     editingRule={currentRule}
                     setEditingRule={setCurrentRule}
-                    colors={colors} // Use imported colors
+                    colors={colors}
                 />
             </div>
             <div className={styles.listContainer}>
-                <h2 className={styles.title}>Rule List</h2> {/* Add title for Rule List */}
+                <h2 className={styles.title}>Rule List</h2>
                 <RuleList rules={rules} handleEdit={handleEditRule} handleDelete={handleDeleteRule} />
             </div>
         </div>

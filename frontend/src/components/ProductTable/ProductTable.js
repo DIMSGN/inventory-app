@@ -4,6 +4,8 @@ import RuleModal from "./RuleModal/RuleModal";
 import useFetch from "../../hooks/useFetch";
 import ProductTableRow from "./ProductTableRow/ProductTableRow"; // Ensure this import
 import styles from "./ProductTable.module.css";
+import exportOrderRequirements from "../../utils/exportOrderRequirements";
+import { exportToPDF } from "../../utils/exportToPDF";
 
 const ProductTable = ({ onAddProductClick, exportToPDF, onEditProduct, onDeleteProduct, exportOrderRequirements }) => {
     const { data: products, loading } = useFetch("/products");

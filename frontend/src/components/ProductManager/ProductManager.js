@@ -3,14 +3,6 @@ import productService from "../../services/productService";
 import Button from "../common/Button/Button";
 import styles from "./ProductManager.module.css";
 
-/**
- * ProductManager Component
- * This component allows users to add new products.
- * 
- * Props:
- * - fetchProducts: Function to fetch the list of products.
- * - categories: Array of product categories.
- */
 const ProductManager = ({ fetchProducts, categories }) => {
     const [formData, setFormData] = useState({
         product_id: "",
