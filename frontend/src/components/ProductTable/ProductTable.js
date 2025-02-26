@@ -23,6 +23,10 @@ const ProductTable = ({ products, onAddProductClick, exportToPDF, onEditProduct,
 
     console.log("Products Data:", products);
 
+    if (!Array.isArray(products)) {
+        return <div>Loading...</div>;
+    }
+
     return (
         <div className={styles.productTableContainer}>
             <h2 className={styles.title}>Product Table</h2>
@@ -43,7 +47,7 @@ const ProductTable = ({ products, onAddProductClick, exportToPDF, onEditProduct,
                     </tr>
                 </thead>
                 <tbody>
-                    {Array.isArray(products) ? products.map((product) => (
+                    {products.map((product) => (
                         <tr key={product.product_id}>
                             <td>{product.product_id}</td>
                             <td>{product.product_name}</td>
@@ -55,7 +59,7 @@ const ProductTable = ({ products, onAddProductClick, exportToPDF, onEditProduct,
                                 <button onClick={() => onDeleteProduct(product.product_id)}>Delete</button>
                             </td>
                         </tr>
-                    )) : <tr><td colSpan="6">No products found</td></tr>}
+                    ))}
                 </tbody>
             </table>
         </div>

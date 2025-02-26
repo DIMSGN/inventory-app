@@ -12,7 +12,9 @@ import styles from "./RuleList.module.css";
  * - handleDelete: Function to handle deleting a rule.
  */
 const RuleList = ({ rules, handleEdit, handleDelete }) => {
-    if (!rules) {
+    console.log("Rules prop:", rules); // Add this line to log the rules prop
+
+    if (!Array.isArray(rules)) {
         return <div>Loading...</div>;
     }
 
