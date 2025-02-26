@@ -6,7 +6,7 @@ const ProductOperations = ({ setProducts, setFilteredProducts, setCategories, se
 
     const fetchProducts = useCallback(async () => {
         try {
-            const response = await fetchData("/api/products");
+            const response = await fetchData("/products");
             console.log("API Response:", response);
             if (!Array.isArray(response)) {
                 throw new Error("Expected an array of products");
@@ -41,7 +41,7 @@ const ProductOperations = ({ setProducts, setFilteredProducts, setCategories, se
 
     const handleUpdateProduct = async (updatedProduct) => {
         try {
-            await updateData(`/api/products/${updatedProduct.product_id}`, updatedProduct);
+            await updateData(`/products/${updatedProduct.product_id}`, updatedProduct);
             fetchProducts();
             setEditingProduct(null);
         } catch (error) {
@@ -52,7 +52,7 @@ const ProductOperations = ({ setProducts, setFilteredProducts, setCategories, se
 
     const handleDeleteProduct = async (productId) => {
         try {
-            await deleteData(`/api/products/${productId}`);
+            await deleteData(`/products/${productId}`);
             fetchProducts();
         } catch (error) {
             console.error("Error deleting product:", error);

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import productService from "../../services/productService";
-import Button from "../common/Button/Button"; // Correct import path
+import Button from "../common/Button/Button";
 import styles from "./ProductManager.module.css";
 
 /**

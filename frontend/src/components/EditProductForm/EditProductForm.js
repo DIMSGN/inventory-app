@@ -3,6 +3,8 @@ import axios from "axios";
 import Button from "../common/Button/Button"; // Correct import path
 import styles from "./EditProductForm.module.css";
 
+const API_BASE_URL = process.env.REACT_APP_API_URL;
+
 const EditProductForm = ({ product, onUpdate, onCancel, fetchProducts }) => {
     const [formData, setFormData] = useState({ ...product });
 
@@ -22,7 +24,7 @@ const EditProductForm = ({ product, onUpdate, onCancel, fetchProducts }) => {
 
     const onSave = async () => {
         try {
-            const response = await axios.put(`http://localhost:5000/api/products/${product.product_id}`, formData);
+            const response = await axios.put(`${API_BASE_URL}/products/${product.product_id}`, formData);
             onUpdate(response.data);
             await fetchProducts();
         } catch (error) {
