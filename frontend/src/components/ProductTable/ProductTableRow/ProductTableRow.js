@@ -4,6 +4,14 @@ import { getRowColor } from "../../../utils/getRowColor";
 import ProductTableDropdown from "../ProductTableDropdown/ProductTableDropdown";
 
 const ProductTableRow = ({ product, rules, onEditProduct, onDeleteProduct, openRuleModal }) => {
+    const dropdownOptions = rules.filter(rule => rule.product_id === product.product_id).map(rule => ({
+        id: rule.id,
+        name: rule.rules,
+        comparison: rule.comparison,
+        amount: rule.amount,
+        value: rule.color
+    }));
+
     return (
         <tr key={product.product_id} style={{ backgroundColor: getRowColor(product, rules) }}>
             <td>{product.product_id}</td>
@@ -16,19 +24,13 @@ const ProductTableRow = ({ product, rules, onEditProduct, onDeleteProduct, openR
                     name="rules"
                     value={rules.find(rule => rule.product_id === product.product_id && getRowColor(product, rules) === rule.color)?.id || ""}
                     onChange={() => {}}
-                    options={rules.filter(rule => rule.product_id === product.product_id).map(rule => ({
-                        id: rule.id,
-                        name: rule.rules,
-                        comparison: rule.comparison,
-                        amount: rule.amount,
-                        value: rule.color
-                    }))}
+                    options={dropdownOptions}
                 />
             </td>
             <td className={styles.actionsCell}>
                 <button className={styles.editButton} onClick={() => onEditProduct(product)}>Edit</button>
                 <button className={styles.deleteButton} onClick={() => onDeleteProduct(product.product_id)}>Delete</button>
-                <button className={styles.addRuleButton} onClick={() => openRuleModal(product)}>Add Rule</button>
+                <button className={styles.addRuleButton} onClick={openRuleModal}>Add Rule</button>
             </td>
         </tr>
     );

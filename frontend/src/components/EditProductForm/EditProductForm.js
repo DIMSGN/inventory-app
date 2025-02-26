@@ -1,36 +1,26 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios";
-import Button from "../common/Button/Button"; // Correct import path
+import React, { useContext } from "react";
+import { ProductContext } from "../../context/ProductContext";
 import styles from "./EditProductForm.module.css";
 
-const API_BASE_URL = process.env.REACT_APP_API_URL;
+const EditProductForm = () => {
+    const { editingProduct, handleUpdateProduct, setEditingProduct } = useContext(ProductContext);
+    const [formData, setFormData] = React.useState(editingProduct || {});
 
-const EditProductForm = ({ product, onUpdate, onCancel, fetchProducts }) => {
-    const [formData, setFormData] = useState({ ...product });
-
-    useEffect(() => {
-        setFormData({ ...product });
-    }, [product]);
+    React.useEffect(() => {
+        setFormData(editingProduct || {});
+    }, [editingProduct]);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData((prevData) => ({ ...prevData, [name]: value }));
     };
 
-    const handleSubmit = async (e) => {
+    const handleSubmit = (e) => {
         e.preventDefault();
-        await onSave();
+        handleUpdateProduct(formData);
     };
 
-    const onSave = async () => {
-        try {
-            const response = await axios.put(`${API_BASE_URL}/products/${product.product_id}`, formData);
-            onUpdate(response.data);
-            await fetchProducts();
-        } catch (error) {
-            console.error("Error updating product:", error);
-        }
-    };
+    if (!editingProduct) return null;
 
     return (
         <form onSubmit={handleSubmit} className={styles.form}>
@@ -55,8 +45,8 @@ const EditProductForm = ({ product, onUpdate, onCancel, fetchProducts }) => {
                 <input type="text" name="category" value={formData.category} onChange={handleChange} />
             </label>
             <div className={styles.buttonGroup}>
-                <Button type="submit">Save</Button>
-                <Button type="button" onClick={onCancel}>Cancel</Button>
+                <button type="submit">Save</button>
+                <button type="button" onClick={() => setEditingProduct(null)}>Cancel</button>
             </div>
         </form>
     );

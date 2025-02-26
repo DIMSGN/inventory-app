@@ -12,7 +12,13 @@ export const fetchProducts = async () => {
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
-        return response.json();
+        const contentType = response.headers.get('content-type');
+        if (contentType && contentType.includes('application/json')) {
+            return response.json();
+        } else {
+            console.error('Unexpected response format:', response);
+            throw new Error('Unexpected response format');
+        }
     } catch (error) {
         console.error("Failed to fetch products:", error);
         throw error;
@@ -25,7 +31,13 @@ export const fetchRules = async () => {
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
-        return response.json();
+        const contentType = response.headers.get('content-type');
+        if (contentType && contentType.includes('application/json')) {
+            return response.json();
+        } else {
+            console.error('Unexpected response format:', response);
+            throw new Error('Unexpected response format');
+        }
     } catch (error) {
         console.error("Failed to fetch rules:", error);
         throw error;

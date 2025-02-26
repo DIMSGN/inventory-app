@@ -10,8 +10,14 @@ const useFetch = (url) => {
         const fetchData = async () => {
             try {
                 const response = await axios.get(url);
-                setData(response.data);
+                if (response.headers['content-type'].includes('application/json')) {
+                    setData(response.data);
+                } else {
+                    console.error('Unexpected response format:', response);
+                    setError(new Error('Unexpected response format'));
+                }
             } catch (err) {
+                console.error('Error fetching data:', err);
                 setError(err);
             } finally {
                 setLoading(false);

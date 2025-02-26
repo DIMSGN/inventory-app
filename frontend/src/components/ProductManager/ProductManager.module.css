@@ -41,7 +41,6 @@ il  Styles the container element with padding, background color, border radius, 
     width: 100%; /* Set form width to 100% */
     max-width: 800px; /* Maximum width for the form */
     margin: 20px auto; /* Center the form horizontally with margin */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Add a subtle shadow */
 }
 
 /* 
@@ -87,7 +86,7 @@ input, select {
 */
 button {
     padding: 12px 20px; /* Padding inside the button */
-    background-color: #008cff; /* Blue background color */
+    background-color: #008cff; /* Updated to blue color */
     color: white; /* White text color */
     border: none; /* No border */
     border-radius: 5px; /* Rounded corners */
@@ -101,7 +100,7 @@ button {
   Styles the button element when hovered to change the background color.
 */
 button:hover {
-    background-color: #0066b9; /* Darker blue background color on hover */
+    background-color: #0066b9; /* Slightly darker blue for hover effect */
 }
 
 /* 

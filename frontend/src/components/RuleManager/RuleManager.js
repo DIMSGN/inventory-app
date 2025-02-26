@@ -1,16 +1,18 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import RuleForm from "../RuleForm/RuleForm";
 import RuleList from "../RuleList/RuleList";
 import { colors } from "../../utils/colors"; // Import colors from utils
 import useFetch from "../../hooks/useFetch"; // Import useFetch hook
 import ruleService from "../../services/ruleService"; // Import ruleService
+import { ProductContext } from "../../context/ProductContext";
 import styles from "./RuleManager.module.css";
 
 const RuleManager = () => {
     const [rules, setRules] = useState([]);
     const [currentRule, setCurrentRule] = useState(null);
+    const { fetchProducts, categories } = useContext(ProductContext);
 
-    const { data: fetchedRules, loading, error } = useFetch("/rules");
+    const { data: fetchedRules, loading, error } = useFetch(`${process.env.REACT_APP_API_URL}/rules`);
 
     useEffect(() => {
         if (!loading && fetchedRules) {
@@ -48,10 +50,6 @@ const RuleManager = () => {
         } catch (error) {
             console.error("Error deleting rule:", error);
         }
-    };
-
-    const handleOpenRuleModal = (product) => {
-        setCurrentRule({ ...currentRule, product_id: product.product_id });
     };
 
     if (loading) {

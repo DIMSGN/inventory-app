@@ -1,7 +1,32 @@
 import React from "react";
+import Select from "react-select";
 import styles from "./RuleForm.module.css";
+import { colors } from "../../utils/colors"; // Import colors
 
-const RuleForm = ({ formData, handleChange, handleSubmit, editingRule, setEditingRule, colors }) => {
+const RuleForm = ({ formData, handleChange, handleSubmit, editingRule, setEditingRule }) => {
+    const colorOptions = colors.map(color => ({
+        value: color.value,
+        label: color.name
+    }));
+
+    const handleColorChange = selectedOption => {
+        handleChange({ target: { name: "color", value: selectedOption.value } });
+    };
+
+    const customSingleValue = ({ data }) => (
+        <div className={styles.singleValue}>
+            <span className={styles.colorBox} style={{ backgroundColor: data.value }}></span>
+            {data.label}
+        </div>
+    );
+
+    const customOption = ({ innerRef, innerProps, data, isFocused }) => (
+        <div ref={innerRef} {...innerProps} className={`${styles.option} ${isFocused ? styles.optionFocused : ''}`}>
+            <span className={styles.colorBox} style={{ backgroundColor: data.value }}></span>
+            {data.label}
+        </div>
+    );
+
     return (
         <form onSubmit={handleSubmit} className={styles.form}>
             <label>
@@ -41,20 +66,32 @@ const RuleForm = ({ formData, handleChange, handleSubmit, editingRule, setEditin
             </label>
             <label>
                 Color:
-                <select
+                <Select
                     name="color"
-                    value={formData.color}
-                    onChange={handleChange}
-                    required
-                >
-                    {colors.map((color) => (
-                        <option key={color} value={color}>
-                            {color}
-                        </option>
-                    ))}
-                </select>
+                    value={colorOptions.find(option => option.value === formData.color)}
+                    onChange={handleColorChange}
+                    options={colorOptions}
+                    components={{ SingleValue: customSingleValue, Option: customOption }}
+                    className={styles.select}
+                    styles={{
+                        control: (base) => ({
+                            ...base,
+                            border: '1px solid #ccc',
+                            boxShadow: 'none',
+                            '&:hover': {
+                                border: '1px solid #aaa'
+                            }
+                        }),
+                        dropdownIndicator: (base) => ({
+                            ...base,
+                            padding: '0 8px'
+                        }),
+                        indicatorSeparator: () => ({
+                            display: 'none'
+                        })
+                    }}
+                />
             </label>
-            {/* Hidden input field for product_id */}
             <input
                 type="hidden"
                 name="product_id"

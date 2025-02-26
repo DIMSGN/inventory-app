@@ -1,37 +1,57 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
+import { ProductContext } from "../../context/ProductContext";
 import ProductTableControls from "./ProductTableControls/ProductTableControls";
-import RuleModal from "./RuleModal/RuleModal";
-import useFetch from "../../hooks/useFetch";
-import ProductTableRow from "./ProductTableRow/ProductTableRow"; // Ensure this import
+import ProductTableRow from "./ProductTableRow/ProductTableRow";
+import { openRuleModal } from "../../utils/openRuleModal"; // Import openRuleModal
+import ruleService from "../../services/ruleService"; // Import ruleService
 import styles from "./ProductTable.module.css";
 import exportOrderRequirements from "../../utils/exportOrderRequirements";
 import { exportToPDF } from "../../utils/exportToPDF";
+import RuleModal from "./RuleModal/RuleModal"; // Import RuleModal
 
-const ProductTable = ({ onAddProductClick, exportToPDF, onEditProduct, onDeleteProduct, exportOrderRequirements }) => {
-    const { data: products, loading } = useFetch("/products");
-    const { data: rules, loading: rulesLoading } = useFetch("/rules");
-    const [isRuleModalOpen, setIsRuleModalOpen] = useState(false);
+const ProductTable = ({ onAddProductClick }) => {
+    const { filteredProducts, rules, handleEditProduct, handleDeleteProduct } = useContext(ProductContext);
     const [currentProduct, setCurrentProduct] = useState(null);
+    const [isRuleModalOpen, setIsRuleModalOpen] = useState(false);
+    const [formData, setFormData] = useState({
+        rules: "",
+        comparison: "=",
+        amount: "",
+        color: ""
+    });
 
-    const handleOpenRuleModal = (product) => {
-        setCurrentProduct(product);
-        setIsRuleModalOpen(true);
+    const resetForm = () => {
+        setFormData({
+            rules: "",
+            comparison: "=",
+            amount: "",
+            color: ""
+        });
     };
 
-    console.log("Products Data:", products);
-    console.log("Rules Data:", rules);
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setFormData((prevData) => ({ ...prevData, [name]: value }));
+    };
 
-    if (loading || rulesLoading) {
-        return <div>Loading...</div>;
-    }
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        try {
+            await ruleService.addRule({ ...formData, product_id: currentProduct.product_id });
+            setIsRuleModalOpen(false);
+            resetForm();
+        } catch (error) {
+            console.error("Error adding rule:", error);
+        }
+    };
 
     return (
         <div className={styles.productTableContainer}>
             <h2 className={styles.title}>Product Table</h2>
             <ProductTableControls
-                exportToPDF={() => exportToPDF(products)}
-                onAddProductClick={onAddProductClick}
-                exportOrderRequirements={() => exportOrderRequirements(products, rules)}
+                exportToPDF={() => exportToPDF(filteredProducts)}
+                exportOrderRequirements={() => exportOrderRequirements(filteredProducts, rules)}
+                onAddProductClick={onAddProductClick} // Pass the onAddProductClick prop
             />
             <table className={styles.productTable}>
                 <thead>
@@ -39,20 +59,21 @@ const ProductTable = ({ onAddProductClick, exportToPDF, onEditProduct, onDeleteP
                         <th>Product ID</th>
                         <th>Name</th>
                         <th>Category</th>
-                        <th>Unit</th>
                         <th>Amount</th>
+                        <th>Unit</th>
+                        <th>Rules</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {Array.isArray(products) && products.map((product) => (
+                    {Array.isArray(filteredProducts) && filteredProducts.map((product) => (
                         <ProductTableRow
                             key={product.product_id}
                             product={product}
                             rules={rules}
-                            onEditProduct={onEditProduct}
-                            onDeleteProduct={onDeleteProduct}
-                            openRuleModal={handleOpenRuleModal}
+                            onEditProduct={handleEditProduct}
+                            onDeleteProduct={handleDeleteProduct}
+                            openRuleModal={() => openRuleModal(product, setCurrentProduct, resetForm, handleChange, setIsRuleModalOpen)} // Use openRuleModal
                         />
                     ))}
                 </tbody>
@@ -60,10 +81,10 @@ const ProductTable = ({ onAddProductClick, exportToPDF, onEditProduct, onDeleteP
             {isRuleModalOpen && (
                 <RuleModal
                     currentProduct={currentProduct}
-                    formData={{}} // Pass the appropriate formData
-                    handleChange={() => {}} // Pass the appropriate handleChange function
-                    handleSubmit={() => {}} // Pass the appropriate handleSubmit function
-                    colors={[]} // Pass the appropriate colors array
+                    formData={formData}
+                    handleChange={handleChange}
+                    handleSubmit={handleSubmit}
+                    colors={["red", "green", "blue"]} // Example colors
                     setIsRuleModalOpen={setIsRuleModalOpen}
                 />
             )}

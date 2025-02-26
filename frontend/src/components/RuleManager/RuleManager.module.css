@@ -8,7 +8,7 @@
     background-color: #ffffff; /* White background color */
     border: 1px solid #ddd; /* Light grey border */
     border-radius: 10px; /* Rounded corners */
-    max-width: 1200px; /* Maximum width for the container */
+    max-width: 1000px; /* Maximum width for the container */
     margin: 20px auto; /* Center the container horizontally with margin */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Add a subtle shadow */
     display: flex; /* Use flexbox for layout */

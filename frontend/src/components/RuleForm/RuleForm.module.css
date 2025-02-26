@@ -18,6 +18,51 @@
 }
 
 /* 
+  .colorBox class:
+  Styles the color box element to display inline with specific width, height, margin, and vertical alignment.
+*/
+.colorBox {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    margin-right: 10px;
+    border: 1px solid #ccc;
+}
+
+/* 
+  .option class:
+  Styles the option element to display as a flex container with center alignment.
+*/
+.option {
+    display: flex;
+    align-items: center;
+    padding: 8px 12px;
+    cursor: pointer;
+}
+
+.optionFocused {
+    background-color: #f0f0f0;
+}
+
+/* 
+  .singleValue class:
+  Styles the single value element to display as a flex container with center alignment.
+*/
+.singleValue {
+    display: flex;
+    align-items: center;
+    padding: 5px;
+}
+
+/* 
+  .select class:
+  Styles the select element to be 100% wide.
+*/
+.select {
+    width: 100%;
+}
+
+/* 
   .formRow class:
   Styles the form row to display as a flex container with wrapping.
 */
@@ -78,8 +123,8 @@ input, select {
   Adds hover effect for background color.
 */
 button {
-    padding: 12px 20px; /* Padding inside the button */
-    background-color: #008cff; /* Blue background color */
+    padding: 10px 20px; /* Padding inside the button */
+    background-color: #008cff; /* Updated to blue color */
     color: white; /* White text color */
     border: none; /* No border */
     border-radius: 5px; /* Rounded corners */
@@ -93,7 +138,7 @@ button {
   Styles the button element when hovered to change the background color.
 */
 button:hover {
-    background-color: #0066b9; /* Darker blue background color on hover */
+    background-color: #0066b9; /* Slightly darker blue for hover effect */
 }
 
 /* 
@@ -102,7 +147,7 @@ button:hover {
 */
 button:focus {
     outline: none; /* Remove default outline */
-    box-shadow: 0 0 0 3px rgba(0, 136, 255, 0.5); /* Add custom outline */
+    box-shadow: 0 0 0 3px rgba(0, 0, 136, 255, 0.5); /* Add custom outline */
 }
 
 /* Responsive Styles */

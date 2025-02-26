@@ -1,9 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
+import { ProductContext } from "../../context/ProductContext";
 import productService from "../../services/productService";
 import Button from "../common/Button/Button";
 import styles from "./ProductManager.module.css";
 
-const ProductManager = ({ fetchProducts, categories }) => {
+const ProductManager = ({ onClose }) => {
+    const { fetchProducts, categories } = useContext(ProductContext);
     const [formData, setFormData] = useState({
         product_id: "",
         product_name: "",
@@ -25,6 +27,7 @@ const ProductManager = ({ fetchProducts, categories }) => {
             await productService.addProduct(formData);
             fetchProducts();
             setFormData({ product_id: "", product_name: "", unit: "", category: "", amount: "" });
+            onClose();
         } catch (error) {
             console.error("Error adding product:", error);
             alert(`Failed to add product: ${error.response?.data?.error || error.message}`);
@@ -100,7 +103,7 @@ const ProductManager = ({ fetchProducts, categories }) => {
                             required
                         >
                             <option value="">Select a category</option>
-                            {categories.map((category) => (
+                            {Array.isArray(categories) && categories.map((category) => (
                                 <option key={category} value={category}>
                                     {category}
                                 </option>
@@ -120,6 +123,7 @@ const ProductManager = ({ fetchProducts, categories }) => {
                     />
                 </label>
                 <Button type="submit">Add Product</Button>
+                <Button type="button" onClick={onClose}>Cancel</Button>
             </form>
         </div>
     );

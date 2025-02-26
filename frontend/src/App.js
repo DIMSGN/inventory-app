@@ -1,105 +1,34 @@
-// Import necessary modules and components
-import React, { useState, useEffect } from "react";
+import React, { useState, useContext } from "react";
+import { ProductContext } from "./context/ProductContext";
+import Header from "./components/Header/Header";
+import ProductTable from "./components/ProductTable/ProductTable";
+import RuleManager from "./components/RuleManager/RuleManager";
+import RuleList from "./components/RuleList/RuleList";
 import ProductManager from "./components/ProductManager/ProductManager";
 import EditProductForm from "./components/EditProductForm/EditProductForm";
-import RuleManager from "./components/RuleManager/RuleManager";
-import ProductTable from "./components/ProductTable/ProductTable";
-import Header from "./components/Header/Header";
-import ProductOperations from "./components/ProductOperations/ProductOperations";
-import useFetch from "./hooks/useFetch";
-import exportOrderRequirements from "./utils/exportOrderRequirements";
-import { exportToPDF } from "./utils/exportToPDF";
-import styles from "./App.css";
+import styles from "./App.css"; 
 
-/**
- * App Component
- * This is the main component of the Inventory Management System application.
- * It manages the state of products, categories, rules, and the currently editing product.
- * It also handles fetching data from the server and passing it to child components.
- */
 const App = () => {
-    // State to store the list of products
-    const [products, setProducts] = useState([]);
-    // State to store the list of filtered products
-    const [filteredProducts, setFilteredProducts] = useState([]);
-    // State to store the list of categories
-    const [categories, setCategories] = useState([]);
-    // State to store the currently editing product
-    const [editingProduct, setEditingProduct] = useState(null);
-    // State to manage the visibility of the Add Product form
-    const [showAddProductForm, setShowAddProductForm] = useState(false);
-    // State to store the selected categories
-    const [selectedCategories, setSelectedCategories] = useState([]);
+    const [showProductManager, setShowProductManager] = useState(false);
+    const { editingProduct } = useContext(ProductContext);
 
-    // Destructure functions from ProductOperations
-    const {
-        productTableRef,
-        handleEditProduct,
-        handleUpdateProduct,
-        handleDeleteProduct,
-        handleCancelEdit,
-        fetchProducts,
-    } = ProductOperations({
-        setProducts,
-        setFilteredProducts,
-        setCategories,
-        setEditingProduct,
-    });
-
-    const { data: rules, loading: rulesLoading } = useFetch("/api/rules");
-
-    // Fetch products when the component mounts
-    useEffect(() => {
-        fetchProducts();
-    }, [fetchProducts]);
-
-    // Toggle the visibility of the Add Product form
     const handleAddProductClick = () => {
-        setShowAddProductForm(!showAddProductForm);
+        setShowProductManager(true);
     };
 
-    // Handle filter change
-    const handleFilterChange = (categories) => {
-        setSelectedCategories(categories);
+    const handleCloseProductManager = () => {
+        setShowProductManager(false);
     };
 
     return (
-        <>
-            <div className={styles.container}>
-                {/* Header component to filter products by category */}
-                <Header 
-                    categories={categories} 
-                    onFilterChange={handleFilterChange} 
-                />
-                <div className={styles.productTable}>
-                    {/* ProductTable component to display the list of products */}
-                    <ProductTable
-                        ref={productTableRef}
-                        products={filteredProducts.length ? filteredProducts : products}
-                        onEditProduct={handleEditProduct}
-                        onDeleteProduct={handleDeleteProduct}
-                        rules={rules || []} // Ensure rules is passed as an array
-                        onAddProductClick={handleAddProductClick} // Pass the add product click handler
-                        exportToPDF={exportToPDF} // Pass the exportToPDF function
-                        exportOrderRequirements={exportOrderRequirements} // Pass the exportOrderRequirements function
-                    />
-                </div>
-                {editingProduct && (
-                    <EditProductForm
-                        product={editingProduct}
-                        onUpdateProduct={handleUpdateProduct}
-                        onCancelEdit={handleCancelEdit}
-                    />
-                )}
-                {showAddProductForm && (
-                    <ProductManager
-                        onAddProduct={fetchProducts}
-                        onCancel={() => setShowAddProductForm(false)}
-                    />
-                )}
-                <RuleManager />
-            </div>
-        </>
+        <div className={styles.container}>
+            <Header />
+            <ProductTable onAddProductClick={handleAddProductClick} />
+            {showProductManager && <ProductManager onClose={handleCloseProductManager} />}
+            {editingProduct && <EditProductForm />}
+            <RuleManager />
+            <RuleList />
+        </div>
     );
 };
 
