@@ -13,9 +13,9 @@ import styles from "./ProductTableControls.module.css";
 const ProductTableControls = ({ exportToPDF, onAddProductClick, exportOrderRequirements }) => {
     return (
         <div className={styles.controls}>
-            <button onClick={onAddProductClick} className={styles.addButton}>Add Product</button>
-            <button onClick={exportToPDF} className={styles.exportButton}>Export to PDF</button>
-            <button onClick={exportOrderRequirements} className={styles.exportButton}>Export Order Requirements</button>
+            <button onClick={onAddProductClick}>Add Product</button>
+            <button onClick={exportToPDF}>Export to PDF</button>
+            <button onClick={exportOrderRequirements}>Export Order Requirements</button>
         </div>
     );
 };
