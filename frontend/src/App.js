@@ -7,6 +7,8 @@ import ProductTable from "./components/ProductTable/ProductTable";
 import Header from "./components/Header/Header";
 import ProductOperations from "./components/ProductOperations/ProductOperations";
 import useFetch from "./hooks/useFetch";
+import exportOrderRequirements from "./utils/exportOrderRequirements";
+import { exportToPDF } from "./utils/exportToPDF";
 import styles from "./App.css";
 
 /**
@@ -44,7 +46,7 @@ const App = () => {
         setEditingProduct,
     });
 
-    const { data: rules, loading: rulesLoading } = useFetch("https://app-d118d68a-4c2e-42ad-b162-dd8cc2db6692.cleverapps.io/api/rules");
+    const { data: rules, loading: rulesLoading } = useFetch("/api/rules");
 
     // Fetch products when the component mounts
     useEffect(() => {
@@ -78,7 +80,8 @@ const App = () => {
                         onDeleteProduct={handleDeleteProduct}
                         rules={rules || []} // Ensure rules is passed as an array
                         onAddProductClick={handleAddProductClick} // Pass the add product click handler
-                        selectedCategories={selectedCategories} // Pass selected categories to ProductTable
+                        exportToPDF={exportToPDF} // Pass the exportToPDF function
+                        exportOrderRequirements={exportOrderRequirements} // Pass the exportOrderRequirements function
                     />
                 </div>
                 {editingProduct && (

@@ -2,10 +2,12 @@ import React, { useEffect, useState } from "react";
 import ProductTableControls from "./ProductTableControls/ProductTableControls";
 import RuleModal from "./RuleModal/RuleModal";
 import useFetch from "../../hooks/useFetch";
+import ProductTableRow from "./ProductTableRow/ProductTableRow"; // Ensure this import
 import styles from "./ProductTable.module.css";
 
 const ProductTable = ({ onAddProductClick, exportToPDF, onEditProduct, onDeleteProduct, exportOrderRequirements }) => {
     const { data: products, loading } = useFetch("/products");
+    const { data: rules, loading: rulesLoading } = useFetch("/rules");
     const [isRuleModalOpen, setIsRuleModalOpen] = useState(false);
     const [currentProduct, setCurrentProduct] = useState(null);
 
@@ -15,8 +17,9 @@ const ProductTable = ({ onAddProductClick, exportToPDF, onEditProduct, onDeleteP
     };
 
     console.log("Products Data:", products);
+    console.log("Rules Data:", rules);
 
-    if (loading) {
+    if (loading || rulesLoading) {
         return <div>Loading...</div>;
     }
 
@@ -26,7 +29,7 @@ const ProductTable = ({ onAddProductClick, exportToPDF, onEditProduct, onDeleteP
             <ProductTableControls
                 exportToPDF={() => exportToPDF(products)}
                 onAddProductClick={onAddProductClick}
-                exportOrderRequirements={() => exportOrderRequirements(products)}
+                exportOrderRequirements={() => exportOrderRequirements(products, rules)}
             />
             <table className={styles.productTable}>
                 <thead>
@@ -41,18 +44,14 @@ const ProductTable = ({ onAddProductClick, exportToPDF, onEditProduct, onDeleteP
                 </thead>
                 <tbody>
                     {products.map((product) => (
-                        <tr key={product.product_id}>
-                            <td>{product.product_id}</td>
-                            <td>{product.product_name}</td>
-                            <td>{product.category}</td>
-                            <td>{product.unit}</td>
-                            <td>{product.amount}</td>
-                            <td>
-                                <button onClick={() => onEditProduct(product)}>Edit</button>
-                                <button onClick={() => onDeleteProduct(product.product_id)}>Delete</button>
-                                <button onClick={() => handleOpenRuleModal(product)}>Add Rule</button>
-                            </td>
-                        </tr>
+                        <ProductTableRow
+                            key={product.product_id}
+                            product={product}
+                            rules={rules}
+                            onEditProduct={onEditProduct}
+                            onDeleteProduct={onDeleteProduct}
+                            openRuleModal={handleOpenRuleModal}
+                        />
                     ))}
                 </tbody>
             </table>
