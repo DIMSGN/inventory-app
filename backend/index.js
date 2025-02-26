@@ -2,31 +2,30 @@ const express = require("express");
 const path = require("path");
 const cors = require("cors");
 const dotenv = require("dotenv");
-const productRoutes = require("./routes/products");
-const rulesRoutes = require("./routes/rules"); // Import the rules routes
+const productsRouter = require("./routes/products");
+const rulesRouter = require("./routes/rules");
 
-// Load environment variables from .env file
 dotenv.config();
 
 const app = express();
-const PORT = process.env.PORT || 8080;
-
-// Middleware
 app.use(cors());
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
-// Serve static files from the React frontend app
-app.use(express.static(path.join(__dirname, '../frontend/build')));
+// Serve static files from the React app
+app.use(express.static(path.join(__dirname, "../frontend/build")));
 
 // API routes
-app.use("/api/products", productRoutes);
-app.use("/api/rules", rulesRoutes); // Mount the rules routes
+app.use("/api", productsRouter);
+app.use("/api", rulesRouter);
 
-// Serve the frontend
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, '../frontend/build', 'index.html'));
+// The "catchall" handler: for any request that doesn't match one above, send back React's index.html file.
+app.get("*", (req, res) => {
+    res.sendFile(path.join(__dirname, "../frontend/build/index.html"));
 });
 
+// Use the port provided by the environment variable or default to 8080
+const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
+    console.log(`Server is running on port ${PORT}`);
 });
