@@ -25,7 +25,7 @@ app.get("*", (req, res) => {
 });
 
 // Use the port provided by the environment variable or default to 8080
-const PORT = process.env.PORT || 3306;
+const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
 });
