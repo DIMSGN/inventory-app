@@ -16,8 +16,8 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, "../frontend/build")));
 
 // API routes
-app.use("/api", productsRouter);
-app.use("/api", rulesRouter);
+app.use("/api/products", productsRouter);
+app.use("/api/rules", rulesRouter);
 
 // The "catchall" handler: for any request that doesn't match one above, send back React's index.html file.
 app.get("*", (req, res) => {
