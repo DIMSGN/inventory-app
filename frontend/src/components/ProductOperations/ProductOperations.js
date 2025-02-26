@@ -7,14 +7,14 @@ const ProductOperations = ({ setProducts, setFilteredProducts, setCategories, se
     const fetchProducts = useCallback(async () => {
         try {
             const response = await fetchData("/api/products");
-            console.log("API Response:", response); // Log the response
+            console.log("API Response:", response);
             if (!Array.isArray(response)) {
                 throw new Error("Expected an array of products");
             }
-            setProducts(response); // Update the state of the product list
-            setFilteredProducts(response); // Update the state of the filtered product list
-            const uniqueCategories = [...new Set(response.map(product => product.category))]; // Extract unique categories
-            setCategories(uniqueCategories); // Update the state of the categories
+            setProducts(response);
+            setFilteredProducts(response);
+            const uniqueCategories = [...new Set(response.map(product => product.category))];
+            setCategories(uniqueCategories);
         } catch (error) {
             console.error("Error fetching products:", error);
             alert(`Failed to fetch products: ${error.response?.data?.error || error.message}`);
@@ -42,8 +42,8 @@ const ProductOperations = ({ setProducts, setFilteredProducts, setCategories, se
     const handleUpdateProduct = async (updatedProduct) => {
         try {
             await updateData(`/api/products/${updatedProduct.product_id}`, updatedProduct);
-            fetchProducts(); // Refresh the product list
-            setEditingProduct(null); // Clear the currently editing product
+            fetchProducts();
+            setEditingProduct(null);
         } catch (error) {
             console.error("Error updating product:", error);
             alert(`Failed to update product: ${error.response?.data?.error || error.message}`);
@@ -53,7 +53,7 @@ const ProductOperations = ({ setProducts, setFilteredProducts, setCategories, se
     const handleDeleteProduct = async (productId) => {
         try {
             await deleteData(`/api/products/${productId}`);
-            fetchProducts(); // Refresh the product list
+            fetchProducts();
         } catch (error) {
             console.error("Error deleting product:", error);
             alert(`Failed to delete product: ${error.response?.data?.error || error.message}`);

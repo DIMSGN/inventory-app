@@ -1,12 +1,20 @@
-import { fetchData, postData, updateData, deleteData } from "../utils/apiUtils";
+import axios from "axios";
 
-const API_URL = "http://localhost:5000/api/rules";
+const API_URL = process.env.REACT_APP_API_URL + "/rules";
 
 const ruleService = {
-    getRules: (setData) => fetchData(API_URL, setData),
-    addRule: (rule) => postData(API_URL, rule),
-    updateRule: (id, rule) => updateData(`${API_URL}/${id}`, rule),
-    deleteRule: (id) => deleteData(`${API_URL}/${id}`)
+    getRules: () => {
+        return axios.get(API_URL);
+    },
+    addRule: (rule) => {
+        return axios.post(API_URL, rule);
+    },
+    updateRule: (id, rule) => {
+        return axios.put(`${API_URL}/${id}`, rule);
+    },
+    deleteRule: (id) => {
+        return axios.delete(`${API_URL}/${id}`);
+    },
 };
 
 export default ruleService;

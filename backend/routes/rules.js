@@ -12,16 +12,7 @@ const router = express.Router();
  * @param {Array} params - The parameters for the SQL query.
  * @returns {Promise} - A promise that resolves with the query results or rejects with an error.
  */
-const queryDatabase = async (query, params = []) => {
-    return new Promise((resolve, reject) => {
-        db.query(query, params, (err, results) => {
-            if (err) {
-                return reject(err);
-            }
-            resolve(results);
-        });
-    });
-};
+const queryDatabase = require('../utils/queryDatabase');
 
 /**
  * Route to get all rules.

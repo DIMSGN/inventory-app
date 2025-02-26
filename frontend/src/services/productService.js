@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_URL = "https://app-d118d68a-4c2e-42ad-b162-dd8cc2db6692.cleverapps.io/api/products";
+const API_URL = process.env.REACT_APP_API_URL + "/products";
 
 const productService = {
     getProducts: () => {

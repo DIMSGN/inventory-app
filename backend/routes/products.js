@@ -2,7 +2,6 @@ const express = require('express');
 const router = express.Router();
 const queryDatabase = require('../utils/queryDatabase');
 
-// Route to get all products
 router.get('/', async (req, res) => {
     const query = `
         SELECT p.product_id, p.product_name, p.unit, p.category, p.amount,
@@ -12,7 +11,7 @@ router.get('/', async (req, res) => {
     `;
     try {
         const results = await queryDatabase(query);
-        console.log("API Response:", results); // Log the response
+        console.log("API Response:", results);
         const products = results.reduce((acc, row) => {
             const product = acc.find(p => p.product_id === row.product_id);
             if (product) {
