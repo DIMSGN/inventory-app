@@ -1,31 +1,18 @@
-// Import the express module to create a router and handle HTTP requests
 const express = require("express");
-// Import the database connection module to interact with the MySQL database
-const db = require("../db/connection");
-// Create a new router instance
 const router = express.Router();
-
-/**
- * Helper function to handle database queries.
- * This function returns a promise that resolves with the query results or rejects with an error.
- * @param {string} query - The SQL query to execute.
- * @param {Array} params - The parameters for the SQL query.
- * @returns {Promise} - A promise that resolves with the query results or rejects with an error.
- */
-const queryDatabase = require('../utils/queryDatabase');
+const queryDatabase = require("../utils/queryDatabase");
 
 /**
  * Route to get all rules.
  * This route fetches all rules from the rules table.
  */
 router.get("/", async (req, res) => {
-    const query = "SELECT * FROM rules";
     try {
-        const results = await queryDatabase(query);
-        res.json(results);
-    } catch (err) {
-        console.error("Error fetching rules:", err);
-        res.status(500).json({ error: err.message });
+        const rows = await queryDatabase("SELECT * FROM rules");
+        res.json(rows);
+    } catch (error) {
+        console.error("Error fetching rules:", error);
+        res.status(500).json({ error: "Failed to fetch rules" });
     }
 });
 
@@ -94,5 +81,4 @@ router.delete("/:id", async (req, res) => {
     }
 });
 
-// Export the router to be used in other parts of the application
 module.exports = router;

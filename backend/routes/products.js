@@ -1,11 +1,11 @@
 const express = require("express");
 const router = express.Router();
-const db = require("../db"); // Assuming you have a db module to handle database connections
+const queryDatabase = require("../utils/queryDatabase");
 
 // GET /api/products
 router.get("/", async (req, res) => {
     try {
-        const [rows] = await db.query(`
+        const rows = await queryDatabase(`
             SELECT 
                 p.product_id, p.product_name, p.unit, p.category, p.amount,
                 r.rule_id, r.rules, r.comparison, r.amount AS rule_amount, r.color
