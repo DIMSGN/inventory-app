@@ -10,6 +10,7 @@ const ProductOperations = ({ setProducts, setFilteredProducts, setCategories, se
             const response = await fetchData("/products");
             console.log("Fetched response:", response);
             if (!Array.isArray(response)) {
+
                 throw new Error("Expected an array but got: " + JSON.stringify(response));
             }
             setProducts(response);
