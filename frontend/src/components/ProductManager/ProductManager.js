@@ -13,10 +13,11 @@ import styles from "./ProductManager.module.css";
  */
 const ProductManager = ({ fetchProducts, categories }) => {
     const [formData, setFormData] = useState({
-        name: "",
+        product_id: "",
+        product_name: "",
+        unit: "",
         category: "",
-        price: "",
-        quantity: ""
+        amount: ""
     });
     const [newCategory, setNewCategory] = useState("");
     const [isAddingCategory, setIsAddingCategory] = useState(false);
@@ -31,7 +32,7 @@ const ProductManager = ({ fetchProducts, categories }) => {
         try {
             await productService.addProduct(formData);
             fetchProducts();
-            setFormData({ name: "", category: "", price: "", quantity: "" });
+            setFormData({ product_id: "", product_name: "", unit: "", category: "", amount: "" });
         } catch (error) {
             console.error("Error adding product:", error);
             alert(`Failed to add product: ${error.response?.data?.error || error.message}`);
@@ -51,11 +52,31 @@ const ProductManager = ({ fetchProducts, categories }) => {
             <h2 className={styles.heading}>Add New Product</h2>
             <form onSubmit={handleSubmit} className={styles.form}>
                 <label>
+                    Product ID:
+                    <input
+                        type="text"
+                        name="product_id"
+                        value={formData.product_id}
+                        onChange={handleChange}
+                        required
+                    />
+                </label>
+                <label>
                     Name:
                     <input
                         type="text"
-                        name="name"
-                        value={formData.name}
+                        name="product_name"
+                        value={formData.product_name}
+                        onChange={handleChange}
+                        required
+                    />
+                </label>
+                <label>
+                    Unit:
+                    <input
+                        type="text"
+                        name="unit"
+                        value={formData.unit}
                         onChange={handleChange}
                         required
                     />
@@ -97,21 +118,11 @@ const ProductManager = ({ fetchProducts, categories }) => {
                     )}
                 </label>
                 <label>
-                    Price:
+                    Amount:
                     <input
                         type="number"
-                        name="price"
-                        value={formData.price}
-                        onChange={handleChange}
-                        required
-                    />
-                </label>
-                <label>
-                    Quantity:
-                    <input
-                        type="number"
-                        name="quantity"
-                        value={formData.quantity}
+                        name="amount"
+                        value={formData.amount}
                         onChange={handleChange}
                         required
                     />
