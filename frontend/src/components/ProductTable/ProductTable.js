@@ -1,29 +1,22 @@
 import React, { useEffect, useState } from "react";
 import ProductTableControls from "./ProductTableControls/ProductTableControls";
+import RuleModal from "./RuleModal/RuleModal";
 import useFetch from "../../hooks/useFetch";
 import styles from "./ProductTable.module.css";
 
-const ProductTable = ({ products, onAddProductClick, exportToPDF, onEditProduct, onDeleteProduct, exportOrderRequirements }) => {
-    const [rules, setRules] = useState([]);
-    const { data: fetchedRules, loading } = useFetch("/rules");
+const ProductTable = ({ onAddProductClick, exportToPDF, onEditProduct, onDeleteProduct, exportOrderRequirements }) => {
+    const { data: products, loading } = useFetch("/products");
+    const [isRuleModalOpen, setIsRuleModalOpen] = useState(false);
+    const [currentProduct, setCurrentProduct] = useState(null);
 
-    useEffect(() => {
-        if (!loading && fetchedRules) {
-            setRules(fetchedRules);
-        }
-    }, [fetchedRules, loading]);
-
-    const handleExportOrders = () => {
-        if (!Array.isArray(products)) {
-            console.error("Expected an array of products");
-            return;
-        }
-        exportOrderRequirements(products, rules);
+    const handleOpenRuleModal = (product) => {
+        setCurrentProduct(product);
+        setIsRuleModalOpen(true);
     };
 
     console.log("Products Data:", products);
 
-    if (!Array.isArray(products)) {
+    if (loading) {
         return <div>Loading...</div>;
     }
 
@@ -33,7 +26,7 @@ const ProductTable = ({ products, onAddProductClick, exportToPDF, onEditProduct,
             <ProductTableControls
                 exportToPDF={() => exportToPDF(products)}
                 onAddProductClick={onAddProductClick}
-                exportOrderRequirements={handleExportOrders}
+                exportOrderRequirements={() => exportOrderRequirements(products)}
             />
             <table className={styles.productTable}>
                 <thead>
@@ -57,11 +50,22 @@ const ProductTable = ({ products, onAddProductClick, exportToPDF, onEditProduct,
                             <td>
                                 <button onClick={() => onEditProduct(product)}>Edit</button>
                                 <button onClick={() => onDeleteProduct(product.product_id)}>Delete</button>
+                                <button onClick={() => handleOpenRuleModal(product)}>Add Rule</button>
                             </td>
                         </tr>
                     ))}
                 </tbody>
             </table>
+            {isRuleModalOpen && (
+                <RuleModal
+                    currentProduct={currentProduct}
+                    formData={{}} // Pass the appropriate formData
+                    handleChange={() => {}} // Pass the appropriate handleChange function
+                    handleSubmit={() => {}} // Pass the appropriate handleSubmit function
+                    colors={[]} // Pass the appropriate colors array
+                    setIsRuleModalOpen={setIsRuleModalOpen}
+                />
+            )}
         </div>
     );
 };

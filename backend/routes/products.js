@@ -1,27 +1,30 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const queryDatabase = require('../utils/queryDatabase');
+const db = require("../db"); // Assuming you have a db module to handle database connections
 
-router.get('/', async (req, res) => {
-    const query = `
-        SELECT p.product_id, p.product_name, p.unit, p.category, p.amount,
-               r.id AS rule_id, r.rules, r.comparison, r.amount AS rule_amount, r.color
-        FROM products p
-        LEFT JOIN rules r ON p.product_id = r.product_id
-    `;
+// GET /api/products
+router.get("/", async (req, res) => {
     try {
-        const results = await queryDatabase(query);
-        console.log("API Response:", results);
-        const products = results.reduce((acc, row) => {
+        const [rows] = await db.query(`
+            SELECT 
+                p.product_id, p.product_name, p.unit, p.category, p.amount,
+                r.rule_id, r.rules, r.comparison, r.amount AS rule_amount, r.color
+            FROM products p
+            LEFT JOIN rules r ON p.product_id = r.product_id
+        `);
+
+        const products = rows.reduce((acc, row) => {
             const product = acc.find(p => p.product_id === row.product_id);
+            const rule = {
+                rule_id: row.rule_id,
+                rules: row.rules,
+                comparison: row.comparison,
+                amount: row.rule_amount,
+                color: row.color
+            };
+
             if (product) {
-                product.rules.push({
-                    rule_id: row.rule_id,
-                    rules: row.rules,
-                    comparison: row.comparison,
-                    amount: row.rule_amount,
-                    color: row.color
-                });
+                product.rules.push(rule);
             } else {
                 acc.push({
                     product_id: row.product_id,
@@ -29,21 +32,17 @@ router.get('/', async (req, res) => {
                     unit: row.unit,
                     category: row.category,
                     amount: row.amount,
-                    rules: row.rule_id ? [{
-                        rule_id: row.rule_id,
-                        rules: row.rules,
-                        comparison: row.comparison,
-                        amount: row.rule_amount,
-                        color: row.color
-                    }] : []
+                    rules: row.rule_id ? [rule] : []
                 });
             }
+
             return acc;
         }, []);
+
         res.json(products);
-    } catch (err) {
-        console.error("Error executing query:", err);
-        res.status(500).json({ error: err.message });
+    } catch (error) {
+        console.error("Error fetching products:", error);
+        res.status(500).json({ error: "Failed to fetch products" });
     }
 });
 

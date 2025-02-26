@@ -2,20 +2,11 @@ import React from "react";
 import Button from "../common/Button/Button";
 import styles from "./RuleList.module.css";
 
-/**
- * RuleList Component
- * This component renders a list of rules.
- * 
- * Props:
- * - rules: Array of rule objects.
- * - handleEdit: Function to handle editing a rule.
- * - handleDelete: Function to handle deleting a rule.
- */
 const RuleList = ({ rules, handleEdit, handleDelete }) => {
-    console.log("Rules prop:", rules); // Add this line to log the rules prop
+    console.log("Rules prop:", rules);
 
     if (!Array.isArray(rules)) {
-        console.log("Rules is not an array:", rules); // Add this line to log if rules is not an array
+        console.log("Rules is not an array:", rules);
         return <div>Loading...</div>;
     }
 
