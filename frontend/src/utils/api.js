@@ -25,7 +25,12 @@ export const fetchRules = async () => {
         const contentType = response.headers.get('content-type');
         if (contentType && contentType.includes('application/json')) {
             return response.json();
-        } else {
-            console.error('Unexpected response format:', response);
-        const response = await axios.get(`${API_BASE_URL}/rules`);
-        return response.data;
+                } else {
+                    console.error('Unexpected response format:', response);
+                    throw new Error('Unexpected response format');
+                }
+            } catch (error) {
+                console.error("Failed to fetch rules:", error);
+                throw error;
+            }
+        };

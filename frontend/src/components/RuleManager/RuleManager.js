@@ -106,7 +106,7 @@ const RuleManager = () => {
             </div>
             <div className={styles.listContainer}>
                 <h2 className={styles.title}>Rule List</h2>
-                <RuleList rules={rules} handleEdit={handleEditRule} handleDelete={handleDeleteRule} />
+                <RuleList rules={rules || []} handleEdit={handleEditRule} handleDelete={handleDeleteRule} />
             </div>
         </div>
     );
