@@ -3,7 +3,7 @@ import Select from "react-select";
 import styles from "./RuleForm.module.css";
 import { colors } from "../../utils/colors"; // Import colors
 
-const RuleForm = ({ formData, handleChange, handleSubmit, editingRule, setEditingRule, setFormData }) => {
+const RuleForm = ({ formData, handleChange, handleSubmit, setFormData, setEditingRule }) => {
     const colorOptions = colors.map(color => ({
         value: color.value,
         label: color.name
@@ -108,19 +108,21 @@ const RuleForm = ({ formData, handleChange, handleSubmit, editingRule, setEditin
             />
             <div className={styles.buttonGroup}>
                 <button type="submit">Save</button>
-                {editingRule && (
+                {setEditingRule && (
                     <button type="button" onClick={() => setEditingRule(null)}>
                         Cancel
                     </button>
                 )}
-                <button type="button" onClick={() => setFormData({
-                    rules: "",
-                    comparison: "=",
-                    amount: "",
-                    color: ""
-                })}>
-                    Clear
-                </button>
+                {setFormData && (
+                    <button type="button" onClick={() => setFormData({
+                        rules: "",
+                        comparison: "=",
+                        amount: "",
+                        color: ""
+                    })}>
+                        Clear
+                    </button>
+                )}
             </div>
         </form>
     );

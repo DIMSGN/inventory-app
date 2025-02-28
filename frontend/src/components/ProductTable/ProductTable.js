@@ -84,7 +84,6 @@ const ProductTable = ({ onAddProductClick }) => {
                     formData={formData}
                     handleChange={handleChange}
                     handleSubmit={handleSubmit}
-                    colors={["red", "green", "blue"]} // Example colors
                     setIsRuleModalOpen={setIsRuleModalOpen}
                 />
             )}
