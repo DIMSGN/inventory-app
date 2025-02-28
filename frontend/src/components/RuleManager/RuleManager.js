@@ -60,6 +60,18 @@ const RuleManager = () => {
         return products.some(product => product.product_name === name);
     };
 
+    const handleColorChange = (selectedOption) => {
+        setCurrentRule((prevRule) => ({
+            ...prevRule,
+            color: selectedOption.value
+        }));
+    };
+
+    const handleShowForm = () => {
+        setCurrentRule({ rules: "", comparison: "=", amount: "", color: "", product_id: "" });
+        setShowForm(true);
+    };
+
     if (loading) {
         return <div>Loading...</div>;
     }
@@ -72,11 +84,11 @@ const RuleManager = () => {
         <div className={styles.ruleManager}>
             <div className={styles.formContainer}>
                 <h2 className={styles.title}>Rule Form</h2>
-                <button onClick={() => setShowForm(true)}>Add Rule</button>
+                <button onClick={handleShowForm}>Add Rule</button>
                 {showForm && (
                     <RuleForm
                         formData={currentRule || { rules: "", comparison: "=", amount: "", color: "", product_id: "" }}
-                        handleChange={(e) => setCurrentRule({ ...currentRule, [e.target.name]: e.target.value })}
+                        handleChange={(e) => setCurrentRule((prev) => ({ ...(prev || {}), [e.target.name]: e.target.value }))}
                         handleSubmit={(e) => {
                             e.preventDefault();
                             if (currentRule && currentRule.id) {
@@ -87,7 +99,8 @@ const RuleManager = () => {
                         }}
                         setFormData={setCurrentRule}
                         setEditingRule={setCurrentRule}
-                        validateProductName={validateProductName} // Pass the validateProductName function
+                        validateProductName={validateProductName}
+                        handleColorChange={handleColorChange} // Pass the handleColorChange function
                     />
                 )}
             </div>
