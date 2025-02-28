@@ -3,17 +3,13 @@ import Select from "react-select";
 import styles from "./RuleForm.module.css";
 import { colors } from "../../utils/colors"; // Import colors
 
-const RuleForm = ({ formData, handleChange, handleSubmit, setFormData, setEditingRule, productName, validateProductName }) => {
+const RuleForm = ({ formData, handleChange, handleSubmit, setFormData, setEditingRule, productName, validateProductName, handleColorChange }) => {
     const [error, setError] = useState("");
 
     const colorOptions = colors.map(color => ({
         value: color.value,
         label: color.name
     }));
-
-    const handleColorChange = selectedOption => {
-        handleChange({ target: { name: "color", value: selectedOption.value } });
-    };
 
     const customSingleValue = ({ data }) => (
         <div className={styles.singleValue}>
