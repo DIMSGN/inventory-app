@@ -34,6 +34,10 @@ const ProductTable = ({ onAddProductClick }) => {
         setFormData((prevData) => ({ ...prevData, [name]: value }));
     };
 
+    const handleColorChange = (selectedOption) => {
+        setFormData((prevData) => ({ ...prevData, color: selectedOption.value }));
+    };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
