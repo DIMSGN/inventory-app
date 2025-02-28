@@ -40,6 +40,7 @@ const ProductTable = ({ onAddProductClick }) => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        console.log("Submitting form data:", formData); // Log form data
         try {
             await ruleService.addRule({ ...formData, product_id: currentProduct.product_id });
             setIsRuleModalOpen(false);

@@ -39,8 +39,14 @@ const RuleForm = ({ formData, handleChange, handleSubmit, setFormData, setEditin
         }
     };
 
+    const handleFormSubmit = (e) => {
+        e.preventDefault();
+        console.log("Submitting form data:", formData); // Log form data
+        handleSubmit(e);
+    };
+
     return (
-        <form onSubmit={handleSubmit} className={styles.form}>
+        <form onSubmit={handleFormSubmit} className={styles.form}>
             <label>
                 Rule:
                 <input

@@ -26,4 +26,4 @@ const RuleModal = ({ currentProduct, formData, handleChange, handleSubmit, setIs
     );
 };
 
-export default RuleModal;
+export default React.memo(RuleModal);
