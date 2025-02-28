@@ -37,6 +37,9 @@ const RuleForm = ({ formData, handleChange, handleSubmit, editingRule, setEditin
                     value={formData.rules}
                     onChange={handleChange}
                     required
+                    readOnly // Make the input read-only
+                    title="This field is automatically set based on the product name."
+                    placeholder="Product name"
                 />
             </label>
             <label>
@@ -46,6 +49,7 @@ const RuleForm = ({ formData, handleChange, handleSubmit, editingRule, setEditin
                     value={formData.comparison}
                     onChange={handleChange}
                     required
+                    title="Select the comparison operator."
                 >
                     <option value="=">=</option>
                     <option value="<">&lt;</option>
@@ -62,6 +66,8 @@ const RuleForm = ({ formData, handleChange, handleSubmit, editingRule, setEditin
                     value={formData.amount}
                     onChange={handleChange}
                     required
+                    placeholder="Enter the amount"
+                    title="Enter the amount for the rule."
                 />
             </label>
             <label>
@@ -90,6 +96,8 @@ const RuleForm = ({ formData, handleChange, handleSubmit, editingRule, setEditin
                             display: 'none'
                         })
                     }}
+                    placeholder="Select a color"
+                    title="Select a color for the rule."
                 />
             </label>
             <input
@@ -105,6 +113,14 @@ const RuleForm = ({ formData, handleChange, handleSubmit, editingRule, setEditin
                         Cancel
                     </button>
                 )}
+                <button type="button" onClick={() => setFormData({
+                    rules: "",
+                    comparison: "=",
+                    amount: "",
+                    color: ""
+                })}>
+                    Clear
+                </button>
             </div>
         </form>
     );
