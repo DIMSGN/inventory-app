@@ -3,7 +3,7 @@ import Select from "react-select";
 import styles from "./RuleForm.module.css";
 import { colors } from "../../utils/colors"; // Import colors
 
-const RuleForm = ({ formData, handleChange, handleSubmit, setFormData, setEditingRule, productName, validateProductName, handleColorChange }) => {
+const RuleForm = ({ formData, handleChange, handleSubmit, setFormData, setEditingRule, products, handleColorChange }) => {
     const [error, setError] = useState("");
 
     const colorOptions = colors.map(color => ({
@@ -25,17 +25,17 @@ const RuleForm = ({ formData, handleChange, handleSubmit, setFormData, setEditin
         </div>
     );
 
-    useEffect(() => {
-        if (productName) {
-            handleChange({ target: { name: "rules", value: productName } });
-        }
-    }, [productName, handleChange]);
+    const handleProductNameChange = (e) => {
+        const productName = e.target.value;
+        handleChange(e);
 
-    const handleBlur = () => {
-        if (validateProductName && !validateProductName(formData.rules)) {
-            setError("Invalid product name. Please enter a valid product name.");
-        } else {
+        const product = products.find(p => p.product_name === productName);
+        if (product) {
+            setFormData(prev => ({ ...prev, product_id: product.product_id }));
             setError("");
+        } else {
+            setFormData(prev => ({ ...prev, product_id: "" }));
+            setError("Invalid product name. Please enter a valid product name.");
         }
     };
 
@@ -53,10 +53,8 @@ const RuleForm = ({ formData, handleChange, handleSubmit, setFormData, setEditin
                     type="text"
                     name="rules"
                     value={formData.rules}
-                    onChange={handleChange}
-                    onBlur={handleBlur}
+                    onChange={handleProductNameChange}
                     required
-                    readOnly={!!productName} // Make the input read-only if productName is provided
                     title="Enter the product name for the rule."
                     placeholder="Product name"
                 />

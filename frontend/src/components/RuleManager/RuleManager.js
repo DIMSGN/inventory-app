@@ -99,7 +99,7 @@ const RuleManager = () => {
                         }}
                         setFormData={setCurrentRule}
                         setEditingRule={setCurrentRule}
-                        validateProductName={validateProductName}
+                        products={products} // Pass the list of products
                         handleColorChange={handleColorChange} // Pass the handleColorChange function
                     />
                 )}
