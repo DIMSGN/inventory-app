@@ -3,7 +3,7 @@ import Select from "react-select";
 import styles from "./RuleForm.module.css";
 import { colors } from "../../utils/colors"; // Import colors
 
-const RuleForm = ({ formData, handleChange, handleSubmit, editingRule, setEditingRule }) => {
+const RuleForm = ({ formData, handleChange, handleSubmit, editingRule, setEditingRule, setFormData }) => {
     const colorOptions = colors.map(color => ({
         value: color.value,
         label: color.name
