@@ -5,11 +5,6 @@ import styles from "./RuleList.module.css";
 const RuleList = ({ rules, handleEdit, handleDelete }) => {
     console.log("Rules prop:", rules);
 
-    if (!Array.isArray(rules)) {
-        console.log("Rules is not an array:", rules);
-        return <div>Error: Rules data is not an array</div>;
-    }
-
     if (rules.length === 0) {
         return <div>No rules available</div>;
     }
