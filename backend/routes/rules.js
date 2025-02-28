@@ -16,12 +16,12 @@ router.get("/", async (req, res) => {
 // POST /api/rules
 router.post("/", async (req, res) => {
     const { product_id, rules, comparison, amount, color } = req.body;
-    if (!product_id || !rules || !comparison || amount === undefined || !color) {
-        return res.status(400).json({ error: "All fields are required" });
+    if (!rules || !comparison || amount === undefined || !color) {
+        return res.status(400).json({ error: "All fields except product_id are required" });
     }
     const query = "INSERT INTO rules (product_id, rules, comparison, amount, color) VALUES (?, ?, ?, ?, ?)";
     try {
-        const results = await queryDatabase(query, [product_id, rules, comparison, amount, color]);
+        const results = await queryDatabase(query, [product_id || null, rules, comparison, amount, color]);
         res.status(201).json({ message: "Rule added", id: results.insertId });
     } catch (err) {
         console.error("Error adding rule:", err);
@@ -54,12 +54,9 @@ router.put("/:id", async (req, res) => {
 // DELETE /api/rules/:id
 router.delete("/:id", async (req, res) => {
     const { id } = req.params;
-    const query = "DELETE FROM rules WHERE id = ?";
+    const deleteQuery = "DELETE FROM rules WHERE id = ?";
     try {
-        const results = await queryDatabase(query, [id]);
-        if (results.affectedRows === 0) {
-            return res.status(404).json({ error: "Rule not found" });
-        }
+        await queryDatabase(deleteQuery, [id]);
         res.status(200).json({ message: "Rule deleted" });
     } catch (err) {
         console.error("Error deleting rule:", err);
