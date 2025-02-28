@@ -16,7 +16,7 @@ router.get("/", async (req, res) => {
 // POST /api/rules
 router.post("/", async (req, res) => {
     const { product_id, rules, comparison, amount, color } = req.body;
-    if (!rules || !comparison || amount === undefined || !color) {
+    if (!product_id || !rules || !comparison || amount === undefined || !color) {
         return res.status(400).json({ error: "All fields are required" });
     }
     const query = "INSERT INTO rules (product_id, rules, comparison, amount, color) VALUES (?, ?, ?, ?, ?)";

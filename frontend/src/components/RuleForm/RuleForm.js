@@ -138,7 +138,8 @@ const RuleForm = ({ formData, handleChange, handleSubmit, setFormData, setEditin
                         rules: "",
                         comparison: "=",
                         amount: "",
-                        color: ""
+                        color: "",
+                        product_id: formData.product_id // Ensure product_id is included
                     })}>
                         Clear
                     </button>

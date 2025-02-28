@@ -12,7 +12,7 @@ const RuleModal = ({ currentProduct, formData, handleChange, handleSubmit, setIs
             <div className={styles.modalContent}>
                 <h2>Add Rule for {currentProduct.product_name}</h2>
                 <RuleForm
-                    formData={formData}
+                    formData={{ ...formData, product_id: currentProduct.product_id }} // Ensure product_id is included
                     handleChange={handleChange}
                     handleSubmit={handleSubmit}
                     setFormData={null} // No need to clear form data in modal
