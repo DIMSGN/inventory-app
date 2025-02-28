@@ -7,7 +7,6 @@ const RuleList = ({ rules, handleEdit, handleDelete }) => {
 
     if (!Array.isArray(rules)) {
         console.log("Rules is not an array:", rules);
-        return <div>Loading...</div>;
     }
 
     if (rules.length === 0) {
