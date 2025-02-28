@@ -13,6 +13,7 @@ const RuleModal = ({ currentProduct, formData, handleChange, handleSubmit, setIs
                     handleSubmit={handleSubmit}
                     setFormData={null} // No need to clear form data in modal
                     setEditingRule={null} // No need to handle editing rule in modal
+                    productName={currentProduct.product_name} // Pass the product name
                 />
                 <button type="button" onClick={() => setIsRuleModalOpen(false)}>Cancel</button>
             </div>

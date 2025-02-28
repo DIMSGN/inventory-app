@@ -1,9 +1,11 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Select from "react-select";
 import styles from "./RuleForm.module.css";
 import { colors } from "../../utils/colors"; // Import colors
 
-const RuleForm = ({ formData, handleChange, handleSubmit, setFormData, setEditingRule }) => {
+const RuleForm = ({ formData, handleChange, handleSubmit, setFormData, setEditingRule, productName, validateProductName }) => {
+    const [error, setError] = useState("");
+
     const colorOptions = colors.map(color => ({
         value: color.value,
         label: color.name
@@ -27,6 +29,20 @@ const RuleForm = ({ formData, handleChange, handleSubmit, setFormData, setEditin
         </div>
     );
 
+    useEffect(() => {
+        if (productName) {
+            handleChange({ target: { name: "rules", value: productName } });
+        }
+    }, [productName, handleChange]);
+
+    const handleBlur = () => {
+        if (validateProductName && !validateProductName(formData.rules)) {
+            setError("Invalid product name. Please enter a valid product name.");
+        } else {
+            setError("");
+        }
+    };
+
     return (
         <form onSubmit={handleSubmit} className={styles.form}>
             <label>
@@ -36,11 +52,13 @@ const RuleForm = ({ formData, handleChange, handleSubmit, setFormData, setEditin
                     name="rules"
                     value={formData.rules}
                     onChange={handleChange}
+                    onBlur={handleBlur}
                     required
-                    readOnly // Make the input read-only
-                    title="This field is automatically set based on the product name."
+                    readOnly={!!productName} // Make the input read-only if productName is provided
+                    title="Enter the product name for the rule."
                     placeholder="Product name"
                 />
+                {error && <span className={styles.error}>{error}</span>}
             </label>
             <label>
                 Comparison:

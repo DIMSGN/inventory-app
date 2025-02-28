@@ -11,7 +11,7 @@ const RuleManager = () => {
     const [rules, setRules] = useState([]);
     const [currentRule, setCurrentRule] = useState(null);
     const [showForm, setShowForm] = useState(false); // State to control form visibility
-    const { fetchProducts, categories } = useContext(ProductContext);
+    const { fetchProducts, categories, products } = useContext(ProductContext);
 
     const { data: fetchedRules, loading, error } = useFetch(`${process.env.REACT_APP_API_URL}/rules`);
 
@@ -56,6 +56,10 @@ const RuleManager = () => {
         }
     };
 
+    const validateProductName = (name) => {
+        return products.some(product => product.product_name === name);
+    };
+
     if (loading) {
         return <div>Loading...</div>;
     }
@@ -71,7 +75,7 @@ const RuleManager = () => {
                 <button onClick={() => setShowForm(true)}>Add Rule</button>
                 {showForm && (
                     <RuleForm
-                        formData={currentRule || { rules: "", comparison: "", amount: "", color: "", product_id: "" }}
+                        formData={currentRule || { rules: "", comparison: "=", amount: "", color: "", product_id: "" }}
                         handleChange={(e) => setCurrentRule({ ...currentRule, [e.target.name]: e.target.value })}
                         handleSubmit={(e) => {
                             e.preventDefault();
@@ -83,6 +87,7 @@ const RuleManager = () => {
                         }}
                         setFormData={setCurrentRule}
                         setEditingRule={setCurrentRule}
+                        validateProductName={validateProductName} // Pass the validateProductName function
                     />
                 )}
             </div>
