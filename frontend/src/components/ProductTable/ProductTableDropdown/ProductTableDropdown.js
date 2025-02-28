@@ -1,17 +1,17 @@
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
 import styles from "./ProductTableDropdown.module.css";
 
 const ProductTableDropdown = ({ name, value, onChange, options }) => {
     const [isOpen, setIsOpen] = useState(false);
 
-    const handleOptionClick = (optionValue) => {
+    const handleOptionClick = useCallback((optionValue) => {
         onChange({ target: { name, value: optionValue } });
         setIsOpen(false);
-    };
+    }, [onChange, name]);
 
-    const handleDropdownToggle = () => {
+    const handleDropdownToggle = useCallback(() => {
         setIsOpen(!isOpen);
-    };
+    }, [isOpen]);
 
     const activeOption = Array.isArray(options) ? options.find(option => option.id === value) || options[0] : null;
 
@@ -19,8 +19,6 @@ const ProductTableDropdown = ({ name, value, onChange, options }) => {
         console.error("options is not an array:", options);
         return <div>Error loading dropdown</div>;
     }
-
-    console.log("Active option:", activeOption);
 
     return (
         <div className={styles.dropdownContainer}>
@@ -46,4 +44,4 @@ const ProductTableDropdown = ({ name, value, onChange, options }) => {
     );
 };
 
-export default ProductTableDropdown;
+export default React.memo(ProductTableDropdown);
