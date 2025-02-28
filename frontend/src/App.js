@@ -52,29 +52,33 @@ const App = () => {
             <ProductTable onAddProductClick={() => setShowProductManager(true)} />
             {showProductManager && <ProductManager onClose={() => setShowProductManager(false)} />}
             {editingProduct && <EditProductForm />}
-            <button onClick={handleShowForm}>Add Rule</button>
-            <button onClick={handleToggleRuleList}>{showRuleList ? "Hide Rule List" : "Show Rule List"}</button>
-            {showForm && (
-                <RuleForm
-                    formData={currentRule || { rules: "", comparison: "=", amount: "", color: "", product_id: "" }}
-                    handleChange={(e) => setCurrentRule((prev) => ({ ...(prev || {}), [e.target.name]: e.target.value }))}
-                    handleSubmit={(e) => {
-                        e.preventDefault();
-                        if (currentRule && currentRule.id) {
-                            handleUpdateRule(currentRule, setRules, setCurrentRule, setShowForm);
-                        } else {
-                            handleAddRule(currentRule, setRules, setShowForm);
-                        }
-                    }}
-                    setFormData={setCurrentRule}
-                    setEditingRule={setCurrentRule}
-                    products={products} // Pass the list of products
-                    handleColorChange={(selectedOption) => handleColorChange(selectedOption, setCurrentRule)} // Pass the handleColorChange function
-                />
-            )}
-            {showRuleList && (
-                <RuleList rules={rules} handleEdit={(rule) => handleEditRule(rule, setCurrentRule, setShowForm)} handleDelete={(id) => handleDeleteRule(id, setRules)} />
-            )}
+            <div className={styles.controls}>
+                <button onClick={handleShowForm}>Add Rule</button>
+                <button onClick={handleToggleRuleList}>{showRuleList ? "Hide Rule List" : "Show Rule List"}</button>
+            </div>
+            <div className={styles.ruleContainer}>
+                {showForm && (
+                    <RuleForm
+                        formData={currentRule || { rules: "", comparison: "=", amount: "", color: "", product_id: "" }}
+                        handleChange={(e) => setCurrentRule((prev) => ({ ...(prev || {}), [e.target.name]: e.target.value }))}
+                        handleSubmit={(e) => {
+                            e.preventDefault();
+                            if (currentRule && currentRule.id) {
+                                handleUpdateRule(currentRule, setRules, setCurrentRule, setShowForm);
+                            } else {
+                                handleAddRule(currentRule, setRules, setShowForm);
+                            }
+                        }}
+                        setFormData={setCurrentRule}
+                        setEditingRule={setCurrentRule}
+                        products={products} // Pass the list of products
+                        handleColorChange={(selectedOption) => handleColorChange(selectedOption, setCurrentRule)} // Pass the handleColorChange function
+                    />
+                )}
+                {showRuleList && (
+                    <RuleList rules={rules} handleEdit={(rule) => handleEditRule(rule, setCurrentRule, setShowForm)} handleDelete={(id) => handleDeleteRule(id, setRules)} />
+                )}
+            </div>
         </div>
     );
 };

@@ -1,4 +1,21 @@
 /* 
+  .listContainer class:
+  Styles the container for the list with padding, background color, border, border radius, max width, margin, box shadow, display, flex direction, and gap.
+*/
+.listContainer {
+    padding: 20px;
+    background-color: #ffffff;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    max-width: 800px;
+    margin: 20px auto;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* 
   .list class:
   Styles the list element to remove default list styling.
   Adds padding and margin.
@@ -70,12 +87,12 @@
 }
 
 .editButton {
-    background-color: #008cff; /* Green background color */
+    background-color: #008cff; /* Blue background color */
     color: white; /* White text color */
 }
 
 .editButton:hover {
-    background-color: #0066b9; /* Darker green background color on hover */
+    background-color: #0066b9; /* Darker blue background color on hover */
 }
 
 .deleteButton {
