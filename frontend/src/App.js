@@ -21,6 +21,7 @@ const App = () => {
     const [showRuleList, setShowRuleList] = useState(false);
     const [rules, setRules] = useState([]);
     const [currentRule, setCurrentRule] = useState(null);
+    const [showForm, setShowForm] = useState(false); // Add state for showing form
     const { editingProduct, fetchProducts, categories, products } = useContext(ProductContext);
 
     const { data: fetchedRules, loading, error } = useFetch(`${process.env.REACT_APP_API_URL}/rules`);
