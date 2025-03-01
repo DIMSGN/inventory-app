@@ -1,9 +1,27 @@
-import { useEffect, useRef, useCallback, useState } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import { fetchData, updateData, deleteData } from "../utils/apiUtils"; // Updated path
 
-const ProductOperations = ({ setFilteredProducts, setCategories, setEditingProduct }) => {
+/**
+ * Custom hook to handle form state, changes, and product operations.
+ * @param {Object} initialValues - The initial values for the form.
+ * @param {Function} setFilteredProducts - Function to set filtered products.
+ * @param {Function} setCategories - Function to set categories.
+ * @param {Function} setEditingProduct - Function to set the editing product.
+ * @returns {Object} - The form state, handleChange function, resetForm function, and product operations.
+ */
+const useProductOperations = (initialValues, setFilteredProducts, setCategories, setEditingProduct) => {
+    const [formData, setFormData] = useState(initialValues);
     const productTableRef = useRef();
     const [products, setProducts] = useState([]); // Initialize state as an empty array
+
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setFormData((prevData) => ({ ...prevData, [name]: value }));
+    };
+
+    const resetForm = () => {
+        setFormData(initialValues);
+    };
 
     const fetchProducts = useCallback(async () => {
         try {
@@ -62,6 +80,9 @@ const ProductOperations = ({ setFilteredProducts, setCategories, setEditingProdu
     };
 
     return {
+        formData,
+        handleChange,
+        resetForm,
         productTableRef,
         handleFilterChange,
         handleEditProduct,
@@ -72,4 +93,4 @@ const ProductOperations = ({ setFilteredProducts, setCategories, setEditingProdu
     };
 };
 
-export default ProductOperations;
+export default useProductOperations;

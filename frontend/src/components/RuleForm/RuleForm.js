@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import Select from "react-select";
 import styles from "./RuleForm.module.css";
 import { colors } from "../../utils/colors"; // Import colors
-import useForm from "../../hooks/useForm"; // Import useForm
+import useProductOperations from "../../hooks/useProductOperations"; // Import useProductOperations
 
 const RuleForm = ({ formData, handleChange, handleSubmit, setFormData, setEditingRule, products, handleColorChange }) => {
     const [error, setError] = useState("");

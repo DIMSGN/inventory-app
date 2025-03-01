@@ -1,11 +1,16 @@
 import React, { useContext, useEffect } from "react";
 import { ProductContext } from "../../context/ProductContext";
-import useForm from "../../hooks/useForm"; // Import useForm
+import useProductOperations from "../../hooks/useProductOperations"; // Import useProductOperations
 import styles from "./EditProductForm.module.css";
 
 const EditProductForm = () => {
-    const { editingProduct, handleUpdateProduct, setEditingProduct } = useContext(ProductContext);
-    const { formData, handleChange, resetForm } = useForm(editingProduct || {});
+    const { editingProduct, setEditingProduct, setFilteredProducts, setCategories } = useContext(ProductContext);
+    const { formData, handleChange, resetForm, handleUpdateProduct } = useProductOperations(
+        editingProduct || {},
+        setFilteredProducts,
+        setCategories,
+        setEditingProduct
+    );
 
     useEffect(() => {
         resetForm(editingProduct || {});

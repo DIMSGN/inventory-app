@@ -8,18 +8,10 @@ import exportOrderRequirements from "../../utils/exportOrderRequirements";
 import { exportToPDF } from "../../utils/exportToPDF";
 import RuleModal from "./RuleModal/RuleModal";
 import EditProductForm from "../EditProductForm/EditProductForm"; // Import EditProductForm
-import {
-    handleAddRule,
-    handleEditRule,
-    handleUpdateRule,
-    handleDeleteRule,
-    handleColorChange,
-    validateProductName
-} from "../../utils/ruleHandlers";
-import ProductOperations from "../../hooks/ProductOperations"; // Import ProductOperations
+import useProductOperations from "../../hooks/useProductOperations"; // Import useProductOperations
 
 const ProductTable = ({ onAddProductClick, onToggleRuleList, showRuleList }) => {
-    const { filteredProducts, rules, setRules, editingProduct, setEditingProduct } = useContext(ProductContext);
+    const { filteredProducts, rules, setRules, editingProduct, setEditingProduct, setFilteredProducts, setCategories } = useContext(ProductContext);
     const [currentProduct, setCurrentProduct] = useState(null);
     const [isRuleModalOpen, setIsRuleModalOpen] = useState(false);
     const [formData, setFormData] = useState({
@@ -45,6 +37,27 @@ const ProductTable = ({ onAddProductClick, onToggleRuleList, showRuleList }) => 
         setFormData((prevData) => ({ ...prevData, [name]: value }));
     };
 
+    const handleAddRule = async (newRule, setRules, setShowForm) => {
+        try {
+            // Assuming you have an API endpoint to add a new rule
+            const response = await fetch("/api/rules", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(newRule)
+            });
+            if (!response.ok) {
+                throw new Error("Failed to add rule");
+            }
+            const addedRule = await response.json();
+            setRules((prevRules) => [...prevRules, addedRule]);
+            setShowForm(false);
+        } catch (error) {
+            console.error("Error adding rule:", error);
+        }
+    };
+
     const handleFormSubmit = async (e) => {
         e.preventDefault();
         console.log("Submitting form data:", formData);
@@ -57,11 +70,12 @@ const ProductTable = ({ onAddProductClick, onToggleRuleList, showRuleList }) => 
         }
     };
 
-    const { handleFilterChange, handleEditProduct, handleUpdateProduct, handleDeleteProduct, handleCancelEdit } = ProductOperations({
-        setFilteredProducts: filteredProducts,
-        setCategories: setRules,
-        setEditingProduct: setEditingProduct // Use setEditingProduct from context
-    });
+    const { handleFilterChange, handleEditProduct, handleUpdateProduct, handleDeleteProduct, handleCancelEdit } = useProductOperations(
+        {},
+        setFilteredProducts,
+        setCategories,
+        setEditingProduct
+    );
 
     return (
         <div className={styles.productTableContainer}>

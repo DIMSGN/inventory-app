@@ -3,18 +3,22 @@ import { ProductContext } from "../../context/ProductContext";
 import productService from "../../services/productService";
 import Button from "../common/Button/Button";
 import styles from "./AddProductForm.module.css";
-import useForm from "../../hooks/useForm"; // Import useForm
-import ProductOperations from "../../hooks/ProductOperations"; // Import ProductOperations
+import useProductOperations from "../../hooks/useProductOperations"; // Import useProductOperations
 
 const AddProductForm = ({ onClose }) => {
-    const { fetchProducts, categories } = useContext(ProductContext);
-    const { formData, handleChange, resetForm, setFormData } = useForm({
-        product_id: "",
-        product_name: "",
-        unit: "",
-        category: "",
-        amount: ""
-    });
+    const { fetchProducts, categories, setFilteredProducts, setCategories, setEditingProduct } = useContext(ProductContext);
+    const { formData, handleChange, resetForm, setFormData } = useProductOperations(
+        {
+            product_id: "",
+            product_name: "",
+            unit: "",
+            category: "",
+            amount: ""
+        },
+        setFilteredProducts,
+        setCategories,
+        setEditingProduct
+    );
     const [newCategory, setNewCategory] = useState("");
     const [isAddingCategory, setIsAddingCategory] = useState(false);
 
@@ -38,12 +42,6 @@ const AddProductForm = ({ onClose }) => {
             setIsAddingCategory(false);
         }
     };
-
-    const { handleFilterChange, handleEditProduct, handleUpdateProduct, handleDeleteProduct, handleCancelEdit } = ProductOperations({
-        setFilteredProducts: fetchProducts,
-        setCategories: fetchProducts,
-        setEditingProduct: fetchProducts
-    });
 
     return (
         <div>
