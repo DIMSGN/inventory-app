@@ -8,7 +8,6 @@ const ProductOperations = ({ setFilteredProducts, setCategories, setEditingProdu
     const fetchProducts = useCallback(async () => {
         try {
             const response = await fetchData("/products");
-            console.log("Fetched response:", response);
             if (!Array.isArray(response)) {
                 throw new Error("Expected an array but got: " + JSON.stringify(response));
             }
@@ -18,7 +17,6 @@ const ProductOperations = ({ setFilteredProducts, setCategories, setEditingProdu
             setCategories(uniqueCategories);
         } catch (error) {
             console.error("Error fetching products:", error);
-            alert(`Failed to fetch products: ${error.response?.data?.error || error.message}`);
         }
     }, [setProducts, setFilteredProducts, setCategories]);
 
@@ -47,7 +45,6 @@ const ProductOperations = ({ setFilteredProducts, setCategories, setEditingProdu
             setEditingProduct(null);
         } catch (error) {
             console.error("Error updating product:", error);
-            alert(`Failed to update product: ${error.response?.data?.error || error.message}`);
         }
     };
 
@@ -57,7 +54,6 @@ const ProductOperations = ({ setFilteredProducts, setCategories, setEditingProdu
             fetchProducts();
         } catch (error) {
             console.error("Error deleting product:", error);
-            alert(`Failed to delete product: ${error.response?.data?.error || error.message}`);
         }
     };
 

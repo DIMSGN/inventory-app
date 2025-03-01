@@ -1,13 +1,11 @@
 import axios from "axios";
 
 const API_BASE_URL = process.env.REACT_APP_API_URL;
-console.log("API_BASE_URL:", API_BASE_URL); // Add this line to log the base URL
 
 export const fetchData = async (url) => {
     try {
         const response = await axios.get(`${API_BASE_URL}${url}`);
         if (response.headers['content-type'].includes('application/json')) {
-            console.log("API Response Data:", response.data);
             return response.data;
         } else {
             console.error('Unexpected response format:', response);
