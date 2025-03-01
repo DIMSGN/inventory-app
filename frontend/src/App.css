@@ -17,9 +17,6 @@ code {
 
 /* Container Styles */
 .container {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
   padding: 20px;
   background-color: #f9f9f9;
   border: 1px solid #ddd;
@@ -27,6 +24,29 @@ code {
   max-width: 1920px;
   margin: 20px auto;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.controls {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.ruleContainer {
+  overflow: hidden; /* Clear floats */
+}
+
+.column1 {
+  float: left;
+  width: 50%;
+}
+
+.column2 {
+  float: right;
+  width: 50%;
 }
 
 /* App Header Styles */
@@ -87,21 +107,4 @@ code {
     flex-direction: column;
     gap: 5px;
   }
-}
-
-.controls {
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 20px;
-}
-
-.ruleContainer {
-  display: flex;
-  justify-content: space-between;
-  gap: 20px;
-}
-
-.ruleContainer > div {
-  flex: 1;
-  max-width: 800px;
 }

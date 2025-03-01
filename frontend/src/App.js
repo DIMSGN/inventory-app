@@ -4,7 +4,7 @@ import Header from "./components/Header/Header";
 import ProductTable from "./components/ProductTable/ProductTable";
 import RuleForm from "./components/RuleForm/RuleForm";
 import RuleList from "./components/RuleList/RuleList";
-import ProductManager from "./components/ProductManager/ProductManager";
+import AddProductForm from "./components/AddProductForm/AddProductForm"; // Updated import
 import EditProductForm from "./components/EditProductForm/EditProductForm";
 import useFetch from "./hooks/useFetch";
 import {
@@ -50,7 +50,7 @@ const App = () => {
         <div className={styles.container}>
             <Header />
             <ProductTable onAddProductClick={() => setShowProductManager(true)} />
-            {showProductManager && <ProductManager onClose={() => setShowProductManager(false)} />}
+            {showProductManager && <AddProductForm onClose={() => setShowProductManager(false)} />} {/* Updated usage */}
             {editingProduct && <EditProductForm />}
             <div className={styles.controls}>
                 <button onClick={handleShowForm}>Add Rule</button>
@@ -58,25 +58,29 @@ const App = () => {
             </div>
             <div className={styles.ruleContainer}>
                 {showForm && (
-                    <RuleForm
-                        formData={currentRule || { rules: "", comparison: "=", amount: "", color: "", product_id: "" }}
-                        handleChange={(e) => setCurrentRule((prev) => ({ ...(prev || {}), [e.target.name]: e.target.value }))}
-                        handleSubmit={(e) => {
-                            e.preventDefault();
-                            if (currentRule && currentRule.id) {
-                                handleUpdateRule(currentRule, setRules, setCurrentRule, setShowForm);
-                            } else {
-                                handleAddRule(currentRule, setRules, setShowForm);
-                            }
-                        }}
-                        setFormData={setCurrentRule}
-                        setEditingRule={setCurrentRule}
-                        products={products} // Pass the list of products
-                        handleColorChange={(selectedOption) => handleColorChange(selectedOption, setCurrentRule)} // Pass the handleColorChange function
-                    />
+                    <div className={styles.column1}>
+                        <RuleForm
+                            formData={currentRule || { rules: "", comparison: "=", amount: "", color: "", product_id: "" }}
+                            handleChange={(e) => setCurrentRule((prev) => ({ ...(prev || {}), [e.target.name]: e.target.value }))}
+                            handleSubmit={(e) => {
+                                e.preventDefault();
+                                if (currentRule && currentRule.id) {
+                                    handleUpdateRule(currentRule, setRules, setCurrentRule, setShowForm);
+                                } else {
+                                    handleAddRule(currentRule, setRules, setShowForm);
+                                }
+                            }}
+                            setFormData={setCurrentRule}
+                            setEditingRule={setCurrentRule}
+                            products={products} // Pass the list of products
+                            handleColorChange={(selectedOption) => handleColorChange(selectedOption, setCurrentRule)} // Pass the handleColorChange function
+                        />
+                    </div>
                 )}
                 {showRuleList && (
-                    <RuleList rules={rules} handleEdit={(rule) => handleEditRule(rule, setCurrentRule, setShowForm)} handleDelete={(id) => handleDeleteRule(id, setRules)} />
+                    <div className={styles.column2}>
+                        <RuleList rules={rules} handleEdit={(rule) => handleEditRule(rule, setCurrentRule, setShowForm)} handleDelete={(id) => handleDeleteRule(id, setRules)} />
+                    </div>
                 )}
             </div>
         </div>

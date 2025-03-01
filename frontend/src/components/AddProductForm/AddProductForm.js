@@ -2,9 +2,9 @@ import React, { useState, useContext } from "react";
 import { ProductContext } from "../../context/ProductContext";
 import productService from "../../services/productService";
 import Button from "../common/Button/Button";
-import styles from "./ProductManager.module.css";
+import styles from "./AddProductForm.module.css";
 
-const ProductManager = ({ onClose }) => {
+const AddProductForm = ({ onClose }) => {
     const { fetchProducts, categories } = useContext(ProductContext);
     const [formData, setFormData] = useState({
         product_id: "",
@@ -43,7 +43,7 @@ const ProductManager = ({ onClose }) => {
     };
 
     return (
-        <div className={styles.container}>
+        <div>
             <h2 className={styles.heading}>Add New Product</h2>
             <form onSubmit={handleSubmit} className={styles.form}>
                 <label>
@@ -122,11 +122,13 @@ const ProductManager = ({ onClose }) => {
                         required
                     />
                 </label>
-                <Button type="submit">Add Product</Button>
-                <Button type="button" onClick={onClose}>Cancel</Button>
+                <div className={styles.buttonGroup}>
+                    <Button type="submit">Add Product</Button>
+                    <Button type="button" onClick={onClose}>Cancel</Button>
+                </div>
             </form>
         </div>
     );
 };
 
-export default ProductManager;
+export default AddProductForm;
