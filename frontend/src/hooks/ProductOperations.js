@@ -1,5 +1,5 @@
 import { useEffect, useRef, useCallback, useState } from "react";
-import { fetchData, updateData, deleteData } from "../../utils/apiUtils";
+import { fetchData, updateData, deleteData } from "../utils/apiUtils"; // Updated path
 
 const ProductOperations = ({ setFilteredProducts, setCategories, setEditingProduct }) => {
     const productTableRef = useRef();

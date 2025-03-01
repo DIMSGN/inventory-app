@@ -3,7 +3,6 @@ import Button from "../common/Button/Button";
 import styles from "./RuleList.module.css";
 
 const RuleList = ({ rules, handleEdit, handleDelete }) => {
-
     if (rules.length === 0) {
         return <div>No rules available</div>;
     }

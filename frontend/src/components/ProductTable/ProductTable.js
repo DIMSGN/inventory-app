@@ -15,9 +15,10 @@ import {
     handleColorChange,
     validateProductName
 } from "../../utils/ruleHandlers";
+import ProductOperations from "../../hooks/ProductOperations"; // Import ProductOperations
 
 const ProductTable = ({ onAddProductClick, onToggleRuleList, showRuleList }) => {
-    const { filteredProducts, rules, handleEditProduct, handleDeleteProduct, setRules } = useContext(ProductContext);
+    const { filteredProducts, rules, setRules } = useContext(ProductContext);
     const [currentProduct, setCurrentProduct] = useState(null);
     const [isRuleModalOpen, setIsRuleModalOpen] = useState(false);
     const [formData, setFormData] = useState({
@@ -54,6 +55,12 @@ const ProductTable = ({ onAddProductClick, onToggleRuleList, showRuleList }) => 
             console.error("Error adding rule:", error);
         }
     };
+
+    const { handleFilterChange, handleEditProduct, handleUpdateProduct, handleDeleteProduct, handleCancelEdit } = ProductOperations({
+        setFilteredProducts: filteredProducts,
+        setCategories: setRules,
+        setEditingProduct: setCurrentProduct
+    });
 
     return (
         <div className={styles.productTableContainer}>

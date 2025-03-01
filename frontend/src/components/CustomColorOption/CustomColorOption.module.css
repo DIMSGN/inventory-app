@@ -9,3 +9,16 @@
     margin-right: 10px;
     border: 1px solid #ccc;
 }
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+    .option {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .colorBox {
+        margin-right: 0;
+        margin-bottom: 10px;
+    }
+}

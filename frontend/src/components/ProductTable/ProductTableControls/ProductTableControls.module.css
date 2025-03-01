@@ -4,14 +4,14 @@
     align-items: center;
     margin-bottom: 20px;
     padding: 10px;
-    background-color: #d8d8d8; /* Light background color for contrast */
-    border-radius: 8px; /* Rounded corners for a modern look */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+    background-color: #d8d8d8;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .buttonGroup {
     display: flex;
-    gap: 20px; /* Space between buttons */
+    gap: 20px;
 }
 
 .exportButton, .addButton, .exportOrdersButton {
@@ -27,21 +27,34 @@
 
 .exportButton:hover, .addButton:hover, .exportOrdersButton:hover {
     background-color: #0066b9;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Shadow on hover for depth */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 .exportButton {
-    background-color: #008CBA; 
+    background-color: #008CBA;
 }
 
 .addButton:hover {
-    background-color: rgb(59, 117, 0); 
+    background-color: rgb(59, 117, 0);
 }
 
 .addButton {
-    background-color: rgb(74, 148, 0); 
+    background-color: rgb(74, 148, 0);
 }
 
 .exportOrdersButton {
-    background-color: #008CBA; 
+    background-color: #008CBA;
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+    .controls {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .buttonGroup {
+        flex-direction: column;
+        gap: 10px;
+    }
 }

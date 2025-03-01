@@ -5,6 +5,7 @@ import ProductTable from "./components/ProductTable/ProductTable";
 import RuleList from "./components/RuleList/RuleList";
 import AddProductForm from "./components/AddProductForm/AddProductForm"; // Updated import
 import EditProductForm from "./components/EditProductForm/EditProductForm";
+import RuleForm from "./components/RuleForm/RuleForm"; // Import RuleForm
 import useFetch from "./hooks/useFetch";
 import {
     handleAddRule,
@@ -54,6 +55,17 @@ const App = () => {
                         handleDelete={(id) => handleDeleteRule(id, setRules)}
                     />
                 </div>
+            )}
+            {showForm && (
+                <RuleForm
+                    formData={currentRule}
+                    handleChange={(e) => setCurrentRule({ ...currentRule, [e.target.name]: e.target.value })}
+                    handleSubmit={(e) => handleUpdateRule(currentRule, setRules, setCurrentRule, setShowForm)}
+                    setFormData={setCurrentRule}
+                    setEditingRule={setCurrentRule}
+                    products={products} // Pass the products list
+                    handleColorChange={(selectedOption) => handleColorChange(selectedOption, setCurrentRule)}
+                />
             )}
         </div>
     );

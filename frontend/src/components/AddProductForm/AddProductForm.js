@@ -3,6 +3,7 @@ import { ProductContext } from "../../context/ProductContext";
 import productService from "../../services/productService";
 import Button from "../common/Button/Button";
 import styles from "./AddProductForm.module.css";
+import ProductOperations from "../../hooks/ProductOperations"; // Import ProductOperations
 
 const AddProductForm = ({ onClose }) => {
     const { fetchProducts, categories } = useContext(ProductContext);
@@ -41,6 +42,12 @@ const AddProductForm = ({ onClose }) => {
             setIsAddingCategory(false);
         }
     };
+
+    const { handleFilterChange, handleEditProduct, handleUpdateProduct, handleDeleteProduct, handleCancelEdit } = ProductOperations({
+        setFilteredProducts: fetchProducts,
+        setCategories: fetchProducts,
+        setEditingProduct: fetchProducts
+    });
 
     return (
         <div>

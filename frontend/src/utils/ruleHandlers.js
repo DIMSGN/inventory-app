@@ -2,8 +2,8 @@ import ruleService from "../services/ruleService";
 
 export const handleAddRule = async (rule, setRules, setShowForm) => {
     try {
-        await ruleService.addRule(rule);
-        setRules(prevRules => [...prevRules, rule]);
+        const newRule = await ruleService.addRule(rule);
+        setRules(prevRules => [...prevRules, newRule]);
         setShowForm(false); // Hide form after adding rule
     } catch (error) {
         console.error("Error adding rule:", error);

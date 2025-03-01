@@ -29,13 +29,17 @@ const RuleForm = ({ formData, handleChange, handleSubmit, setFormData, setEditin
         const productName = e.target.value;
         handleChange(e);
 
-        const product = products.find(p => p.product_name === productName);
-        if (product) {
-            setFormData(prev => ({ ...prev, product_id: product.product_id }));
-            setError("");
+        if (products) {
+            const product = products.find(p => p.product_name === productName);
+            if (product) {
+                setFormData(prev => ({ ...prev, product_id: product.product_id }));
+                setError("");
+            } else {
+                setFormData(prev => ({ ...prev, product_id: "" }));
+                setError("Invalid product name. Please enter a valid product name.");
+            }
         } else {
-            setFormData(prev => ({ ...prev, product_id: "" }));
-            setError("Invalid product name. Please enter a valid product name.");
+            setError("Products list is not available.");
         }
     };
 

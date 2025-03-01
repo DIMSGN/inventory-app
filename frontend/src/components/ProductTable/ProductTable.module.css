@@ -15,7 +15,7 @@
     margin-bottom: 20px;
     font-size: 24px;
     font-weight: bold;
-    color: #333333; /* Dark text color for contrast */
+    color: #333333;
     text-align: center;
 }
 
@@ -64,19 +64,19 @@
 
 .productTableControls .exportButton:hover, .productTableControls .addButton:hover, .productTableControls .exportOrdersButton:hover {
     background-color: #0066b9;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Shadow on hover for depth */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 .productTableControls .exportButton {
-    background-color: #4CAF50; /* Green color for Export to PDF */
+    background-color: #4CAF50;
 }
 
 .productTableControls .addButton {
-    background-color: #008CBA; /* Blue color for Add Product */
+    background-color: #008CBA;
 }
 
 .productTableControls .exportOrdersButton {
-    background-color: #FF9800; /* Orange color for Export Orders */
+    background-color: #FF9800;
 }
 
 .controls {
@@ -179,7 +179,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    z-index: 1000; /* Ensure the modal is above all other elements */
+    z-index: 1000;
 }
 
 .modalContent {
@@ -208,7 +208,7 @@
 
 .actionsCell {
     background-color: #ffffff;
-    z-index: 1; /* Ensure it is below the modal */
+    z-index: 1;
     position: relative;
 }
 
