@@ -2,15 +2,23 @@ import React, { useContext, useState } from "react";
 import { ProductContext } from "../../context/ProductContext";
 import ProductTableControls from "./ProductTableControls/ProductTableControls";
 import ProductTableRow from "./ProductTableRow/ProductTableRow";
-import { openRuleModal } from "../../utils/openRuleModal"; // Import openRuleModal
-import ruleService from "../../services/ruleService"; // Import ruleService
+import { openRuleModal } from "../../utils/openRuleModal";
 import styles from "./ProductTable.module.css";
 import exportOrderRequirements from "../../utils/exportOrderRequirements";
 import { exportToPDF } from "../../utils/exportToPDF";
-import RuleModal from "./RuleModal/RuleModal"; // Import RuleModal
+import RuleModal from "./RuleModal/RuleModal";
+import RuleList from "../RuleList/RuleList";
+import {
+    handleAddRule,
+    handleEditRule,
+    handleUpdateRule,
+    handleDeleteRule,
+    handleColorChange,
+    validateProductName
+} from "../../utils/ruleHandlers";
 
 const ProductTable = ({ onAddProductClick }) => {
-    const { filteredProducts, rules, handleEditProduct, handleDeleteProduct } = useContext(ProductContext);
+    const { filteredProducts, rules, handleEditProduct, handleDeleteProduct, setRules } = useContext(ProductContext); // Add setRules
     const [currentProduct, setCurrentProduct] = useState(null);
     const [isRuleModalOpen, setIsRuleModalOpen] = useState(false);
     const [formData, setFormData] = useState({
@@ -19,6 +27,9 @@ const ProductTable = ({ onAddProductClick }) => {
         amount: "",
         color: ""
     });
+    const [showRuleList, setShowRuleList] = useState(false);
+    const [currentRule, setCurrentRule] = useState(null);
+    const [showForm, setShowForm] = useState(false);
 
     const resetForm = () => {
         setFormData({
@@ -34,20 +45,20 @@ const ProductTable = ({ onAddProductClick }) => {
         setFormData((prevData) => ({ ...prevData, [name]: value }));
     };
 
-    const handleColorChange = (selectedOption) => {
-        setFormData((prevData) => ({ ...prevData, color: selectedOption.value }));
-    };
-
-    const handleSubmit = async (e) => {
+    const handleFormSubmit = async (e) => {
         e.preventDefault();
-        console.log("Submitting form data:", formData); // Log form data
+        console.log("Submitting form data:", formData);
         try {
-            await ruleService.addRule({ ...formData, product_id: currentProduct.product_id });
+            await handleAddRule({ ...formData, product_id: currentProduct.product_id }, setRules, setShowForm);
             setIsRuleModalOpen(false);
             resetForm();
         } catch (error) {
             console.error("Error adding rule:", error);
         }
+    };
+
+    const handleToggleRuleList = () => {
+        setShowRuleList(!showRuleList);
     };
 
     return (
@@ -56,7 +67,9 @@ const ProductTable = ({ onAddProductClick }) => {
             <ProductTableControls
                 exportToPDF={() => exportToPDF(filteredProducts)}
                 exportOrderRequirements={() => exportOrderRequirements(filteredProducts, rules)}
-                onAddProductClick={onAddProductClick} // Pass the onAddProductClick prop
+                onAddProductClick={onAddProductClick}
+                onToggleRuleList={handleToggleRuleList}
+                showRuleList={showRuleList}
             />
             <table className={styles.productTable}>
                 <thead>
@@ -78,7 +91,7 @@ const ProductTable = ({ onAddProductClick }) => {
                             rules={rules}
                             onEditProduct={handleEditProduct}
                             onDeleteProduct={handleDeleteProduct}
-                            openRuleModal={() => openRuleModal(product, setCurrentProduct, resetForm, handleChange, setIsRuleModalOpen)} // Use openRuleModal
+                            openRuleModal={() => openRuleModal(product, setCurrentProduct, resetForm, handleChange, setIsRuleModalOpen)}
                         />
                     ))}
                 </tbody>
@@ -88,8 +101,16 @@ const ProductTable = ({ onAddProductClick }) => {
                     currentProduct={currentProduct}
                     formData={formData}
                     handleChange={handleChange}
-                    handleSubmit={handleSubmit}
+                    handleSubmit={handleFormSubmit}
                     setIsRuleModalOpen={setIsRuleModalOpen}
+                    products={filteredProducts}
+                />
+            )}
+            {showRuleList && (
+                <RuleList
+                    rules={rules}
+                    handleEdit={(rule) => handleEditRule(rule, setCurrentRule, setShowForm)}
+                    handleDelete={(id) => handleDeleteRule(id, setRules)}
                 />
             )}
         </div>

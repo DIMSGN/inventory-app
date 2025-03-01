@@ -41,6 +41,11 @@ const RuleForm = ({ formData, handleChange, handleSubmit, setFormData, setEditin
 
     const handleFormSubmit = (e) => {
         e.preventDefault();
+        if (!formData.product_id) {
+            setError("Invalid product name. Please enter a valid product name.");
+            window.alert("Invalid product name. Please enter a valid product name."); // Display alert to the user
+            return;
+        }
         console.log("Submitting form data:", formData); // Log form data
         handleSubmit(e);
     };
@@ -116,6 +121,7 @@ const RuleForm = ({ formData, handleChange, handleSubmit, setFormData, setEditin
                     }}
                     placeholder="Select a color"
                     title="Select a color for the rule."
+                    isSearchable={false} // Disable text input
                 />
             </label>
             <input

@@ -39,15 +39,7 @@ code {
   overflow: hidden; /* Clear floats */
 }
 
-.column1 {
-  float: left;
-  width: 50%;
-}
 
-.column2 {
-  float: right;
-  width: 50%;
-}
 
 /* App Header Styles */
 .App-header {
