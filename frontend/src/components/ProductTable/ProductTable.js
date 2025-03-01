@@ -19,7 +19,7 @@ import {
 import ProductOperations from "../../hooks/ProductOperations"; // Import ProductOperations
 
 const ProductTable = ({ onAddProductClick, onToggleRuleList, showRuleList }) => {
-    const { filteredProducts, rules, setRules, editingProduct } = useContext(ProductContext);
+    const { filteredProducts, rules, setRules, editingProduct, setEditingProduct } = useContext(ProductContext);
     const [currentProduct, setCurrentProduct] = useState(null);
     const [isRuleModalOpen, setIsRuleModalOpen] = useState(false);
     const [formData, setFormData] = useState({
@@ -60,7 +60,7 @@ const ProductTable = ({ onAddProductClick, onToggleRuleList, showRuleList }) => 
     const { handleFilterChange, handleEditProduct, handleUpdateProduct, handleDeleteProduct, handleCancelEdit } = ProductOperations({
         setFilteredProducts: filteredProducts,
         setCategories: setRules,
-        setEditingProduct: setCurrentProduct
+        setEditingProduct: setEditingProduct // Use setEditingProduct from context
     });
 
     return (

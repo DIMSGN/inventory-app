@@ -1,19 +1,15 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { ProductContext } from "../../context/ProductContext";
+import useForm from "../../hooks/useForm"; // Import useForm
 import styles from "./EditProductForm.module.css";
 
 const EditProductForm = () => {
     const { editingProduct, handleUpdateProduct, setEditingProduct } = useContext(ProductContext);
-    const [formData, setFormData] = React.useState(editingProduct || {});
+    const { formData, handleChange, resetForm } = useForm(editingProduct || {});
 
-    React.useEffect(() => {
-        setFormData(editingProduct || {});
-    }, [editingProduct]);
-
-    const handleChange = (e) => {
-        const { name, value } = e.target;
-        setFormData((prevData) => ({ ...prevData, [name]: value }));
-    };
+    useEffect(() => {
+        resetForm(editingProduct || {});
+    }, [editingProduct, resetForm]);
 
     const handleSubmit = (e) => {
         e.preventDefault();
