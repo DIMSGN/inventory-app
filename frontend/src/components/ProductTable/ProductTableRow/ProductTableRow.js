@@ -30,7 +30,7 @@ const ProductTableRow = ({ product, rules, onEditProduct, onDeleteProduct, openR
             <td className={styles.actionsCell}>
                 <button className={styles.editButton} onClick={() => onEditProduct(product)}>Edit</button>
                 <button className={styles.deleteButton} onClick={() => onDeleteProduct(product.product_id)}>Delete</button>
-                <button className={styles.addRuleButton} onClick={openRuleModal}>Add Rule</button>
+                <button className={styles.addRuleButton} onClick={() => openRuleModal(product)}>Add Rule</button>
             </td>
         </tr>
     );

@@ -44,6 +44,8 @@ const App = () => {
                 onAddProductClick={() => setShowProductManager(true)}
                 onToggleRuleList={handleToggleRuleList} // Pass the handler to ProductTable
                 showRuleList={showRuleList} // Pass the state to ProductTable
+                setShowForm={setShowForm}
+                setCurrentRule={setCurrentRule}
             />
             {showProductManager && <AddProductForm onClose={() => setShowProductManager(false)} />}
             {editingProduct && <EditProductForm />}
