@@ -7,7 +7,6 @@ import styles from "./ProductTable.module.css";
 import exportOrderRequirements from "../../utils/exportOrderRequirements";
 import { exportToPDF } from "../../utils/exportToPDF";
 import RuleModal from "./RuleModal/RuleModal";
-import RuleList from "../RuleList/RuleList";
 import {
     handleAddRule,
     handleEditRule,
@@ -17,8 +16,8 @@ import {
     validateProductName
 } from "../../utils/ruleHandlers";
 
-const ProductTable = ({ onAddProductClick }) => {
-    const { filteredProducts, rules, handleEditProduct, handleDeleteProduct, setRules } = useContext(ProductContext); // Add setRules
+const ProductTable = ({ onAddProductClick, onToggleRuleList, showRuleList }) => {
+    const { filteredProducts, rules, handleEditProduct, handleDeleteProduct, setRules } = useContext(ProductContext);
     const [currentProduct, setCurrentProduct] = useState(null);
     const [isRuleModalOpen, setIsRuleModalOpen] = useState(false);
     const [formData, setFormData] = useState({
@@ -27,7 +26,6 @@ const ProductTable = ({ onAddProductClick }) => {
         amount: "",
         color: ""
     });
-    const [showRuleList, setShowRuleList] = useState(false);
     const [currentRule, setCurrentRule] = useState(null);
     const [showForm, setShowForm] = useState(false);
 
@@ -57,10 +55,6 @@ const ProductTable = ({ onAddProductClick }) => {
         }
     };
 
-    const handleToggleRuleList = () => {
-        setShowRuleList(!showRuleList);
-    };
-
     return (
         <div className={styles.productTableContainer}>
             <h2 className={styles.title}>Product Table</h2>
@@ -68,8 +62,8 @@ const ProductTable = ({ onAddProductClick }) => {
                 exportToPDF={() => exportToPDF(filteredProducts)}
                 exportOrderRequirements={() => exportOrderRequirements(filteredProducts, rules)}
                 onAddProductClick={onAddProductClick}
-                onToggleRuleList={handleToggleRuleList}
-                showRuleList={showRuleList}
+                onToggleRuleList={onToggleRuleList} // Pass the handler to ProductTableControls
+                showRuleList={showRuleList} // Pass the state to ProductTableControls
             />
             <table className={styles.productTable}>
                 <thead>
@@ -104,13 +98,6 @@ const ProductTable = ({ onAddProductClick }) => {
                     handleSubmit={handleFormSubmit}
                     setIsRuleModalOpen={setIsRuleModalOpen}
                     products={filteredProducts}
-                />
-            )}
-            {showRuleList && (
-                <RuleList
-                    rules={rules}
-                    handleEdit={(rule) => handleEditRule(rule, setCurrentRule, setShowForm)}
-                    handleDelete={(id) => handleDeleteRule(id, setRules)}
                 />
             )}
         </div>
