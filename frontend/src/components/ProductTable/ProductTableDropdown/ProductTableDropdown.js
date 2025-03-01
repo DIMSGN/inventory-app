@@ -3,17 +3,7 @@ import styles from "./ProductTableDropdown.module.css";
 
 const ProductTableDropdown = ({ name, value, onChange, options }) => {
     const [isOpen, setIsOpen] = useState(false);
-    const [searchTerm, setSearchTerm] = useState("");
-    const [filteredOptions, setFilteredOptions] = useState(options);
     const dropdownRef = useRef(null);
-
-    useEffect(() => {
-        setFilteredOptions(
-            options.filter(option =>
-                option.name.toLowerCase().includes(searchTerm.toLowerCase())
-            )
-        );
-    }, [searchTerm, options]);
 
     const handleOptionClick = useCallback((optionValue) => {
         onChange({ target: { name, value: optionValue } });
@@ -23,10 +13,6 @@ const ProductTableDropdown = ({ name, value, onChange, options }) => {
     const handleDropdownToggle = useCallback(() => {
         setIsOpen(!isOpen);
     }, [isOpen]);
-
-    const handleSearchChange = (e) => {
-        setSearchTerm(e.target.value);
-    };
 
     const handleKeyDown = (e) => {
         if (e.key === "Escape") {
@@ -61,15 +47,7 @@ const ProductTableDropdown = ({ name, value, onChange, options }) => {
             </div>
             {isOpen && (
                 <div className={styles.dropdownList}>
-                    <input
-                        type="text"
-                        className={styles.searchInput}
-                        placeholder="Search..."
-                        value={searchTerm}
-                        onChange={handleSearchChange}
-                        autoFocus
-                    />
-                    {filteredOptions.map((option) => (
+                    {options.map((option) => (
                         <div
                             key={option.id}
                             className={styles.dropdownOption}

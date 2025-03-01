@@ -18,7 +18,7 @@ const ProductOperations = ({ setFilteredProducts, setCategories, setEditingProdu
         } catch (error) {
             console.error("Error fetching products:", error);
         }
-    }, [setProducts, setFilteredProducts, setCategories]);
+    }, [setFilteredProducts, setCategories]);
 
     useEffect(() => {
         fetchProducts();

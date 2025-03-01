@@ -7,6 +7,7 @@ import styles from "./ProductTable.module.css";
 import exportOrderRequirements from "../../utils/exportOrderRequirements";
 import { exportToPDF } from "../../utils/exportToPDF";
 import RuleModal from "./RuleModal/RuleModal";
+import EditProductForm from "../EditProductForm/EditProductForm"; // Import EditProductForm
 import {
     handleAddRule,
     handleEditRule,
@@ -18,7 +19,7 @@ import {
 import ProductOperations from "../../hooks/ProductOperations"; // Import ProductOperations
 
 const ProductTable = ({ onAddProductClick, onToggleRuleList, showRuleList }) => {
-    const { filteredProducts, rules, setRules } = useContext(ProductContext);
+    const { filteredProducts, rules, setRules, editingProduct } = useContext(ProductContext);
     const [currentProduct, setCurrentProduct] = useState(null);
     const [isRuleModalOpen, setIsRuleModalOpen] = useState(false);
     const [formData, setFormData] = useState({
@@ -107,6 +108,7 @@ const ProductTable = ({ onAddProductClick, onToggleRuleList, showRuleList }) => 
                     products={filteredProducts}
                 />
             )}
+            {editingProduct && <EditProductForm />} {/* Render EditProductForm if editingProduct is not null */}
         </div>
     );
 };

@@ -47,12 +47,3 @@
     border-radius: 3px;
     margin-right: 10px;
 }
-
-.searchInput {
-    width: 100%;
-    padding: 10px;
-    border: none;
-    border-bottom: 1px solid #ccc;
-    box-sizing: border-box;
-    font-size: 16px;
-}

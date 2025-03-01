@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import Select from "react-select";
 import styles from "./RuleForm.module.css";
 import { colors } from "../../utils/colors"; // Import colors
+import useForm from "../../hooks/useForm"; // Import useForm
 
 const RuleForm = ({ formData, handleChange, handleSubmit, setFormData, setEditingRule, products, handleColorChange }) => {
     const [error, setError] = useState("");
@@ -50,7 +51,6 @@ const RuleForm = ({ formData, handleChange, handleSubmit, setFormData, setEditin
             window.alert("Invalid product name. Please enter a valid product name."); // Display alert to the user
             return;
         }
-        console.log("Submitting form data:", formData); // Log form data
         handleSubmit(e);
     };
 

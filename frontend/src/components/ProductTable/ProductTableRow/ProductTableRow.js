@@ -37,6 +37,3 @@ const ProductTableRow = ({ product, rules, onEditProduct, onDeleteProduct, openR
 };
 
 export default ProductTableRow;
-
-/*this file filters the rules associated with the product,
- maps them to dropdown options, and provides buttons for editing, deleting, and adding rules.*/

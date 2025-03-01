@@ -3,11 +3,12 @@ import { ProductContext } from "../../context/ProductContext";
 import productService from "../../services/productService";
 import Button from "../common/Button/Button";
 import styles from "./AddProductForm.module.css";
+import useForm from "../../hooks/useForm"; // Import useForm
 import ProductOperations from "../../hooks/ProductOperations"; // Import ProductOperations
 
 const AddProductForm = ({ onClose }) => {
     const { fetchProducts, categories } = useContext(ProductContext);
-    const [formData, setFormData] = useState({
+    const { formData, handleChange, resetForm, setFormData } = useForm({
         product_id: "",
         product_name: "",
         unit: "",
@@ -17,17 +18,12 @@ const AddProductForm = ({ onClose }) => {
     const [newCategory, setNewCategory] = useState("");
     const [isAddingCategory, setIsAddingCategory] = useState(false);
 
-    const handleChange = (e) => {
-        const { name, value } = e.target;
-        setFormData((prevData) => ({ ...prevData, [name]: value }));
-    };
-
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
             await productService.addProduct(formData);
             fetchProducts();
-            setFormData({ product_id: "", product_name: "", unit: "", category: "", amount: "" });
+            resetForm();
             onClose();
         } catch (error) {
             console.error("Error adding product:", error);
