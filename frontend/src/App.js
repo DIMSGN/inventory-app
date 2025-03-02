@@ -3,9 +3,9 @@ import { ProductContext } from "./context/ProductContext";
 import Header from "./components/Header/Header";
 import ProductTable from "./components/ProductTable/ProductTable";
 import RuleList from "./components/RuleList/RuleList";
-import AddProductForm from "./components/AddProductForm/AddProductForm"; // Updated import
+import AddProductForm from "./components/AddProductForm/AddProductForm";
 import EditProductForm from "./components/EditProductForm/EditProductForm";
-import RuleForm from "./components/RuleForm/RuleForm"; // Import RuleForm
+import RuleForm from "./components/RuleForm/RuleForm";
 import useFetch from "./hooks/useFetch";
 import {
     handleAddRule,
@@ -22,7 +22,7 @@ const App = () => {
     const [showRuleList, setShowRuleList] = useState(false);
     const [rules, setRules] = useState([]);
     const [currentRule, setCurrentRule] = useState(null);
-    const [showForm, setShowForm] = useState(false); // Add state for showing form
+    const [showForm, setShowForm] = useState(false);
     const { editingProduct, fetchProducts, categories, products } = useContext(ProductContext);
 
     const { data: fetchedRules, loading, error } = useFetch(`${process.env.REACT_APP_API_URL}/rules`);
@@ -42,8 +42,8 @@ const App = () => {
             <Header />
             <ProductTable
                 onAddProductClick={() => setShowProductManager(true)}
-                onToggleRuleList={handleToggleRuleList} // Pass the handler to ProductTable
-                showRuleList={showRuleList} // Pass the state to ProductTable
+                onToggleRuleList={handleToggleRuleList}
+                showRuleList={showRuleList}
                 setShowForm={setShowForm}
                 setCurrentRule={setCurrentRule}
             />
@@ -65,8 +65,9 @@ const App = () => {
                     handleSubmit={(e) => handleUpdateRule(currentRule, setRules, setCurrentRule, setShowForm)}
                     setFormData={setCurrentRule}
                     setEditingRule={setCurrentRule}
-                    products={products} // Pass the products list
+                    products={products}
                     handleColorChange={(selectedOption) => handleColorChange(selectedOption, setCurrentRule)}
+                    rules={rules} 
                 />
             )}
         </div>

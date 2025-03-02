@@ -15,13 +15,11 @@ code {
     monospace;
 }
 
-/* Container Styles */
 .container {
   padding: 20px;
-  background-color: #f9f9f9;
+  background-color: #f0f2ff;
   border: 1px solid #ddd;
   border-radius: 10px;
-  max-width: 1920px;
   margin: 20px auto;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   display: flex;
@@ -37,25 +35,6 @@ code {
 
 .ruleContainer {
   overflow: hidden; /* Clear floats */
-}
-
-
-
-/* App Header Styles */
-.App-header {
-  background-color: #ffffff;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: #333;
-}
-
-/* App Link Styles */
-.App-link {
-  color: #61dafb;
 }
 
 /* Keyframes for Logo Spin Animation */

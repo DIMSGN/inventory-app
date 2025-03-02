@@ -82,8 +82,8 @@ const ProductTable = ({ onAddProductClick, onToggleRuleList, showRuleList, setSh
                 exportToPDF={() => exportToPDF(filteredProducts)}
                 exportOrderRequirements={() => exportOrderRequirements(filteredProducts, rules)}
                 onAddProductClick={onAddProductClick}
-                onToggleRuleList={onToggleRuleList} // Pass the handler to ProductTableControls
-                showRuleList={showRuleList} // Pass the state to ProductTableControls
+                onToggleRuleList={onToggleRuleList}
+                showRuleList={showRuleList}
             />
             <table className={styles.productTable}>
                 <thead>

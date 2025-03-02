@@ -2,9 +2,9 @@ import React, { useState, useEffect } from "react";
 import Select from "react-select";
 import styles from "./RuleForm.module.css";
 import { colors } from "../../utils/colors"; // Import colors
-import useProductOperations from "../../hooks/useProductOperations"; // Import useProductOperations
+import ProductTableDropdown from "../ProductTable/ProductTableDropdown/ProductTableDropdown"; // Import ProductTableDropdown
 
-const RuleForm = ({ formData, handleChange, handleSubmit, setFormData, setEditingRule, products, handleColorChange }) => {
+const RuleForm = ({ formData, handleChange, handleSubmit, setFormData, setEditingRule, products, handleColorChange, rules }) => {
     const [error, setError] = useState("");
 
     const colorOptions = colors.map(color => ({
@@ -54,18 +54,20 @@ const RuleForm = ({ formData, handleChange, handleSubmit, setFormData, setEditin
         handleSubmit(e);
     };
 
+    const handleRuleChange = (e) => {
+        const selectedRule = e.target.value;
+        setFormData(selectedRule);
+    };
+
     return (
         <form onSubmit={handleFormSubmit} className={styles.form}>
             <label>
                 Rule:
-                <input
-                    type="text"
+                <ProductTableDropdown
                     name="rules"
-                    value={formData.rules}
-                    onChange={handleProductNameChange}
-                    required
-                    title="Enter the product name for the rule."
-                    placeholder="Product name"
+                    value={formData}
+                    onChange={handleRuleChange}
+                    options={rules}
                 />
                 {error && <span className={styles.error}>{error}</span>}
             </label>

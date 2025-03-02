@@ -5,8 +5,8 @@ const ProductTableDropdown = ({ name, value, onChange, options }) => {
     const [isOpen, setIsOpen] = useState(false);
     const dropdownRef = useRef(null);
 
-    const handleOptionClick = useCallback((optionValue) => {
-        onChange({ target: { name, value: optionValue } });
+    const handleOptionClick = useCallback((option) => {
+        onChange({ target: { name, value: option } });
         setIsOpen(false);
     }, [onChange, name]);
 
@@ -20,7 +20,7 @@ const ProductTableDropdown = ({ name, value, onChange, options }) => {
         }
     };
 
-    const activeOption = Array.isArray(options) ? options.find(option => option.id === value) || options[0] : null;
+    const activeOption = Array.isArray(options) ? options.find(option => option.id === value.id) || options[0] : null;
 
     useEffect(() => {
         if (isOpen) {
@@ -51,11 +51,11 @@ const ProductTableDropdown = ({ name, value, onChange, options }) => {
                         <div
                             key={option.id}
                             className={styles.dropdownOption}
-                            onClick={() => handleOptionClick(option.id)}
+                            onClick={() => handleOptionClick(option)}
                             tabIndex={0}
                             onKeyDown={(e) => {
                                 if (e.key === "Enter") {
-                                    handleOptionClick(option.id);
+                                    handleOptionClick(option);
                                 }
                             }}
                         >
