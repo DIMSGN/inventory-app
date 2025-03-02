@@ -11,7 +11,7 @@ import EditProductForm from "../EditProductForm/EditProductForm"; // Import Edit
 import useProductOperations from "../../hooks/useProductOperations"; // Import useProductOperations
 
 const ProductTable = ({ onAddProductClick, onToggleRuleList, showRuleList, setShowForm, setCurrentRule, setEditingProduct }) => {
-    const { filteredProducts, rules, setRules, setFilteredProducts, setCategories } = useContext(ProductContext);
+    const { filteredProducts, rules, setRules, setFilteredProducts, setCategories, editingProduct } = useContext(ProductContext); // Add editingProduct to the context
     const [currentProduct, setCurrentProduct] = useState(null);
     const [isRuleModalOpen, setIsRuleModalOpen] = useState(false);
     const [formData, setFormData] = useState({
