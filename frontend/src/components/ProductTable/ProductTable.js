@@ -10,8 +10,8 @@ import RuleModal from "./RuleModal/RuleModal";
 import EditProductForm from "../EditProductForm/EditProductForm"; // Import EditProductForm
 import useProductOperations from "../../hooks/useProductOperations"; // Import useProductOperations
 
-const ProductTable = ({ onAddProductClick, onToggleRuleList, showRuleList, setShowForm, setCurrentRule }) => {
-    const { filteredProducts, rules, setRules, editingProduct, setEditingProduct, setFilteredProducts, setCategories } = useContext(ProductContext);
+const ProductTable = ({ onAddProductClick, onToggleRuleList, showRuleList, setShowForm, setCurrentRule, setEditingProduct }) => {
+    const { filteredProducts, rules, setRules, setFilteredProducts, setCategories } = useContext(ProductContext);
     const [currentProduct, setCurrentProduct] = useState(null);
     const [isRuleModalOpen, setIsRuleModalOpen] = useState(false);
     const [formData, setFormData] = useState({

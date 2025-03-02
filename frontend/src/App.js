@@ -23,7 +23,7 @@ const App = () => {
     const [rules, setRules] = useState([]);
     const [currentRule, setCurrentRule] = useState(null);
     const [showForm, setShowForm] = useState(false);
-    const { editingProduct, fetchProducts, categories, products } = useContext(ProductContext);
+    const { editingProduct, setEditingProduct, fetchProducts, categories, products } = useContext(ProductContext);
 
     const { data: fetchedRules, loading, error } = useFetch(`${process.env.REACT_APP_API_URL}/rules`);
 
@@ -46,9 +46,10 @@ const App = () => {
                 showRuleList={showRuleList}
                 setShowForm={setShowForm}
                 setCurrentRule={setCurrentRule}
+                setEditingProduct={setEditingProduct} // Pass setEditingProduct to ProductTable
             />
             {showProductManager && <AddProductForm onClose={() => setShowProductManager(false)} />}
-            {editingProduct && <EditProductForm />}
+            {editingProduct && <EditProductForm />} {/* Render EditProductForm if editingProduct is not null */}
             {showRuleList && (
                 <div className={styles.ruleContainer}>
                     <RuleList
