@@ -12,19 +12,14 @@ const EditRuleForm = ({ formData, handleChange, handleSubmit, setFormData, setEd
         label: color.name
     }));
 
-    const customSingleValue = ({ data }) => (
-        <div className={styles.singleValue}>
-            <span className={styles.colorBox} style={{ backgroundColor: data.value }}></span>
-            {data.label}
-        </div>
-    );
-
-    const customOption = ({ innerRef, innerProps, data, isFocused }) => (
-        <div ref={innerRef} {...innerProps} className={`${styles.option} ${isFocused ? styles.optionFocused : ''}`}>
-            <span className={styles.colorBox} style={{ backgroundColor: data.value }}></span>
-            {data.label}
-        </div>
-    );
+    // Filter rules to include only those associated with the product being edited
+    const dropdownOptions = rules.filter(rule => rule.product_id === formData.product_id).map(rule => ({
+        id: rule.id,
+        name: rule.rules,
+        comparison: rule.comparison,
+        amount: rule.amount,
+        value: rule.color
+    }));
 
     const handleFormSubmit = (e) => {
         e.preventDefault();
@@ -36,9 +31,8 @@ const EditRuleForm = ({ formData, handleChange, handleSubmit, setFormData, setEd
         handleSubmit(e);
     };
 
-    const handleRuleChange = (e) => {
-        const selectedRule = e.target.value;
-        setFormData(selectedRule);
+    const handleRuleChange = (selectedOption) => {
+        setFormData(prevData => ({ ...prevData, rules: selectedOption.value }));
     };
 
     return (
@@ -47,9 +41,9 @@ const EditRuleForm = ({ formData, handleChange, handleSubmit, setFormData, setEd
                 Rule:
                 <ProductTableDropdown
                     name="rules"
-                    value={formData}
+                    value={formData.rules}
                     onChange={handleRuleChange}
-                    options={rules}
+                    options={dropdownOptions}
                 />
                 {error && <span className={styles.error}>{error}</span>}
             </label>
@@ -88,25 +82,7 @@ const EditRuleForm = ({ formData, handleChange, handleSubmit, setFormData, setEd
                     value={colorOptions.find(option => option.value === formData.color)}
                     onChange={handleColorChange}
                     options={colorOptions}
-                    components={{ SingleValue: customSingleValue, Option: customOption }}
                     className={styles.select}
-                    styles={{
-                        control: (base) => ({
-                            ...base,
-                            border: '1px solid #ccc',
-                            boxShadow: 'none',
-                            '&:hover': {
-                                border: '1px solid #aaa'
-                            }
-                        }),
-                        dropdownIndicator: (base) => ({
-                            ...base,
-                            padding: '0 8px'
-                        }),
-                        indicatorSeparator: () => ({
-                            display: 'none'
-                        })
-                    }}
                     placeholder="Select a color"
                     title="Select a color for the rule."
                     isSearchable={false} // Disable text input
