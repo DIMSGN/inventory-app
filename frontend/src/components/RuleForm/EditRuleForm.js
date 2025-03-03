@@ -32,7 +32,7 @@ const EditRuleForm = ({ formData, handleChange, handleSubmit, setFormData, setEd
     };
 
     const handleRuleChange = (selectedOption) => {
-        setFormData(prevData => ({ ...prevData, rules: selectedOption.value }));
+        setFormData(prevData => ({ ...prevData, rules: selectedOption.id }));
     };
 
     return (
@@ -41,7 +41,7 @@ const EditRuleForm = ({ formData, handleChange, handleSubmit, setFormData, setEd
                 Rule:
                 <ProductTableDropdown
                     name="rules"
-                    value={formData.rules}
+                    value={rules.find(rule => rule.product_id === formData.product_id && rule.id === formData.rules)?.id || ""}
                     onChange={handleRuleChange}
                     options={dropdownOptions}
                 />
