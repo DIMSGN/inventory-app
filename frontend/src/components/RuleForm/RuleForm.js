@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Select from "react-select";
 import styles from "./RuleForm.module.css";
 import { colors } from "../../utils/colors";
@@ -25,24 +25,6 @@ const RuleForm = ({ formData, handleChange, handleSubmit, setFormData, setEditin
             {data.label}
         </div>
     );
-
-    const handleProductNameChange = (e) => {
-        const productName = e.target.value;
-        handleChange(e);
-
-        if (products) {
-            const product = products.find(p => p.product_name === productName);
-            if (product) {
-                setFormData(prev => ({ ...prev, product_id: product.product_id }));
-                setError("");
-            } else {
-                setFormData(prev => ({ ...prev, product_id: "" }));
-                setError("Invalid product name. Please enter a valid product name.");
-            }
-        } else {
-            setError("Products list is not available.");
-        }
-    };
 
     const handleFormSubmit = (e) => {
         e.preventDefault();

@@ -7,7 +7,7 @@ import styles from "./ProductTable.module.css";
 import exportOrderRequirements from "../../utils/exportOrderRequirements";
 import { exportToPDF } from "../../utils/exportToPDF";
 import RuleModal from "./RuleModal/RuleModal";
-import useProductOperations from "../../hooks/useProductOperations"; // Import useProductOperations
+import useProductOperations from "../../hooks/useProductOperations"; // Ensure correct import
 
 const ProductTable = ({ onAddProductClick, onToggleRuleList, showRuleList, setShowForm, setCurrentRule, setEditingProduct }) => {
     const { filteredProducts, rules, setRules, setFilteredProducts, setCategories } = useContext(ProductContext);
@@ -66,7 +66,7 @@ const ProductTable = ({ onAddProductClick, onToggleRuleList, showRuleList, setSh
         }
     };
 
-    const { handleFilterChange, handleEditProduct, handleUpdateProduct, handleDeleteProduct, handleCancelEdit } = useProductOperations(
+    const { handleEditProduct, handleDeleteProduct } = useProductOperations(
         {},
         setFilteredProducts,
         setCategories,
@@ -101,7 +101,7 @@ const ProductTable = ({ onAddProductClick, onToggleRuleList, showRuleList, setSh
                             key={product.product_id}
                             product={product}
                             rules={rules}
-                            onEditProduct={handleEditProduct} 
+                            onEditProduct={handleEditProduct} // Ensure handleEditProduct is used
                             onDeleteProduct={handleDeleteProduct}
                             openRuleModal={() => openRuleModal(product, setCurrentProduct, resetForm, handleChange, setIsRuleModalOpen)}
                         />

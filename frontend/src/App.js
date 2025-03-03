@@ -8,12 +8,10 @@ import EditProductForm from "./components/EditProductForm/EditProductForm";
 import RuleForm from "./components/RuleForm/RuleForm";
 import useFetch from "./hooks/useFetch";
 import {
-    handleAddRule,
     handleEditRule,
     handleUpdateRule,
     handleDeleteRule,
-    handleColorChange,
-    validateProductName
+    handleColorChange
 } from "./utils/ruleHandlers";
 import { updateData } from "./utils/apiUtils"; // Ensure updateData is imported
 import styles from "./App.css";
@@ -24,9 +22,9 @@ const App = () => {
     const [rules, setRules] = useState([]);
     const [currentRule, setCurrentRule] = useState(null);
     const [showForm, setShowForm] = useState(false);
-    const { editingProduct, setEditingProduct, fetchProducts, categories, products } = useContext(ProductContext);
+    const { editingProduct, setEditingProduct, fetchProducts, products } = useContext(ProductContext);
 
-    const { data: fetchedRules, loading, error } = useFetch(`${process.env.REACT_APP_API_URL}/rules`);
+    const { data: fetchedRules, loading } = useFetch(`${process.env.REACT_APP_API_URL}/rules`);
 
     useEffect(() => {
         if (!loading && fetchedRules) {

@@ -12,7 +12,6 @@ import { fetchData, updateData, deleteData } from "../utils/apiUtils"; // Ensure
 const useProductOperations = (initialValues, setFilteredProducts, setCategories, setEditingProduct) => {
     const [formData, setFormData] = useState(initialValues);
     const productTableRef = useRef();
-    const [products, setProducts] = useState([]); // Initialize state as an empty array
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -29,7 +28,6 @@ const useProductOperations = (initialValues, setFilteredProducts, setCategories,
             if (!Array.isArray(response)) {
                 throw new Error("Expected an array but got: " + JSON.stringify(response));
             }
-            setProducts(response);
             setFilteredProducts(response);
             const uniqueCategories = [...new Set(response.map(product => product.category))];
             setCategories(uniqueCategories);
