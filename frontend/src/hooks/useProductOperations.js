@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef, useCallback } from "react";
-import { fetchData, updateData, deleteData } from "../utils/apiUtils"; // Updated path
+import { fetchData, updateData, deleteData } from "../utils/apiUtils"; // Ensure correct import paths
 
 /**
  * Custom hook to handle form state, changes, and product operations.

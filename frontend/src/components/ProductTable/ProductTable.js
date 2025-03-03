@@ -101,7 +101,7 @@ const ProductTable = ({ onAddProductClick, onToggleRuleList, showRuleList, setSh
                             key={product.product_id}
                             product={product}
                             rules={rules}
-                            onEditProduct={setEditingProduct} // Pass setEditingProduct to handle edit button click
+                            onEditProduct={handleEditProduct} 
                             onDeleteProduct={handleDeleteProduct}
                             openRuleModal={() => openRuleModal(product, setCurrentProduct, resetForm, handleChange, setIsRuleModalOpen)}
                         />

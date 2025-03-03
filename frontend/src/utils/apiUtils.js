@@ -3,36 +3,33 @@ import axios from "axios";
 const API_BASE_URL = process.env.REACT_APP_API_URL;
 
 export const fetchData = async (url) => {
-    try {
-        const response = await axios.get(`${API_BASE_URL}${url}`);
-        if (response.headers['content-type'].includes('application/json')) {
-            return response.data;
-        } else {
-            console.error('Unexpected response format:', response);
-            throw new Error('Unexpected response format');
-        }
-    } catch (error) {
-        console.error("Error fetching data:", error);
-        throw error;
+    const response = await fetch(`${API_BASE_URL}${url}`);
+    if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
     }
+    return response.json();
 };
 
 export const updateData = async (url, data) => {
-    try {
-        const response = await axios.put(`${API_BASE_URL}${url}`, data);
-        return response.data;
-    } catch (error) {
-        console.error("Error updating data:", error);
-        throw error;
+    const response = await fetch(`${API_BASE_URL}${url}`, {
+        method: "PUT",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(data)
+    });
+    if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
     }
+    return response.json();
 };
 
 export const deleteData = async (url) => {
-    try {
-        const response = await axios.delete(`${API_BASE_URL}${url}`);
-        return response.data;
-    } catch (error) {
-        console.error("Error deleting data:", error);
-        throw error;
+    const response = await fetch(`${API_BASE_URL}${url}`, {
+        method: "DELETE"
+    });
+    if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
     }
+    return response.json();
 };
