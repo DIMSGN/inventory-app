@@ -2,7 +2,7 @@ import React from "react";
 import Button from "../common/Button/Button";
 import styles from "./RuleList.module.css";
 
-const RuleList = ({ rules, handleEdit, handleDelete }) => {
+const RuleList = ({ rules, openRuleModal, handleDelete }) => {
     if (rules.length === 0) {
         return <div>No rules available</div>;
     }
@@ -22,7 +22,7 @@ const RuleList = ({ rules, handleEdit, handleDelete }) => {
                         <div className={styles.buttonGroup}>
                             <Button
                                 className={styles.editButton}
-                                onClick={() => handleEdit(rule)}
+                                onClick={() => openRuleModal(rule)}
                             >
                                 Edit
                             </Button>

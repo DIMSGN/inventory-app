@@ -32,7 +32,14 @@ const EditRuleForm = ({ formData, handleChange, handleSubmit, setFormData, setEd
     };
 
     const handleRuleChange = (selectedOption) => {
-        setFormData(prevData => ({ ...prevData, rules: selectedOption.id }));
+        const selectedRule = rules.find(rule => rule.id === selectedOption.id);
+        setFormData({
+            rules: selectedRule.id,
+            comparison: selectedRule.comparison,
+            amount: selectedRule.amount,
+            color: selectedRule.color,
+            product_id: selectedRule.product_id
+        });
     };
 
     return (

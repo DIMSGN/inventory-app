@@ -5,8 +5,7 @@ import ProductTable from "./components/ProductTable/ProductTable";
 import RuleList from "./components/RuleList/RuleList";
 import AddProductForm from "./components/AddProductForm/AddProductForm";
 import EditProductForm from "./components/EditProductForm/EditProductForm";
-import AddRuleForm from "./components/RuleForm/AddRuleForm";
-import EditRuleForm from "./components/RuleForm/EditRuleForm";
+import RuleModal from "./components/ProductTable/RuleModal/RuleModal";
 import useFetch from "./hooks/useFetch";
 import {
     handleEditRule,
@@ -23,6 +22,8 @@ const App = () => {
     const [rules, setRules] = useState([]);
     const [currentRule, setCurrentRule] = useState(null);
     const [showForm, setShowForm] = useState(false);
+    const [isRuleModalOpen, setIsRuleModalOpen] = useState(false);
+    const [isEditing, setIsEditing] = useState(false);
     const { editingProduct, setEditingProduct, fetchProducts, products } = useContext(ProductContext);
 
     const { data: fetchedRules, loading } = useFetch(`${process.env.REACT_APP_API_URL}/rules`);
@@ -51,6 +52,43 @@ const App = () => {
         }
     };
 
+    const handleAddRule = async (newRule, setRules, setCurrentRule, setShowForm) => {
+        try {
+            const response = await fetch("/api/rules", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(newRule)
+            });
+            if (!response.ok) {
+                throw new Error("Failed to add rule");
+            }
+            const addedRule = await response.json();
+            setRules((prevRules) => [...prevRules, addedRule]);
+            setCurrentRule(null);
+            setShowForm(false);
+        } catch (error) {
+            console.error("Error adding rule:", error);
+        }
+    };
+
+    const openRuleModal = (rule = null) => {
+        setCurrentRule(rule);
+        setIsEditing(!!rule);
+        setIsRuleModalOpen(true);
+    };
+
+    const handleFormSubmit = async (e) => {
+        e.preventDefault();
+        if (isEditing) {
+            await handleUpdateRule(currentRule, setRules, setCurrentRule, setShowForm);
+        } else {
+            await handleAddRule(currentRule, setRules, setCurrentRule, setShowForm);
+        }
+        setIsRuleModalOpen(false);
+    };
+
     return (
         <div className={styles.container}>
             <Header />
@@ -61,6 +99,7 @@ const App = () => {
                 setShowForm={setShowForm}
                 setCurrentRule={setCurrentRule}
                 setEditingProduct={setEditingProduct} // Pass setEditingProduct to ProductTable
+                openRuleModal={openRuleModal} // Pass openRuleModal to ProductTable
             />
             {showProductManager && <AddProductForm onClose={() => setShowProductManager(false)} />}
             {editingProduct && (
@@ -74,37 +113,23 @@ const App = () => {
                 <div className={styles.ruleContainer}>
                     <RuleList
                         rules={rules}
-                        handleEdit={(rule) => handleEditRule(rule, setCurrentRule, setShowForm)}
+                        openRuleModal={openRuleModal} // Pass openRuleModal to RuleList
                         handleDelete={(id) => handleDeleteRule(id, setRules)}
                     />
                 </div>
             )}
-            {showForm && (
-                <div className={styles.ruleFormContainer}>
-                    {currentRule ? (
-                        <EditRuleForm
-                            formData={currentRule}
-                            handleChange={(e) => setCurrentRule({ ...currentRule, [e.target.name]: e.target.value })}
-                            handleSubmit={(e) => handleUpdateRule(currentRule, setRules, setCurrentRule, setShowForm)}
-                            setFormData={setCurrentRule}
-                            setEditingRule={setCurrentRule}
-                            products={products}
-                            handleColorChange={(selectedOption) => handleColorChange(selectedOption, setCurrentRule)}
-                            rules={rules}
-                        />
-                    ) : (
-                        <AddRuleForm
-                            formData={currentRule}
-                            handleChange={(e) => setCurrentRule({ ...currentRule, [e.target.name]: e.target.value })}
-                            handleSubmit={(e) => handleUpdateRule(currentRule, setRules, setCurrentRule, setShowForm)}
-                            setFormData={setCurrentRule}
-                            setEditingRule={setCurrentRule}
-                            products={products}
-                            handleColorChange={(selectedOption) => handleColorChange(selectedOption, setCurrentRule)}
-                            rules={rules}
-                        />
-                    )}
-                </div>
+            {isRuleModalOpen && (
+                <RuleModal
+                    currentProduct={editingProduct}
+                    formData={currentRule}
+                    handleChange={(e) => setCurrentRule({ ...currentRule, [e.target.name]: e.target.value })}
+                    handleSubmit={handleFormSubmit}
+                    setIsRuleModalOpen={setIsRuleModalOpen}
+                    products={products}
+                    rules={rules}
+                    setFormData={setCurrentRule}
+                    isEditing={isEditing}
+                />
             )}
         </div>
     );
