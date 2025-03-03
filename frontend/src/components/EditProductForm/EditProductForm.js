@@ -1,27 +1,27 @@
 import React, { useContext, useEffect } from "react";
 import { ProductContext } from "../../context/ProductContext";
-import useProductOperations from "../../hooks/useProductOperations"; // Import useProductOperations
+import useProductOperations from "../../hooks/useProductOperations"; // Ensure correct import
 import styles from "./EditProductForm.module.css";
 
-const EditProductForm = () => {
-    const { editingProduct, setEditingProduct, setFilteredProducts, setCategories } = useContext(ProductContext);
-    const { formData, handleChange, resetForm, handleUpdateProduct } = useProductOperations(
-        editingProduct || {},
+const EditProductForm = ({ product, onClose, onUpdateProduct }) => {
+    const { setEditingProduct, setFilteredProducts, setCategories } = useContext(ProductContext);
+    const { formData, handleChange, resetForm } = useProductOperations(
+        product || {},
         setFilteredProducts,
         setCategories,
         setEditingProduct
     );
 
     useEffect(() => {
-        resetForm(editingProduct || {});
-    }, [editingProduct, resetForm]);
+        resetForm(product || {});
+    }, [product, resetForm]);
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        handleUpdateProduct(formData);
+        onUpdateProduct(formData);
     };
 
-    if (!editingProduct) return null;
+    if (!product) return null;
 
     return (
         <form onSubmit={handleSubmit} className={styles.form}>
@@ -47,7 +47,7 @@ const EditProductForm = () => {
             </label>
             <div className={styles.buttonGroup}>
                 <button type="submit">Save</button>
-                <button type="button" onClick={() => setEditingProduct(null)}>Cancel</button>
+                <button type="button" onClick={onClose}>Cancel</button>
             </div>
         </form>
     );
