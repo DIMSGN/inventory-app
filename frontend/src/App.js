@@ -5,7 +5,8 @@ import ProductTable from "./components/ProductTable/ProductTable";
 import RuleList from "./components/RuleList/RuleList";
 import AddProductForm from "./components/AddProductForm/AddProductForm";
 import EditProductForm from "./components/EditProductForm/EditProductForm";
-import RuleForm from "./components/RuleForm/RuleForm";
+import AddRuleForm from "./components/RuleForm/AddRuleForm";
+import EditRuleForm from "./components/RuleForm/EditRuleForm";
 import useFetch from "./hooks/useFetch";
 import {
     handleEditRule,
@@ -79,16 +80,31 @@ const App = () => {
                 </div>
             )}
             {showForm && (
-                <RuleForm
-                    formData={currentRule}
-                    handleChange={(e) => setCurrentRule({ ...currentRule, [e.target.name]: e.target.value })}
-                    handleSubmit={(e) => handleUpdateRule(currentRule, setRules, setCurrentRule, setShowForm)}
-                    setFormData={setCurrentRule}
-                    setEditingRule={setCurrentRule}
-                    products={products}
-                    handleColorChange={(selectedOption) => handleColorChange(selectedOption, setCurrentRule)}
-                    rules={rules} 
-                />
+                <div className={styles.ruleFormContainer}>
+                    {currentRule ? (
+                        <EditRuleForm
+                            formData={currentRule}
+                            handleChange={(e) => setCurrentRule({ ...currentRule, [e.target.name]: e.target.value })}
+                            handleSubmit={(e) => handleUpdateRule(currentRule, setRules, setCurrentRule, setShowForm)}
+                            setFormData={setCurrentRule}
+                            setEditingRule={setCurrentRule}
+                            products={products}
+                            handleColorChange={(selectedOption) => handleColorChange(selectedOption, setCurrentRule)}
+                            rules={rules}
+                        />
+                    ) : (
+                        <AddRuleForm
+                            formData={currentRule}
+                            handleChange={(e) => setCurrentRule({ ...currentRule, [e.target.name]: e.target.value })}
+                            handleSubmit={(e) => handleUpdateRule(currentRule, setRules, setCurrentRule, setShowForm)}
+                            setFormData={setCurrentRule}
+                            setEditingRule={setCurrentRule}
+                            products={products}
+                            handleColorChange={(selectedOption) => handleColorChange(selectedOption, setCurrentRule)}
+                            rules={rules}
+                        />
+                    )}
+                </div>
             )}
         </div>
     );

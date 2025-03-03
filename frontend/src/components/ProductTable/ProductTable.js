@@ -19,6 +19,7 @@ const ProductTable = ({ onAddProductClick, onToggleRuleList, showRuleList, setSh
         amount: "",
         color: ""
     });
+    const [isEditing, setIsEditing] = useState(false);
 
     const resetForm = () => {
         setFormData({
@@ -117,6 +118,8 @@ const ProductTable = ({ onAddProductClick, onToggleRuleList, showRuleList, setSh
                     setIsRuleModalOpen={setIsRuleModalOpen}
                     products={filteredProducts}
                     rules={rules}
+                    setFormData={setFormData}
+                    isEditing={isEditing}
                 />
             )}
         </div>

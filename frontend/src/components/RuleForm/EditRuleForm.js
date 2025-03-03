@@ -4,7 +4,7 @@ import styles from "./RuleForm.module.css";
 import { colors } from "../../utils/colors";
 import ProductTableDropdown from "../ProductTable/ProductTableDropdown/ProductTableDropdown";
 
-const RuleForm = ({ formData, handleChange, handleSubmit, setFormData, setEditingRule, products, handleColorChange, rules }) => {
+const EditRuleForm = ({ formData, handleChange, handleSubmit, setFormData, setEditingRule, products, handleColorChange, rules }) => {
     const [error, setError] = useState("");
 
     const colorOptions = colors.map(color => ({
@@ -141,4 +141,4 @@ const RuleForm = ({ formData, handleChange, handleSubmit, setFormData, setEditin
     );
 };
 
-export default RuleForm;
+export default EditRuleForm;
