@@ -1,29 +1,24 @@
 import React from "react";
-import RuleForm from "../../RuleForm/RuleForm"; // Import RuleForm
+import RuleForm from "../../RuleForm/RuleForm";
 import styles from "./RuleModal.module.css";
 
-const RuleModal = ({ currentProduct, formData, handleChange, handleSubmit, setIsRuleModalOpen }) => {
-    const handleColorChange = (selectedOption) => {
-        handleChange({ target: { name: "color", value: selectedOption.value } });
-    };
-
+const RuleModal = ({ currentProduct, formData, handleChange, handleSubmit, setIsRuleModalOpen, products, rules, setFormData }) => {
     return (
-        <div className={styles.modalOverlay}>
+        <div className={styles.modal}>
             <div className={styles.modalContent}>
-                <h2>Add Rule for {currentProduct.product_name}</h2>
+                <span className={styles.close} onClick={() => setIsRuleModalOpen(false)}>&times;</span>
+                <h2>Edit Rule for {currentProduct.product_name}</h2>
                 <RuleForm
-                    formData={{ ...formData, product_id: currentProduct.product_id }} // Ensure product_id is included
+                    formData={formData}
                     handleChange={handleChange}
                     handleSubmit={handleSubmit}
-                    setFormData={null} // No need to clear form data in modal
-                    setEditingRule={null} // No need to handle editing rule in modal
-                    productName={currentProduct.product_name} // Pass the product name
-                    handleColorChange={handleColorChange} // Pass the handleColorChange function
+                    setFormData={setFormData} // Ensure setFormData is defined
+                    products={products}
+                    rules={rules} // Ensure rules is passed correctly
                 />
-                <button type="button" onClick={() => setIsRuleModalOpen(false)}>Cancel</button>
             </div>
         </div>
     );
 };
 
-export default React.memo(RuleModal);
+export default RuleModal;

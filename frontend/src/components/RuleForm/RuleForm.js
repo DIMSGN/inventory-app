@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import Select from "react-select";
 import styles from "./RuleForm.module.css";
-import { colors } from "../../utils/colors"; // Import colors
-import ProductTableDropdown from "../ProductTable/ProductTableDropdown/ProductTableDropdown"; // Import ProductTableDropdown
+import { colors } from "../../utils/colors";
+import ProductTableDropdown from "../ProductTable/ProductTableDropdown/ProductTableDropdown";
 
 const RuleForm = ({ formData, handleChange, handleSubmit, setFormData, setEditingRule, products, handleColorChange, rules }) => {
     const [error, setError] = useState("");
@@ -48,7 +48,7 @@ const RuleForm = ({ formData, handleChange, handleSubmit, setFormData, setEditin
         e.preventDefault();
         if (!formData.product_id) {
             setError("Invalid product name. Please enter a valid product name.");
-            window.alert("Invalid product name. Please enter a valid product name."); // Display alert to the user
+            window.alert("Invalid product name. Please enter a valid product name.");
             return;
         }
         handleSubmit(e);
@@ -149,7 +149,7 @@ const RuleForm = ({ formData, handleChange, handleSubmit, setFormData, setEditin
                         comparison: "=",
                         amount: "",
                         color: "",
-                        product_id: formData.product_id // Ensure product_id is included
+                        product_id: formData.product_id
                     })}>
                         Clear
                     </button>

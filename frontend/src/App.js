@@ -15,6 +15,7 @@ import {
     handleColorChange,
     validateProductName
 } from "./utils/ruleHandlers";
+import { updateData } from "./utils/apiUtils"; // Ensure updateData is imported
 import styles from "./App.css";
 
 const App = () => {
@@ -37,6 +38,20 @@ const App = () => {
         setShowRuleList(!showRuleList);
     };
 
+    const handleEditFormClose = () => {
+        setEditingProduct(null);
+    };
+
+    const handleUpdateProduct = async (updatedProduct) => {
+        try {
+            await updateData(`/products/${updatedProduct.product_id}`, updatedProduct);
+            fetchProducts();
+            setEditingProduct(null);
+        } catch (error) {
+            console.error("Error updating product:", error);
+        }
+    };
+
     return (
         <div className={styles.container}>
             <Header />
@@ -49,7 +64,13 @@ const App = () => {
                 setEditingProduct={setEditingProduct} // Pass setEditingProduct to ProductTable
             />
             {showProductManager && <AddProductForm onClose={() => setShowProductManager(false)} />}
-            {editingProduct && <EditProductForm />} {/* Render EditProductForm if editingProduct is not null */}
+            {editingProduct && (
+                <EditProductForm
+                    product={editingProduct}
+                    onClose={handleEditFormClose}
+                    onUpdateProduct={handleUpdateProduct} // Ensure handleUpdateProduct is defined
+                />
+            )}
             {showRuleList && (
                 <div className={styles.ruleContainer}>
                     <RuleList

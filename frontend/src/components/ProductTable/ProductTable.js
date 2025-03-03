@@ -7,11 +7,10 @@ import styles from "./ProductTable.module.css";
 import exportOrderRequirements from "../../utils/exportOrderRequirements";
 import { exportToPDF } from "../../utils/exportToPDF";
 import RuleModal from "./RuleModal/RuleModal";
-import EditProductForm from "../EditProductForm/EditProductForm"; // Import EditProductForm
 import useProductOperations from "../../hooks/useProductOperations"; // Import useProductOperations
 
 const ProductTable = ({ onAddProductClick, onToggleRuleList, showRuleList, setShowForm, setCurrentRule, setEditingProduct }) => {
-    const { filteredProducts, rules, setRules, setFilteredProducts, setCategories, editingProduct } = useContext(ProductContext); // Add editingProduct to the context
+    const { filteredProducts, rules, setRules, setFilteredProducts, setCategories } = useContext(ProductContext);
     const [currentProduct, setCurrentProduct] = useState(null);
     const [isRuleModalOpen, setIsRuleModalOpen] = useState(false);
     const [formData, setFormData] = useState({
@@ -37,7 +36,6 @@ const ProductTable = ({ onAddProductClick, onToggleRuleList, showRuleList, setSh
 
     const handleAddRule = async (newRule, setRules, setShowForm) => {
         try {
-            // Assuming you have an API endpoint to add a new rule
             const response = await fetch("/api/rules", {
                 method: "POST",
                 headers: {
@@ -103,7 +101,7 @@ const ProductTable = ({ onAddProductClick, onToggleRuleList, showRuleList, setSh
                             key={product.product_id}
                             product={product}
                             rules={rules}
-                            onEditProduct={handleEditProduct}
+                            onEditProduct={setEditingProduct} // Pass setEditingProduct to handle edit button click
                             onDeleteProduct={handleDeleteProduct}
                             openRuleModal={() => openRuleModal(product, setCurrentProduct, resetForm, handleChange, setIsRuleModalOpen)}
                         />
@@ -118,9 +116,9 @@ const ProductTable = ({ onAddProductClick, onToggleRuleList, showRuleList, setSh
                     handleSubmit={handleFormSubmit}
                     setIsRuleModalOpen={setIsRuleModalOpen}
                     products={filteredProducts}
+                    rules={rules}
                 />
             )}
-            {editingProduct && <EditProductForm />} {/* Render EditProductForm if editingProduct is not null */}
         </div>
     );
 };
