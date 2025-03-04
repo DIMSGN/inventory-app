@@ -1,0 +1,25 @@
+.select {
+    width: 100%;
+}
+
+.singleValue {
+    display: flex;
+    align-items: center;
+}
+
+.colorBox {
+    width: 20px;
+    height: 20px;
+    margin-right: 8px;
+    border-radius: 3px;
+}
+
+.option {
+    display: flex;
+    align-items: center;
+    padding: 8px;
+}
+
+.optionFocused {
+    background-color: #f0f0f0;
+}

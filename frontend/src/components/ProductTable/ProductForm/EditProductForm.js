@@ -1,7 +1,8 @@
 import React, { useContext, useEffect } from "react";
-import { ProductContext } from "../../context/ProductContext";
-import useProductOperations from "../../hooks/useProductOperations"; // Ensure correct import
-import styles from "./EditProductForm.module.css";
+import { ProductContext } from "../../../context/ProductContext";
+import useProductOperations from "../../../hooks/useProductOperations"; // Ensure correct import
+import Button from "../../common/Button/Button"; // Updated import
+import styles from "./ProductForm.module.css";
 
 const EditProductForm = ({ product, onClose, onUpdateProduct }) => {
     const { setEditingProduct, setFilteredProducts, setCategories } = useContext(ProductContext);
@@ -46,8 +47,8 @@ const EditProductForm = ({ product, onClose, onUpdateProduct }) => {
                 <input type="text" name="category" value={formData.category} onChange={handleChange} />
             </label>
             <div className={styles.buttonGroup}>
-                <button type="submit">Save</button>
-                <button type="button" onClick={onClose}>Cancel</button>
+                <Button type="submit" variant="edit">Save</Button>
+                <Button type="button" onClick={onClose} variant="primary">Cancel</Button>
             </div>
         </form>
     );

@@ -1,5 +1,5 @@
 import React from "react";
-import Button from "../common/Button/Button";
+import Button from "../common/Button/Button"; // Updated import
 import styles from "./RuleList.module.css";
 
 const RuleList = ({ rules, openRuleModal, handleDelete }) => {
@@ -21,13 +21,13 @@ const RuleList = ({ rules, openRuleModal, handleDelete }) => {
                         </div>
                         <div className={styles.buttonGroup}>
                             <Button
-                                className={styles.editButton}
+                                variant="edit"
                                 onClick={() => openRuleModal(rule)}
                             >
                                 Edit
                             </Button>
                             <Button
-                                className={styles.deleteButton}
+                                variant="delete"
                                 onClick={() => handleDelete(rule.id)}
                             >
                                 Delete

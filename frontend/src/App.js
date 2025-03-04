@@ -3,8 +3,8 @@ import { ProductContext } from "./context/ProductContext";
 import Header from "./components/Header/Header";
 import ProductTable from "./components/ProductTable/ProductTable";
 import RuleList from "./components/RuleList/RuleList";
-import AddProductForm from "./components/AddProductForm/AddProductForm";
-import EditProductForm from "./components/EditProductForm/EditProductForm";
+import AddProductForm from "./components/ProductTable/ProductForm/AddProductForm"; // Updated import path
+import EditProductForm from "./components/ProductTable/ProductForm/EditProductForm"; // Updated import path
 import RuleModal from "./components/ProductTable/RuleModal/RuleModal";
 import useFetch from "./hooks/useFetch";
 import {

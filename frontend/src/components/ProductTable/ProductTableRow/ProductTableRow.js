@@ -2,6 +2,7 @@ import React from "react";
 import styles from "./ProductTableRow.module.css";
 import { getRowColor } from "../../../utils/getRowColor";
 import ProductTableDropdown from "../ProductTableDropdown/ProductTableDropdown";
+import Button from "../../common/Button/Button"; // Updated import
 
 const ProductTableRow = ({ product, rules, onEditProduct, onDeleteProduct, openRuleModal }) => {
     const dropdownOptions = rules.filter(rule => rule.product_id === product.product_id).map(rule => ({
@@ -28,9 +29,9 @@ const ProductTableRow = ({ product, rules, onEditProduct, onDeleteProduct, openR
                 />
             </td>
             <td className={styles.actionsCell}>
-                <button className={styles.editButton} onClick={() => onEditProduct(product)}>Edit</button>
-                <button className={styles.deleteButton} onClick={() => onDeleteProduct(product.product_id)}>Delete</button>
-                <button className={styles.addRuleButton} onClick={() => openRuleModal(product)}>Add Rule</button>
+                <Button variant="edit" onClick={() => onEditProduct(product)}>Edit</Button>
+                <Button variant="delete" onClick={() => onDeleteProduct(product.product_id)}>Delete</Button>
+                <Button variant="primary" onClick={() => openRuleModal(product)}>Add Rule</Button>
             </td>
         </tr>
     );

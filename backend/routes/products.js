@@ -16,10 +16,13 @@ router.get("/", async (req, res) => {
 // POST /api/products
 router.post("/", async (req, res) => {
     const { product_id, product_name, unit, category, amount } = req.body;
+    console.log("Request body:", req.body); // Log the request body
     if (!product_id || !product_name || !unit || !category || amount === undefined) {
         return res.status(400).json({ error: "All fields are required" });
     }
     const query = "INSERT INTO products (product_id, product_name, unit, category, amount) VALUES (?, ?, ?, ?, ?)";
+    console.log("SQL query:", query); // Log the SQL query
+    console.log("Parameters:", [product_id, product_name, unit, category, amount]); // Log the parameters
     try {
         const results = await queryDatabase(query, [product_id, product_name, unit, category, amount]);
         res.status(201).json({ message: "Product added", id: results.insertId });

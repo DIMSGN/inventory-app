@@ -8,19 +8,6 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    z-index: 1000; /* Ensure the modal is above all other elements */
-}
-
-.modalOverlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    display: flex;
-    justify-content: center;
-    align-items: center;
     z-index: 1000;
 }
 
@@ -65,19 +52,4 @@
     display: flex;
     justify-content: flex-end;
     gap: 10px;
-}
-
-button {
-    padding: 10px 20px;
-    background-color: #008cff; /* Updated to blue color */
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 16px;
-    transition: background-color 0.3s ease;
-}
-
-button:hover {
-    background-color: #0066b9; /* Slightly darker blue for hover effect */
 }

@@ -1,9 +1,9 @@
 import React, { useState, useContext } from "react";
-import { ProductContext } from "../../context/ProductContext";
-import productService from "../../services/productService";
-import Button from "../common/Button/Button";
-import styles from "./AddProductForm.module.css";
-import useProductOperations from "../../hooks/useProductOperations"; // Import useProductOperations
+import { ProductContext } from "../../../context/ProductContext";
+import productService from "../../../services/productService";
+import Button from "../../common/Button/Button"; // Updated import
+import styles from "./ProductForm.module.css";
+import useProductOperations from "../../../hooks/useProductOperations"; // Import useProductOperations
 
 const AddProductForm = ({ onClose }) => {
     const { fetchProducts, categories, setFilteredProducts, setCategories, setEditingProduct } = useContext(ProductContext);
@@ -88,7 +88,7 @@ const AddProductForm = ({ onClose }) => {
                                 placeholder="Enter new category"
                                 required
                             />
-                            <Button type="button" onClick={handleAddCategory}>Add</Button>
+                            <Button type="button" onClick={handleAddCategory} variant="primary">Add</Button>
                         </div>
                     ) : (
                         <select
@@ -124,8 +124,8 @@ const AddProductForm = ({ onClose }) => {
                     />
                 </label>
                 <div className={styles.buttonGroup}>
-                    <Button type="submit">Add Product</Button>
-                    <Button type="button" onClick={onClose}>Cancel</Button>
+                    <Button type="submit" variant="primary">Add Product</Button>
+                    <Button type="button" onClick={onClose} variant="primary">Cancel</Button>
                 </div>
             </form>
         </div>

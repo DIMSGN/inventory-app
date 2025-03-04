@@ -1,19 +1,53 @@
 .button {
-    padding: 10px 20px;
-    background-color: #008cff;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 16px;
-    transition: background-color 0.3s ease;
+    padding: 10px 20px; /* Padding inside the button */
+    border: none; /* No border */
+    border-radius: 5px; /* Rounded corners */
+    cursor: pointer; /* Pointer cursor on hover */
+    font-size: 16px; /* Font size */
+    transition: background-color 0.3s ease; /* Smooth transition for background color */
+    color: white; /* White text color */
+    display: inline-block; /* Inline-block display */
+    text-align: center; /* Center text alignment */
 }
 
-.button:hover {
-    background-color: #0066b9;
+/* Primary Button */
+.primary {
+    background-color: #008cff; /* Blue background color */
 }
 
-.button:active {
-    box-shadow: 0 2px #008cff;
-    transform: translateY(1px);
+.primary:hover {
+    background-color: #0066b9; /* Darker blue on hover */
+}
+
+.primary:focus {
+    outline: none; /* Remove default outline */
+    box-shadow: 0 0 0 3px rgba(0, 136, 255, 0.5); /* Custom outline */
+}
+
+/* Edit Button */
+.edit {
+    background-color: #ffa500; /* Orange background color */
+}
+
+.edit:hover {
+    background-color: #cc8400; /* Darker orange on hover */
+}
+
+.edit:focus {
+    outline: none; /* Remove default outline */
+    box-shadow: 0 0 0 3px rgba(255, 165, 0, 0.5); /* Custom outline */
+}
+
+/* Delete Button */
+.delete {
+    background-color: #ff4d4d; /* Red background color */
+}
+
+.delete:hover {
+    background-color: #cc0000; /* Darker red on hover */
+}
+
+.delete:focus {
+    outline: none; /* Remove default outline */
+    box-shadow: 0 0 0 3px rgba(255, 77, 77, 0.5); /* Custom outline */
 }

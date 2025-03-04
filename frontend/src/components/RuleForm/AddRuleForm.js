@@ -1,8 +1,9 @@
 import React, { useState } from "react";
-import Select from "react-select";
 import styles from "./RuleForm.module.css";
 import { colors } from "../../utils/colors";
 import ProductTableDropdown from "../ProductTable/ProductTableDropdown/ProductTableDropdown";
+import ColorSelect from "../common/ColorSelect/ColorSelect"; // Updated import
+import Button from "../common/Button/Button"; // Updated import
 
 const AddRuleForm = ({ formData, handleChange, handleSubmit, setFormData, products, handleColorChange, rules }) => {
     const [error, setError] = useState("");
@@ -11,20 +12,6 @@ const AddRuleForm = ({ formData, handleChange, handleSubmit, setFormData, produc
         value: color.value,
         label: color.name
     }));
-
-    const customSingleValue = ({ data }) => (
-        <div className={styles.singleValue}>
-            <span className={styles.colorBox} style={{ backgroundColor: data.value }}></span>
-            {data.label}
-        </div>
-    );
-
-    const customOption = ({ innerRef, innerProps, data, isFocused }) => (
-        <div ref={innerRef} {...innerProps} className={`${styles.option} ${isFocused ? styles.optionFocused : ''}`}>
-            <span className={styles.colorBox} style={{ backgroundColor: data.value }}></span>
-            {data.label}
-        </div>
-    );
 
     const handleFormSubmit = (e) => {
         e.preventDefault();
@@ -83,33 +70,11 @@ const AddRuleForm = ({ formData, handleChange, handleSubmit, setFormData, produc
             </label>
             <label>
                 Color:
-                <Select
+                <ColorSelect
                     name="color"
-                    value={colorOptions.find(option => option.value === formData.color)}
+                    value={formData.color}
                     onChange={handleColorChange}
                     options={colorOptions}
-                    components={{ SingleValue: customSingleValue, Option: customOption }}
-                    className={styles.select}
-                    styles={{
-                        control: (base) => ({
-                            ...base,
-                            border: '1px solid #ccc',
-                            boxShadow: 'none',
-                            '&:hover': {
-                                border: '1px solid #aaa'
-                            }
-                        }),
-                        dropdownIndicator: (base) => ({
-                            ...base,
-                            padding: '0 8px'
-                        }),
-                        indicatorSeparator: () => ({
-                            display: 'none'
-                        })
-                    }}
-                    placeholder="Select a color"
-                    title="Select a color for the rule."
-                    isSearchable={false} // Disable text input
                 />
             </label>
             <input
@@ -119,17 +84,17 @@ const AddRuleForm = ({ formData, handleChange, handleSubmit, setFormData, produc
                 onChange={handleChange}
             />
             <div className={styles.buttonGroup}>
-                <button type="submit">Save</button>
+                <Button type="submit" variant="primary">Save</Button>
                 {setFormData && (
-                    <button type="button" onClick={() => setFormData({
+                    <Button type="button" onClick={() => setFormData({
                         rules: "",
                         comparison: "=",
                         amount: "",
                         color: "",
                         product_id: formData.product_id
-                    })}>
+                    })} variant="primary">
                         Clear
-                    </button>
+                    </Button>
                 )}
             </div>
         </form>

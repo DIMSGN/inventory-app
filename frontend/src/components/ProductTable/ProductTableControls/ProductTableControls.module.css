@@ -14,38 +14,6 @@
     gap: 20px;
 }
 
-.exportButton, .addButton, .exportOrdersButton {
-    padding: 10px 20px;
-    background-color: #008cff;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 16px;
-    transition: background-color 0.3s ease, box-shadow 0.3s ease;
-}
-
-.exportButton:hover, .addButton:hover, .exportOrdersButton:hover {
-    background-color: #0066b9;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-}
-
-.exportButton {
-    background-color: #008CBA;
-}
-
-.addButton:hover {
-    background-color: rgb(59, 117, 0);
-}
-
-.addButton {
-    background-color: rgb(74, 148, 0);
-}
-
-.exportOrdersButton {
-    background-color: #008CBA;
-}
-
 /* Responsive Styles */
 @media (max-width: 768px) {
     .controls {

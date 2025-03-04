@@ -1,4 +1,5 @@
 import React from "react";
+import Button from "../../common/Button/Button"; // Updated import
 import styles from "./ProductTableControls.module.css";
 
 /**
@@ -15,10 +16,10 @@ import styles from "./ProductTableControls.module.css";
 const ProductTableControls = ({ exportToPDF, onAddProductClick, exportOrderRequirements, onToggleRuleList, showRuleList }) => {
     return (
         <div className={styles.controls}>
-            <button onClick={onAddProductClick}>Add Product</button>
-            <button onClick={exportToPDF}>Export to PDF</button>
-            <button onClick={exportOrderRequirements}>Export Order Requirements</button>
-            <button onClick={onToggleRuleList}>{showRuleList ? "Hide Rule List" : "Show Rule List"}</button>
+            <Button onClick={onAddProductClick} variant="primary">Add Product</Button>
+            <Button onClick={exportToPDF} variant="primary">Export to PDF</Button>
+            <Button onClick={exportOrderRequirements} variant="primary">Export Order Requirements</Button>
+            <Button onClick={onToggleRuleList} variant="primary">{showRuleList ? "Hide Rule List" : "Show Rule List"}</Button>
         </div>
     );
 };

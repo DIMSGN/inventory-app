@@ -1,8 +1,9 @@
 import React, { useState } from "react";
-import Select from "react-select";
 import styles from "./RuleForm.module.css";
 import { colors } from "../../utils/colors";
 import ProductTableDropdown from "../ProductTable/ProductTableDropdown/ProductTableDropdown";
+import ColorSelect from "../common/ColorSelect/ColorSelect"; // Updated import
+import Button from "../common/Button/Button"; // Updated import
 
 const EditRuleForm = ({ formData, handleChange, handleSubmit, setFormData, setEditingRule, products, handleColorChange, rules }) => {
     const [error, setError] = useState("");
@@ -84,15 +85,11 @@ const EditRuleForm = ({ formData, handleChange, handleSubmit, setFormData, setEd
             </label>
             <label>
                 Color:
-                <Select
+                <ColorSelect
                     name="color"
-                    value={colorOptions.find(option => option.value === formData.color)}
+                    value={formData.color}
                     onChange={handleColorChange}
                     options={colorOptions}
-                    className={styles.select}
-                    placeholder="Select a color"
-                    title="Select a color for the rule."
-                    isSearchable={false} // Disable text input
                 />
             </label>
             <input
@@ -102,22 +99,22 @@ const EditRuleForm = ({ formData, handleChange, handleSubmit, setFormData, setEd
                 onChange={handleChange}
             />
             <div className={styles.buttonGroup}>
-                <button type="submit">Save</button>
+                <Button type="submit" variant="primary">Save</Button>
                 {setEditingRule && (
-                    <button type="button" onClick={() => setEditingRule(null)}>
+                    <Button type="button" onClick={() => setEditingRule(null)} variant="primary">
                         Cancel
-                    </button>
+                    </Button>
                 )}
                 {setFormData && (
-                    <button type="button" onClick={() => setFormData({
+                    <Button type="button" onClick={() => setFormData({
                         rules: "",
                         comparison: "=",
                         amount: "",
                         color: "",
                         product_id: formData.product_id
-                    })}>
+                    })} variant="primary">
                         Clear
-                    </button>
+                    </Button>
                 )}
             </div>
         </form>

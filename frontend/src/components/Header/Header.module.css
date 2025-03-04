@@ -1,34 +1,28 @@
-/* 
-  Header Comments:
-  This CSS module provides styling for the Header component.
-  It includes styles for the header container, title, and filter controls.
-*/
-
 /* Header Styles */
 .header {
     padding: 20px;
-    background-color: #b4b4b4; /* Minimal and professional background color */
-    color: #333333; /* Dark text color for contrast */
+    background-color: #b4b4b4;
+    color: #333333;
     display: flex;
-    justify-content: center; /* Center content horizontally */
-    align-items: center; /* Center content vertically */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Subtle shadow for depth */
-    border-bottom: 3px solid #cccccc; /* Light grey border at the bottom for separation */
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    border-bottom: 3px solid #cccccc;
     position: relative;
-    z-index: 1000; /* Ensure header is above other elements */
-    animation: punchIn 0.6s ease-in-out forwards; /* Apply the punch animation */
+    z-index: 1000;
+    animation: punchIn 0.6s ease-in-out forwards;
 }
 
 .headerTitle {
     margin: 0;
-    font-size: 28px; /* Slightly larger font size for prominence */
+    font-size: 28px;
     font-weight: bold;
     text-align: center;
-    letter-spacing: 1px; /* Slight letter spacing for a cleaner look */
-    flex: 1; /* Allow the title to take up available space */
+    letter-spacing: 1px;
+    flex: 1;
     display: flex;
-    justify-content: center; /* Center the text horizontally */
-    align-items: center; /* Center the text vertically */
+    justify-content: center;
+    align-items: center;
 }
 
 .header select {
@@ -36,7 +30,7 @@
     border: 1px solid #cccccc;
     border-radius: 5px;
     font-size: 16px;
-    color: #333333; /* Dark text color for visibility */
+    color: #333333;
 }
 
 /* Controls Styles */
@@ -54,61 +48,45 @@
     background-color: #ffffff;
     border: 2px solid #cccccc;
     border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Subtle shadow for depth */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     text-align: center;
     font-size: 24px;
     font-weight: bold;
     color: #333333;
     margin-top: 20px;
     position: relative;
-    animation: punchInBox 0.6s ease-in-out forwards; /* Apply the punch animation */
-}
-
-/* Add Button Styles */
-.addButton {
-    padding: 10px 20px;
-    background-color: #008cff;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 16px;
-    transition: background-color 0.3s ease;
-}
-
-.addButton:hover {
-    background-color: #0066b9;
+    animation: punchInBox 0.6s ease-in-out forwards;
 }
 
 /* Keyframes for Punch Animation */
 @keyframes punchIn {
     0% {
-        transform: scale(0.9); /* Start at 90% size */
-        opacity: 0; /* Start with 0 opacity */
+        transform: scale(0.9);
+        opacity: 0;
     }
     50% {
-        transform: scale(1.02); /* Slightly larger than 100% for punch effect */
-        opacity: 1; /* Fully visible */
+        transform: scale(1.02);
+        opacity: 1;
     }
     100% {
-        transform: scale(1); /* End at 100% size */
-        opacity: 1; /* Fully visible */
+        transform: scale(1);
+        opacity: 1;
     }
 }
 
 /* Keyframes for Punch Animation for Inventory Box */
 @keyframes punchInBox {
     0% {
-        transform: scale(0.9); /* Start at 90% size */
-        opacity: 0; /* Start with 0 opacity */
+        transform: scale(0.9);
+        opacity: 0;
     }
     50% {
-        transform: scale(1.02); /* Slightly larger than 100% for punch effect */
-        opacity: 1; /* Fully visible */
+        transform: scale(1.02);
+        opacity: 1;
     }
     100% {
-        transform: scale(1); /* End at 100% size */
-        opacity: 1; /* Fully visible */
+        transform: scale(1);
+        opacity: 1;
     }
 }
 
