@@ -25,6 +25,7 @@ const App = () => {
     const [isRuleModalOpen, setIsRuleModalOpen] = useState(false);
     const [isEditing, setIsEditing] = useState(false);
     const { editingProduct, setEditingProduct, fetchProducts, products } = useContext(ProductContext);
+    const [currentProduct, setCurrentProduct] = useState(null); // Add currentProduct state
 
     const { data: fetchedRules, loading } = useFetch(`${process.env.REACT_APP_API_URL}/rules`);
 
@@ -73,8 +74,9 @@ const App = () => {
         }
     };
 
-    const openRuleModal = (rule = null) => {
+    const openRuleModal = (rule = null, product = null) => {
         setCurrentRule(rule);
+        setCurrentProduct(product); // Set currentProduct
         setIsEditing(!!rule);
         setIsRuleModalOpen(true);
     };
@@ -120,7 +122,7 @@ const App = () => {
             )}
             {isRuleModalOpen && (
                 <RuleModal
-                    currentProduct={editingProduct}
+                    currentProduct={currentProduct} // Pass currentProduct to RuleModal
                     formData={currentRule}
                     handleChange={(e) => setCurrentRule({ ...currentRule, [e.target.name]: e.target.value })}
                     handleSubmit={handleFormSubmit}
