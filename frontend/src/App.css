@@ -50,6 +50,35 @@ code {
 }
 
 /* Responsive Styles */
+@media (max-width: 1200px) {
+  .container {
+    max-width: 100%;
+    padding: 15px;
+  }
+
+  .controls {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .productTable th, .productTable td {
+    padding: 8px;
+  }
+
+  .form {
+    padding: 10px;
+  }
+
+  .formRow {
+    flex-direction: column;
+  }
+
+  .buttonGroup {
+    flex-direction: column;
+    gap: 5px;
+  }
+}
+
 @media (max-width: 768px) {
   .container {
     padding: 10px;
@@ -62,6 +91,14 @@ code {
   .controls {
     flex-direction: column;
     gap: 10px;
+  }
+
+  .productTableContainer {
+    overflow-x: auto; /* Add horizontal scroll for product table */
+  }
+
+  .productTable {
+    min-width: 600px; /* Ensure table doesn't shrink too much */
   }
 
   .productTable th, .productTable td {

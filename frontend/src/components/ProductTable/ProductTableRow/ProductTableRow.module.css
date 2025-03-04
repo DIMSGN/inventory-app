@@ -6,4 +6,14 @@
   background-color: #ffffff;
   z-index: 1;
   position: relative;
+  display: flex;
+  gap: 10px;
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+  .actionsCell {
+    flex-direction: column; /* Stack buttons vertically on smaller screens */
+    gap: 5px;
+  }
 }
