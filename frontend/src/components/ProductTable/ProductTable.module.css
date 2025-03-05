@@ -34,9 +34,12 @@
 
 /* Responsive Styles */
 @media (max-width: 768px) {
+    .productTable {
+        width: 100%; /* Ensure table takes full width on smaller screens */
+    }
     .productTable th, .productTable td {
-        display: block;
-        width: 100%;
+        font-size: 14px;
+        padding: 6px;
     }
 
     .productTable tr {
@@ -54,6 +57,10 @@
     .productTable td:before {
         content: attr(data-label);
         font-weight: bold;
+    }
+
+    .productTable thead {
+        display: none; /* Hide the header row on smaller screens */
     }
 }
 
