@@ -14,7 +14,7 @@ const ProductTableRow = ({ product, rules, onEditProduct, onDeleteProduct, openR
     }));
 
     return (
-        <tr key={product.product_id} style={{ backgroundColor: getRowColor(product, rules) }}>
+        <tr key={product.product_id} className={styles.productTableRow} style={{ backgroundColor: getRowColor(product, rules) }}>
             <td data-label="Product ID">{product.product_id}</td>
             <td data-label="Name">{product.product_name}</td>
             <td data-label="Category">{product.category}</td>

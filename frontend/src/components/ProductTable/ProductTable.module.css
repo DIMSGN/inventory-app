@@ -112,3 +112,10 @@
         font-weight: bold;
     }
 }
+
+@media (max-width: 600px) {
+    .productTable th, .productTable td {
+        font-size: 14px;
+        padding: 6px;
+    }
+}
