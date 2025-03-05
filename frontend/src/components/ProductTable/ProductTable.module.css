@@ -13,14 +13,6 @@
     overflow-x: auto; /* Add horizontal scroll for product table */
 }
 
-.title {
-    margin-bottom: 20px;
-    font-size: 24px;
-    font-weight: bold;
-    color: #333333;
-    text-align: center;
-}
-
 .productTable {
     width: 100%;
     border-collapse: collapse;
@@ -40,56 +32,8 @@
     font-weight: bold;
 }
 
-.rulesCell {
-    position: relative;
-}
-
-.controls {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 20px;
-}
-
 /* Responsive Styles */
-@media (max-width: 1200px) {
-    .controls {
-        flex-direction: column;
-        gap: 10px;
-    }
-
-    .productTable th, .productTable td {
-        padding: 8px;
-    }
-
-    .productTableContainer {
-        padding: 15px;
-    }
-}
-
 @media (max-width: 768px) {
-    .controls {
-        flex-direction: column;
-        gap: 10px;
-    }
-
-    .productTable th, .productTable td {
-        padding: 8px;
-    }
-
-    .modalContent {
-        width: 90%;
-        height: 80%;
-    }
-
-    .productTableContainer {
-        padding: 8px;
-        overflow-x: auto; /* Add horizontal scroll for product table */
-    }
-
-    .productTable {
-        min-width: 600px; /* Ensure table doesn't shrink too much */
-    }
-
     .productTable th, .productTable td {
         display: block;
         width: 100%;

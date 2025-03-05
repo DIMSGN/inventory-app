@@ -8,7 +8,7 @@
     position: relative;
     display: flex;
     gap: 15px; /* Increase gap between buttons */
-    flex-wrap: nowrap; /* Do not wrap buttons within the cell */
+    flex-wrap: wrap; /* Allow buttons to wrap within the cell */
 }
 
 .actionsCell button {
@@ -21,12 +21,13 @@
 /* Responsive Styles */
 @media (max-width: 600px) {
     .actionsCell {
-        flex-direction: column; /* Stack buttons vertically on smaller screens */
+        flex-direction: row; /* Display buttons in a row on smaller screens */
         gap: 5px;
     }
 
     .actionsCell button {
-        max-width: 100%; /* Allow buttons to take full width on smaller screens */
+        max-width: 50%; /* Allow buttons to take full width on smaller screens */
+        align-items: center; /* Align button text to center */
     }
 
     .productTableRow:first-child {
