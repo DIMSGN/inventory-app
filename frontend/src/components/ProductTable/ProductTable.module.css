@@ -68,19 +68,21 @@
 @media (max-width: 600px) {
     .productTable {
         width: 100%; /* Ensure table takes full width on smaller screens */
+        max-width: 330px; /* Reduce maximum width for better fit */
     }
     .productTable th, .productTable td {
-        font-size: 10px; /* Further reduce font size */
+        font-size: 12px; /* Reduce font size */
+        padding: 1px; /* Reduce padding */
     }
 
     .productTable tr {
-        margin-bottom: 5px; /* Reduce margin between rows */
+        margin-bottom: 2px; /* Reduce margin between rows */
         border-bottom: 1px solid #ccc; /* Reduce border size */
     }
 
     .productTable td {
         text-align: left;
-        padding: 2px; /* Further reduce padding */
+        padding: 4px; /* Reduce padding */
         display: flex;
         justify-content: space-between;
     }
@@ -93,4 +95,5 @@
     .productTable thead {
         display: none; /* Hide the header row on smaller screens */
     }
+    
 }
