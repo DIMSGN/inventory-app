@@ -10,6 +10,7 @@
     flex-direction: column;
     gap: 20px;
     width: 100%;
+    overflow-x: auto; /* Add horizontal scroll for product table */
 }
 
 .title {
@@ -24,6 +25,7 @@
     width: 100%;
     border-collapse: collapse;
     table-layout: fixed; /* Ensure table fits within the container */
+    min-width: 600px; /* Ensure table doesn't shrink too much */
 }
 
 .productTable th, .productTable td {
@@ -86,5 +88,27 @@
 
     .productTable {
         min-width: 600px; /* Ensure table doesn't shrink too much */
+    }
+
+    .productTable th, .productTable td {
+        display: block;
+        width: 100%;
+    }
+
+    .productTable tr {
+        margin-bottom: 10px;
+        border-bottom: 2px solid #ccc;
+    }
+
+    .productTable td {
+        text-align: left;
+        padding: 8px;
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .productTable td:before {
+        content: attr(data-label);
+        font-weight: bold;
     }
 }

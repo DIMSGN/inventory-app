@@ -15,12 +15,12 @@ const ProductTableRow = ({ product, rules, onEditProduct, onDeleteProduct, openR
 
     return (
         <tr key={product.product_id} style={{ backgroundColor: getRowColor(product, rules) }}>
-            <td>{product.product_id}</td>
-            <td>{product.product_name}</td>
-            <td>{product.category}</td>
-            <td>{product.amount}</td>
-            <td>{product.unit}</td>
-            <td className={styles.rulesCell}>
+            <td data-label="Product ID">{product.product_id}</td>
+            <td data-label="Name">{product.product_name}</td>
+            <td data-label="Category">{product.category}</td>
+            <td data-label="Amount">{product.amount}</td>
+            <td data-label="Unit">{product.unit}</td>
+            <td data-label="Rules" className={styles.rulesCell}>
                 <ProductTableDropdown
                     name="rules"
                     value={rules.find(rule => rule.product_id === product.product_id && getRowColor(product, rules) === rule.color)?.id || ""}
@@ -28,7 +28,7 @@ const ProductTableRow = ({ product, rules, onEditProduct, onDeleteProduct, openR
                     options={dropdownOptions}
                 />
             </td>
-            <td className={styles.actionsCell}>
+            <td data-label="Actions" className={styles.actionsCell}>
                 <Button variant="edit" onClick={() => onEditProduct(product)}>Edit</Button>
                 <Button variant="delete" onClick={() => onDeleteProduct(product.product_id)}>Delete</Button>
                 <Button variant="primary" onClick={() => openRuleModal(product)}>Add Rule</Button>
