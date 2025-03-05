@@ -40,11 +40,11 @@
     }
     .productTable th, .productTable td {
         font-size: 12px; /* Reduce font size */
-        padding: 4px; /* Reduce padding */
+        padding: 1px; /* Reduce padding */
     }
 
     .productTable tr {
-        margin-bottom: 5px; /* Reduce margin between rows */
+        margin-bottom: 2px; /* Reduce margin between rows */
         border-bottom: 1px solid #ccc; /* Reduce border size */
     }
 
