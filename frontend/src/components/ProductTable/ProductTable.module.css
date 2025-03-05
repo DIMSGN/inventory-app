@@ -10,22 +10,21 @@
     flex-direction: column;
     gap: 10px;
     width: 100%;
-    overflow-x: auto; /* Add horizontal scroll for product table */
+    overflow-x: auto; /
 }
 
 .productTable {
     width: 100%;
     border-collapse: collapse;
-    table-layout: fixed; /* Ensure table fits within the container */
-    min-width: 500px; /* Ensure table doesn't shrink too much */
+    table-layout: fixed; 
+    min-width: 500px; 
 }
 
 .productTable th, .productTable td {
     padding: 8px;
     border: 1px solid #e4e4e4;
     text-align: left;
-    word-wrap: break-word; /* Ensure content wraps within the cell */
-}
+    word-wrap: break-word; 
 
 .productTable th {
     background-color: #e2e2e2;
@@ -35,11 +34,11 @@
 /* Responsive Styles */
 @media (max-width: 768px) {
     .productTable {
-        width: 100%; /* Ensure table takes full width on smaller screens */
-        max-width: 330px; /* Reduce maximum width for better fit */
+        width: 100%; 
+        max-width: 330px; 
     }
     .productTable th, .productTable td {
-        font-size: 12px; /* Reduce font size */
+        font-size: 12px; 
         padding: 1px; /* Reduce padding */
     }
 
@@ -68,7 +67,7 @@
 @media (max-width: 600px) {
     .productTable {
         width: 100%; /* Ensure table takes full width on smaller screens */
-        max-width: 330px; /* Reduce maximum width for better fit */
+        max-width: 300px; /* Reduce maximum width for better fit */
     }
     .productTable th, .productTable td {
         font-size: 12px; /* Reduce font size */
@@ -82,7 +81,7 @@
 
     .productTable td {
         text-align: left;
-        padding: 4px; /* Reduce padding */
+        padding: 2px; /* Reduce padding */
         display: flex;
         justify-content: space-between;
     }
