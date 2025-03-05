@@ -1,6 +1,7 @@
 import React, { useState, useContext } from "react";
 import { ProductContext } from "../../../context/ProductContext";
 import productService from "../../../services/productService";
+import categoryService from "../../../services/categoryService"; // Import categoryService
 import Button from "../../common/Button/Button"; // Updated import
 import styles from "./ProductForm.module.css";
 import useProductOperations from "../../../hooks/useProductOperations"; // Import useProductOperations
@@ -25,6 +26,12 @@ const AddProductForm = ({ onClose }) => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
+            if (isAddingCategory && newCategory.trim() !== "") {
+                const addedCategory = await categoryService.addCategory(newCategory.trim());
+                setFormData((prevData) => ({ ...prevData, category: addedCategory.name }));
+                setNewCategory("");
+                setIsAddingCategory(false);
+            }
             await productService.addProduct(formData);
             fetchProducts();
             resetForm();

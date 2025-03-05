@@ -62,4 +62,8 @@
         font-size: 14px;
         padding: 6px;
     }
+
+    .productTable thead {
+        display: none; /* Hide the header row on smaller screens */
+    }
 }

@@ -4,6 +4,7 @@ const cors = require("cors");
 const dotenv = require("dotenv");
 const productsRouter = require("./routes/products");
 const rulesRouter = require("./routes/rules");
+const categoriesRouter = require("./routes/categories"); // Import categories router
 
 dotenv.config();
 
@@ -18,6 +19,7 @@ app.use(express.static(path.join(__dirname, "../frontend/build")));
 // API routes
 app.use("/api/products", productsRouter);
 app.use("/api/rules", rulesRouter);
+app.use("/api/categories", categoriesRouter); // Use categories router
 
 // The "catchall" handler: for any request that doesn't match one above, send back React's index.html file.
 app.get("*", (req, res) => {
