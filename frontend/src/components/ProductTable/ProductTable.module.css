@@ -1,14 +1,14 @@
 .productTableContainer {
-    padding: 20px;
+    padding: 10px;
     background-color: #ffffff;
     border: 1px solid #ddd;
     border-radius: 10px;
     max-width: 1440px;
-    margin: 20px auto;
+    margin: 10px auto;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: 10px;
     width: 100%;
     overflow-x: auto; /* Add horizontal scroll for product table */
 }
@@ -17,11 +17,11 @@
     width: 100%;
     border-collapse: collapse;
     table-layout: fixed; /* Ensure table fits within the container */
-    min-width: 600px; /* Ensure table doesn't shrink too much */
+    min-width: 500px; /* Ensure table doesn't shrink too much */
 }
 
 .productTable th, .productTable td {
-    padding: 10px;
+    padding: 8px;
     border: 1px solid #e4e4e4;
     text-align: left;
     word-wrap: break-word; /* Ensure content wraps within the cell */
@@ -36,6 +36,7 @@
 @media (max-width: 768px) {
     .productTable {
         width: 100%; /* Ensure table takes full width on smaller screens */
+        max-width: 330px; /* Reduce maximum width for better fit */
     }
     .productTable th, .productTable td {
         font-size: 12px; /* Reduce font size */
@@ -66,11 +67,10 @@
 
 @media (max-width: 600px) {
     .productTable {
-        width: 60%; /* Ensure table takes full width on smaller screens */
+        width: 100%; /* Ensure table takes full width on smaller screens */
     }
     .productTable th, .productTable td {
         font-size: 10px; /* Further reduce font size */
-        padding: 2px; /* Further reduce padding */
     }
 
     .productTable tr {

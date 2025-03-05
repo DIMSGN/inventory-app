@@ -7,22 +7,22 @@
     z-index: 1;
     position: relative;
     display: flex;
-    gap: 15px; /* Increase gap between buttons */
+    gap: 5px; /* Reduce gap between buttons */
     flex-wrap: wrap; /* Allow buttons to wrap within the cell */
 }
 
 .actionsCell button {
-    max-width: 100px; /* Set a maximum width for buttons */
+    max-width: 80px; /* Reduce maximum width for buttons */
     flex: 1; /* Allow buttons to take up available space */
-    padding: 5px 10px; /* Adjust padding for better fit */
-    font-size: 14px; /* Adjust font size for better fit */
+    padding: 4px 8px; /* Adjust padding for better fit */
+    font-size: 12px; /* Adjust font size for better fit */
 }
 
 /* Responsive Styles */
 @media (max-width: 600px) {
     .actionsCell {
         flex-direction: row; /* Display buttons in a row on smaller screens */
-        gap: 5px;
+        gap: 2px; /* Reduce gap between buttons */
     }
 
     .actionsCell button {
