@@ -38,18 +38,18 @@
         width: 100%; /* Ensure table takes full width on smaller screens */
     }
     .productTable th, .productTable td {
-        font-size: 14px;
-        padding: 6px;
+        font-size: 12px; /* Reduce font size */
+        padding: 4px; /* Reduce padding */
     }
 
     .productTable tr {
-        margin-bottom: 10px;
-        border-bottom: 2px solid #ccc;
+        margin-bottom: 5px; /* Reduce margin between rows */
+        border-bottom: 1px solid #ccc; /* Reduce border size */
     }
 
     .productTable td {
         text-align: left;
-        padding: 8px;
+        padding: 4px; /* Reduce padding */
         display: flex;
         justify-content: space-between;
     }
@@ -69,18 +69,18 @@
         width: 100%; /* Ensure table takes full width on smaller screens */
     }
     .productTable th, .productTable td {
-        font-size: 14px;
-        padding: 6px;
+        font-size: 10px; /* Further reduce font size */
+        padding: 2px; /* Further reduce padding */
     }
 
     .productTable tr {
-        margin-bottom: 10px;
-        border-bottom: 2px solid #ccc;
+        margin-bottom: 5px; /* Reduce margin between rows */
+        border-bottom: 1px solid #ccc; /* Reduce border size */
     }
 
     .productTable td {
         text-align: left;
-        padding: 8px;
+        padding: 2px; /* Further reduce padding */
         display: flex;
         justify-content: space-between;
     }
@@ -92,5 +92,5 @@
 
     .productTable thead {
         display: none; /* Hide the header row on smaller screens */
-}
+    }
 }
