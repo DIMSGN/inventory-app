@@ -66,7 +66,7 @@
 
 @media (max-width: 600px) {
     .productTable {
-        width: 100%; /* Ensure table takes full width on smaller screens */
+        width: 60%; /* Ensure table takes full width on smaller screens */
     }
     .productTable th, .productTable td {
         font-size: 10px; /* Further reduce font size */
