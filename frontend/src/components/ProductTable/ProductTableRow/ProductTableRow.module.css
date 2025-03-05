@@ -29,8 +29,4 @@
         max-width: 50%; /* Allow buttons to take full width on smaller screens */
         align-items: center; /* Align button text to center */
     }
-
-    .productTableRow:first-child {
-        display: none; /* Hide the first row on smaller screens */
-    }
 }
