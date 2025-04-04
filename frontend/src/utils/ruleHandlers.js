@@ -1,12 +1,18 @@
 import ruleService from "../services/ruleService";
 
 export const handleAddRule = async (rule, setRules, setShowForm) => {
+    console.log("Data being sent to backend:", rule); // Debugging log
+    if (!rule.product_id || !rule.comparison || !rule.amount || !rule.color) {
+        console.error("Invalid rule data:", rule);
+        return;
+    }
+
     try {
         const newRule = await ruleService.addRule(rule);
         setRules(prevRules => [...prevRules, newRule]);
         setShowForm(false); // Hide form after adding rule
     } catch (error) {
-        console.error("Error adding rule:", error);
+        console.error("Error adding rule:", error.response?.data || error.message);
     }
 };
 

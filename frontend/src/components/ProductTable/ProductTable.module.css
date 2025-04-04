@@ -14,84 +14,19 @@
 }
 
 .productTable {
-    width: 100%;
+    width: 95%;
     border-collapse: collapse;
-    table-layout: fixed; 
-    min-width: 500px; 
+    table-layout: auto; 
 }
 
 .productTable th, .productTable td {
     padding: 8px;
     border: 1px solid #e4e4e4;
-    text-align: left;
-    word-wrap: break-word; 
+    text-align: center; 
+    white-space: nowrap; 
 }
+
 .productTable th {
     background-color: #e2e2e2;
     font-weight: bold;
-}
-
-/* Responsive Styles */
-@media (max-width: 768px) {
-    .productTable {
-        width: 100%; 
-        max-width: 330px; 
-    }
-    .productTable th, .productTable td {
-        font-size: 12px; 
-        padding: 1px; /* Reduce padding */
-    }
-
-    .productTable tr {
-        margin-bottom: 2px; /* Reduce margin between rows */
-        border-bottom: 1px solid #ccc; /* Reduce border size */
-    }
-
-    .productTable td {
-        text-align: left;
-        padding: 4px; /* Reduce padding */
-        display: flex;
-        justify-content: space-between;
-    }
-
-    .productTable td:before {
-        content: attr(data-label);
-        font-weight: bold;
-    }
-
-    .productTable thead {
-        display: none; /* Hide the header row on smaller screens */
-    }
-}
-
-@media (max-width: 600px) {
-    .productTable {
-        width: 100%; /* Ensure table takes full width on smaller screens */
-        max-width: 300px; /* Reduce maximum width for better fit */
-    }
-    .productTable th, .productTable td {
-        font-size: 12px; /* Reduce font size */
-        padding: 1px; /* Reduce padding */
-    }
-
-    .productTable tr {
-        margin-bottom: 2px; /* Reduce margin between rows */
-        border-bottom: 1px solid #ccc; /* Reduce border size */
-    }
-
-    .productTable td {
-        text-align: left;
-        padding: 2px; /* Reduce padding */
-        display: flex;
-        justify-content: space-between;
-    }
-
-    .productTable td:before {
-        content: attr(data-label);
-        font-weight: bold;
-    }
-
-    .productTable thead {
-        display: none; /* Hide the header row on smaller screens */
-    }
 }

@@ -1,7 +1,7 @@
 // Import necessary modules and components
 import React, { useContext } from "react";
 import { motion } from "framer-motion";
-import { ProductContext } from "../../context/ProductContext";
+import { ProductContext } from "../../context/Product/ProductContext";
 import CategorySelect from "./CategorySelect/CategorySelect"; // Import CategorySelect component
 import styles from "./Header.module.css";
 

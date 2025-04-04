@@ -1,25 +1,18 @@
-import { useState, useEffect, useRef, useCallback } from "react";
-import { fetchData, updateData, deleteData } from "../utils/apiUtils"; // Ensure correct import paths
+import { useEffect, useRef, useCallback, useState } from "react";
+import { fetchData, updateData, deleteData } from "../utils/apiUtils";
+import { toast } from "react-toastify";
 
-/**
- * Custom hook to handle form state, changes, and product operations.
- * @param {Object} initialValues - The initial values for the form.
- * @param {Function} setFilteredProducts - Function to set filtered products.
- * @param {Function} setCategories - Function to set categories.
- * @param {Function} setEditingProduct - Function to set the editing product.
- * @returns {Object} - The form state, handleChange function, resetForm function, and product operations.
- */
 const useProductOperations = (initialValues, setFilteredProducts, setCategories, setEditingProduct) => {
-    const [formData, setFormData] = useState(initialValues);
     const productTableRef = useRef();
+    const [formData, setFormData] = useState(initialValues || {});
 
     const handleChange = (e) => {
         const { name, value } = e.target;
-        setFormData((prevData) => ({ ...prevData, [name]: value }));
+        setFormData((prevData) => ({ ...prevData, [name]: value })); // Update formData on input change
     };
 
-    const resetForm = () => {
-        setFormData(initialValues);
+    const resetForm = (newValues) => {
+        setFormData(newValues || {});
     };
 
     const fetchProducts = useCallback(async () => {
@@ -31,8 +24,10 @@ const useProductOperations = (initialValues, setFilteredProducts, setCategories,
             setFilteredProducts(response);
             const uniqueCategories = [...new Set(response.map(product => product.category))];
             setCategories(uniqueCategories);
+            toast.success("Products fetched successfully!");
         } catch (error) {
             console.error("Error fetching products:", error);
+            toast.error("Failed to fetch products. Please try again.");
         }
     }, [setFilteredProducts, setCategories]);
 
@@ -40,18 +35,9 @@ const useProductOperations = (initialValues, setFilteredProducts, setCategories,
         fetchProducts();
     }, [fetchProducts]);
 
-    const handleFilterChange = (filter) => {
-        setFilteredProducts(products => {
-            if (filter) {
-                return products.filter(product => product.category === filter);
-            } else {
-                return products;
-            }
-        });
-    };
-
     const handleEditProduct = (product) => {
         setEditingProduct(product);
+        toast.info("Editing product...");
     };
 
     const handleUpdateProduct = async (updatedProduct) => {
@@ -59,8 +45,10 @@ const useProductOperations = (initialValues, setFilteredProducts, setCategories,
             await updateData(`/products/${updatedProduct.product_id}`, updatedProduct);
             fetchProducts();
             setEditingProduct(null);
+            toast.success("Product updated successfully!");
         } catch (error) {
             console.error("Error updating product:", error);
+            toast.error("Failed to update product. Please try again.");
         }
     };
 
@@ -68,26 +56,28 @@ const useProductOperations = (initialValues, setFilteredProducts, setCategories,
         try {
             await deleteData(`/products/${productId}`);
             fetchProducts();
+            toast.success("Product deleted successfully!");
         } catch (error) {
             console.error("Error deleting product:", error);
+            toast.error("Failed to delete product. Please try again.");
         }
     };
 
     const handleCancelEdit = () => {
         setEditingProduct(null);
+        toast.info("Edit canceled.");
     };
 
     return {
-        formData,
-        handleChange,
-        resetForm,
         productTableRef,
-        handleFilterChange,
         handleEditProduct,
         handleUpdateProduct,
         handleDeleteProduct,
         handleCancelEdit,
         fetchProducts,
+        formData,
+        handleChange,
+        resetForm,
     };
 };
 

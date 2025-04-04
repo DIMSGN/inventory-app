@@ -1,18 +1,26 @@
 import React, { useContext, useState } from "react";
-import { ProductContext } from "../../context/ProductContext";
+import { ProductContext } from "../../context/Product/ProductContext";
 import ProductTableControls from "./ProductTableControls/ProductTableControls";
 import ProductTableRow from "./ProductTableRow/ProductTableRow";
+import ProductModal from "./ProductModal/ProductModal"; // Import ProductModal
+import AddProductForm from "./ProductForm/AddProductForm"; // Import AddProductForm
+import EditProductForm from "./ProductForm/EditProductForm"; // Import EditProductForm
 import { openRuleModal } from "../../utils/openRuleModal";
 import styles from "./ProductTable.module.css";
 import exportOrderRequirements from "../../utils/exportOrderRequirements";
 import { exportToPDF } from "../../utils/exportToPDF";
 import RuleModal from "./RuleModal/RuleModal";
-import useProductOperations from "../../hooks/useProductOperations"; // Ensure correct import
+import useProductOperations from "../../hooks/useProductOperations";
+import { toast } from "react-toastify";
 
-const ProductTable = ({ onAddProductClick, onToggleRuleList, showRuleList, setShowForm, setCurrentRule, setEditingProduct }) => {
+const ProductTable = ({ onAddProductClick, onToggleRuleList, showRuleList, setShowForm, setCurrentRule }) => {
     const { filteredProducts, rules, setRules, setFilteredProducts, setCategories } = useContext(ProductContext);
+
     const [currentProduct, setCurrentProduct] = useState(null);
     const [isRuleModalOpen, setIsRuleModalOpen] = useState(false);
+    const [isAddProductModalOpen, setIsAddProductModalOpen] = useState(false); // State for Add Product Modal
+    const [isEditProductModalOpen, setIsEditProductModalOpen] = useState(false); // State for Edit Product Modal
+    const [editingProduct, setEditingProduct] = useState(null); // State for the product being edited
     const [formData, setFormData] = useState({
         rules: "",
         comparison: "=",
@@ -50,14 +58,21 @@ const ProductTable = ({ onAddProductClick, onToggleRuleList, showRuleList, setSh
             const addedRule = await response.json();
             setRules((prevRules) => [...prevRules, addedRule]);
             setShowForm(false);
+            toast.success("Rule added successfully!");
         } catch (error) {
             console.error("Error adding rule:", error);
+            toast.error("Failed to add rule. Please try again.");
         }
     };
 
     const handleFormSubmit = async (e) => {
         e.preventDefault();
-        console.log("Submitting form data:", formData);
+
+        if (!currentProduct || !currentProduct.product_id) {
+            toast.error("No valid product selected.");
+            return;
+        }
+
         try {
             await handleAddRule({ ...formData, product_id: currentProduct.product_id }, setRules, setShowForm);
             setIsRuleModalOpen(false);
@@ -68,19 +83,23 @@ const ProductTable = ({ onAddProductClick, onToggleRuleList, showRuleList, setSh
     };
 
     const { handleEditProduct, handleDeleteProduct } = useProductOperations(
-        {},
+        {}, // Provide initialValues (empty object or default structure)
         setFilteredProducts,
         setCategories,
         setEditingProduct
     );
 
+    const handleEditClick = (product) => {
+        setEditingProduct(product); // Set the product to be edited
+        setIsEditProductModalOpen(true); // Open the Edit Product Modal
+    };
+
     return (
         <div className={styles.productTableContainer}>
-            <h2 className={styles.title}>Product Table</h2>
             <ProductTableControls
                 exportToPDF={() => exportToPDF(filteredProducts)}
                 exportOrderRequirements={() => exportOrderRequirements(filteredProducts, rules)}
-                onAddProductClick={onAddProductClick}
+                onAddProductClick={() => setIsAddProductModalOpen(true)} // Open Add Product Modal
                 onToggleRuleList={onToggleRuleList}
                 showRuleList={showRuleList}
             />
@@ -102,9 +121,9 @@ const ProductTable = ({ onAddProductClick, onToggleRuleList, showRuleList, setSh
                             key={product.product_id}
                             product={product}
                             rules={rules}
-                            onEditProduct={handleEditProduct} // Ensure handleEditProduct is used
+                            onEditProduct={() => handleEditClick(product)} // Pass the product to handleEditClick
                             onDeleteProduct={handleDeleteProduct}
-                            openRuleModal={() => openRuleModal(product, setCurrentProduct, resetForm, handleChange, setIsRuleModalOpen)}
+                            openRuleModal={(product) => openRuleModal(product, setCurrentProduct, setIsRuleModalOpen)}
                         />
                     ))}
                 </tbody>
@@ -121,6 +140,22 @@ const ProductTable = ({ onAddProductClick, onToggleRuleList, showRuleList, setSh
                     setFormData={setFormData}
                     isEditing={isEditing}
                 />
+            )}
+            {/* Add Product Modal */}
+            {isAddProductModalOpen && (
+                <ProductModal title="Add New Product" onClose={() => setIsAddProductModalOpen(false)}>
+                    <AddProductForm onClose={() => setIsAddProductModalOpen(false)} />
+                </ProductModal>
+            )}
+            {/* Edit Product Modal */}
+            {isEditProductModalOpen && (
+                <ProductModal title="Edit Product" onClose={() => setIsEditProductModalOpen(false)}>
+                    <EditProductForm
+                        product={editingProduct} // Pass the product being edited
+                        onClose={() => setIsEditProductModalOpen(false)}
+                        onUpdateProduct={handleEditProduct}
+                    />
+                </ProductModal>
             )}
         </div>
     );

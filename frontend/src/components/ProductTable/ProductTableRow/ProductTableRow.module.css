@@ -1,32 +1,19 @@
 .rulesCell {
     position: relative;
+    overflow: hidden; /* Ensure content does not overflow */
+    max-width: 100%; /* Ensure content does not exceed the cell width */
 }
 
 .actionsCell {
-    background-color: #ffffff;
+    background-color: #ffffff; /* Ensure background color covers the entire cell */
     z-index: 1;
     position: relative;
     display: flex;
     gap: 5px; /* Reduce gap between buttons */
     flex-wrap: wrap; /* Allow buttons to wrap within the cell */
+    width: 95%; /* Ensure actions cell covers the entire cell */
+    height: 100%; /* Ensure actions cell covers the entire cell */
+    box-shadow: inset 0 0 0 1000px #ffffff; /* Ensure no rule colors are visible */
 }
 
-.actionsCell button {
-    max-width: 80px; /* Reduce maximum width for buttons */
-    flex: 1; /* Allow buttons to take up available space */
-    padding: 4px 8px; /* Adjust padding for better fit */
-    font-size: 12px; /* Adjust font size for better fit */
-}
 
-/* Responsive Styles */
-@media (max-width: 600px) {
-    .actionsCell {
-        flex-direction: row; /* Display buttons in a row on smaller screens */
-        gap: 2px; /* Reduce gap between buttons */
-    }
-
-    .actionsCell button {
-        max-width: 50%; /* Allow buttons to take full width on smaller screens */
-        align-items: center; /* Align button text to center */
-    }
-}

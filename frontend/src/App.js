@@ -1,11 +1,13 @@
 import React, { useState, useContext, useEffect } from "react";
-import { ProductContext } from "./context/ProductContext";
+import { ProductContext } from "./context/Product/ProductContext";
 import Header from "./components/Header/Header";
 import ProductTable from "./components/ProductTable/ProductTable";
 import RuleList from "./components/RuleList/RuleList";
-import AddProductForm from "./components/ProductTable/ProductForm/AddProductForm"; // Updated import path
-import EditProductForm from "./components/ProductTable/ProductForm/EditProductForm"; // Updated import path
+import AddProductForm from "./components/ProductTable/ProductForm/AddProductForm";
+import EditProductForm from "./components/ProductTable/ProductForm/EditProductForm";
 import RuleModal from "./components/ProductTable/RuleModal/RuleModal";
+import ProductTableRow from "./components/ProductTable/ProductTableRow/ProductTableRow"; // Import ProductTableRow
+import ProductModal from "./components/ProductTable/ProductModal/ProductModal";
 import useFetch from "./hooks/useFetch";
 import {
     handleEditRule,
@@ -13,7 +15,7 @@ import {
     handleDeleteRule,
     handleColorChange
 } from "./utils/ruleHandlers";
-import { updateData } from "./utils/apiUtils"; // Ensure updateData is imported
+import { updateData } from "./utils/apiUtils";
 import styles from "./App.css";
 
 const App = () => {
@@ -25,7 +27,7 @@ const App = () => {
     const [isRuleModalOpen, setIsRuleModalOpen] = useState(false);
     const [isEditing, setIsEditing] = useState(false);
     const { editingProduct, setEditingProduct, fetchProducts, products } = useContext(ProductContext);
-    const [currentProduct, setCurrentProduct] = useState(null); // Add currentProduct state
+    const [currentProduct, setCurrentProduct] = useState(null);
 
     const { data: fetchedRules, loading } = useFetch(`${process.env.REACT_APP_API_URL}/rules`);
 
@@ -39,6 +41,10 @@ const App = () => {
         setShowRuleList(!showRuleList);
     };
 
+    const handleAddFormClose = () => {
+        setShowProductManager(false); // Close Add Product Modal
+    };
+
     const handleEditFormClose = () => {
         setEditingProduct(null);
     };
@@ -50,6 +56,15 @@ const App = () => {
             setEditingProduct(null);
         } catch (error) {
             console.error("Error updating product:", error);
+        }
+    };
+
+    const handleDeleteProduct = async (productId) => {
+        try {
+            await fetch(`/api/products/${productId}`, { method: "DELETE" });
+            fetchProducts(); // Refresh the product list after deletion
+        } catch (error) {
+            console.error("Error deleting product:", error);
         }
     };
 
@@ -76,7 +91,7 @@ const App = () => {
 
     const openRuleModal = (rule = null, product = null) => {
         setCurrentRule(rule);
-        setCurrentProduct(product); // Set currentProduct
+        setCurrentProduct(product);
         setIsEditing(!!rule);
         setIsRuleModalOpen(true);
     };
@@ -100,29 +115,39 @@ const App = () => {
                 showRuleList={showRuleList}
                 setShowForm={setShowForm}
                 setCurrentRule={setCurrentRule}
-                setEditingProduct={setEditingProduct} // Pass setEditingProduct to ProductTable
-                openRuleModal={openRuleModal} // Pass openRuleModal to ProductTable
+                setEditingProduct={setEditingProduct}
+                setCurrentProduct={setCurrentProduct}
+                openRuleModal={openRuleModal}
+                handleDeleteProduct={handleDeleteProduct} // Pass handleDeleteProduct
             />
-            {showProductManager && <AddProductForm onClose={() => setShowProductManager(false)} />}
+            {/* Add Product Modal */}
+            {showProductManager && (
+                <ProductModal title="Add New Product" onClose={handleAddFormClose}>
+                    <AddProductForm onClose={handleAddFormClose} />
+                </ProductModal>
+            )}
+            {/* Edit Product Modal */}
             {editingProduct && (
-                <EditProductForm
-                    product={editingProduct}
-                    onClose={handleEditFormClose}
-                    onUpdateProduct={handleUpdateProduct} // Ensure handleUpdateProduct is defined
-                />
+                <ProductModal title={`Edit Product: ${editingProduct.product_name}`} onClose={handleEditFormClose}>
+                    <EditProductForm
+                        product={editingProduct}
+                        onClose={handleEditFormClose}
+                        onUpdateProduct={handleUpdateProduct}
+                    />
+                </ProductModal>
             )}
             {showRuleList && (
                 <div className={styles.ruleContainer}>
                     <RuleList
                         rules={rules}
-                        openRuleModal={openRuleModal} // Pass openRuleModal to RuleList
+                        openRuleModal={openRuleModal}
                         handleDelete={(id) => handleDeleteRule(id, setRules)}
                     />
                 </div>
             )}
             {isRuleModalOpen && (
                 <RuleModal
-                    currentProduct={currentProduct} // Pass currentProduct to RuleModal
+                    currentProduct={currentProduct}
                     formData={currentRule}
                     handleChange={(e) => setCurrentRule({ ...currentRule, [e.target.name]: e.target.value })}
                     handleSubmit={handleFormSubmit}

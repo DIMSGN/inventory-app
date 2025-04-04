@@ -88,7 +88,7 @@ const EditRuleForm = ({ formData, handleChange, handleSubmit, setFormData, setEd
                 <ColorSelect
                     name="color"
                     value={formData.color}
-                    onChange={handleColorChange}
+                    onChange={handleColorChange} 
                     options={colorOptions}
                 />
             </label>

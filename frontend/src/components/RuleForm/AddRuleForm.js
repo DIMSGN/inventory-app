@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import styles from "./RuleForm.module.css";
 import { colors } from "../../utils/colors";
-import ProductTableDropdown from "../ProductTable/ProductTableDropdown/ProductTableDropdown";
 import ColorSelect from "../common/ColorSelect/ColorSelect"; // Updated import
 import Button from "../common/Button/Button"; // Updated import
 
@@ -15,6 +14,7 @@ const AddRuleForm = ({ formData, handleChange, handleSubmit, setFormData, produc
 
     const handleFormSubmit = (e) => {
         e.preventDefault();
+        console.log("Form data before submission:", formData); // Debugging log
         if (!formData.product_id) {
             setError("Invalid product name. Please enter a valid product name.");
             window.alert("Invalid product name. Please enter a valid product name.");
@@ -23,20 +23,35 @@ const AddRuleForm = ({ formData, handleChange, handleSubmit, setFormData, produc
         handleSubmit(e);
     };
 
-    const handleRuleChange = (e) => {
-        const selectedRule = e.target.value;
-        setFormData(selectedRule);
+    const handleProductNameChange = (e) => {
+        const productName = e.target.value;
+        const matchedProduct = products.find(product => product.product_name === productName);
+
+        setFormData({
+            ...formData,
+            product_name: productName,
+            product_id: matchedProduct ? matchedProduct.product_id : ""
+        });
+
+        if (!matchedProduct) {
+            setError("Invalid product name. Please select a valid product.");
+        } else {
+            setError("");
+        }
     };
 
     return (
         <form onSubmit={handleFormSubmit} className={styles.form}>
             <label>
-                Rule:
-                <ProductTableDropdown
-                    name="rules"
-                    value={formData}
-                    onChange={handleRuleChange}
-                    options={rules}
+                Product Name:
+                <input
+                    type="text"
+                    name="product_name"
+                    value={formData.product_name || ""}
+                    onChange={handleProductNameChange} // Use the new handler here
+                    required
+                    placeholder="Enter the product name"
+                    title="Enter the product name for the rule."
                 />
                 {error && <span className={styles.error}>{error}</span>}
             </label>
@@ -73,7 +88,7 @@ const AddRuleForm = ({ formData, handleChange, handleSubmit, setFormData, produc
                 <ColorSelect
                     name="color"
                     value={formData.color}
-                    onChange={handleColorChange}
+                    onChange={handleColorChange} // Use the prop here
                     options={colorOptions}
                 />
             </label>
@@ -86,13 +101,17 @@ const AddRuleForm = ({ formData, handleChange, handleSubmit, setFormData, produc
             <div className={styles.buttonGroup}>
                 <Button type="submit" variant="primary">Save</Button>
                 {setFormData && (
-                    <Button type="button" onClick={() => setFormData({
-                        rules: "",
-                        comparison: "=",
-                        amount: "",
-                        color: "",
-                        product_id: formData.product_id
-                    })} variant="primary">
+                    <Button
+                        type="button"
+                        onClick={() => setFormData({
+                            product_name: "",
+                            comparison: "=",
+                            amount: "",
+                            color: "",
+                            product_id: ""
+                        })}
+                        variant="primary"
+                    >
                         Clear
                     </Button>
                 )}

@@ -8,7 +8,7 @@ const RuleModal = ({ currentProduct, formData, handleChange, handleSubmit, setIs
         <div className={styles.modal}>
             <div className={styles.modalContent}>
                 <span className={styles.close} onClick={() => setIsRuleModalOpen(false)}>&times;</span>
-                <h2>{isEditing ? `Edit Rule for ${currentProduct?.product_name}` : "Add New Rule"}</h2>
+                <h2>{isEditing ? `Edit Rule for ${currentProduct?.product_name}` : `Add Rule for ${currentProduct?.product_name}`}</h2>
                 {isEditing ? (
                     <EditRuleForm
                         formData={formData}

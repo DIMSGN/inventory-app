@@ -75,18 +75,3 @@ input, select {
     justify-content: flex-end;
 }
 
-/* Responsive Styles */
-@media (max-width: 768px) {
-    .form {
-        padding: 10px;
-    }
-
-    .formRow {
-        flex-direction: column;
-    }
-
-    .buttonGroup {
-        flex-direction: column;
-        gap: 5px;
-    }
-}

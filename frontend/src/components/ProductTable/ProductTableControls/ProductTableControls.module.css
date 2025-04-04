@@ -14,15 +14,3 @@
     gap: 20px;
 }
 
-/* Responsive Styles */
-@media (max-width: 768px) {
-    .controls {
-        flex-direction: column;
-        gap: 10px;
-    }
-
-    .buttonGroup {
-        flex-direction: column;
-        gap: 10px;
-    }
-}

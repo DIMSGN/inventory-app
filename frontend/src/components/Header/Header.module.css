@@ -90,24 +90,3 @@
     }
 }
 
-/* Responsive Styles */
-@media (max-width: 1100px) {
-    .header {
-        flex-direction: column;
-        gap: 10px;
-    }
-
-    .headerTitle {
-        font-size: 24px;
-    }
-
-    .controls {
-        position: static;
-        flex-direction: column;
-        gap: 10px;
-    }
-
-    .inventoryBox {
-        font-size: 20px;
-    }
-}

@@ -7,6 +7,7 @@ const ruleService = {
         return axios.get(API_URL);
     },
     addRule: (rule) => {
+        console.log("Sending rule to backend:", rule); // Debugging log
         return axios.post(API_URL, rule);
     },
     updateRule: (id, rule) => {

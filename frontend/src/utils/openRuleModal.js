@@ -1,6 +1,5 @@
-export const openRuleModal = (product, setCurrentProduct, resetForm, handleChange, setIsRuleModalOpen) => {
-    setCurrentProduct(product);
-    resetForm();
-    handleChange({ target: { name: "rules", value: product.product_name } }); // Set the rules input to the product name
-    setIsRuleModalOpen(true);
+export const openRuleModal = (product, setCurrentProduct, setIsRuleModalOpen) => {
+    console.log("openRuleModal called with product:", product);
+    setCurrentProduct(product); // Set the product being used
+    setIsRuleModalOpen(true);   // Open the modal
 };

@@ -59,7 +59,13 @@ const ColorSelect = ({ name, value, onChange }) => {
 ColorSelect.propTypes = {
     name: PropTypes.string.isRequired,
     value: PropTypes.string.isRequired,
-    onChange: PropTypes.func.isRequired
+    onChange: PropTypes.func.isRequired, 
+    options: PropTypes.arrayOf(
+        PropTypes.shape({
+            value: PropTypes.string.isRequired,
+            label: PropTypes.string.isRequired,
+        })
+    ).isRequired,
 };
 
 export default ColorSelect;
