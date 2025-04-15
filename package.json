@@ -1,37 +1,19 @@
 {
-  "name": "inventory-app",
+  "name": "inventory-app-backend",
   "version": "1.0.0",
-  "description": "Inventory management application",
-  "main": "backend/index.js",
+  "description": "Backend for inventory management",
+  "main": "index.js",
   "scripts": {
-    "start": "node backend/index.js",
-    "build": "cd frontend && npm install && npm run build",
-    "start-frontend": "cd frontend && npm run serve",
-    "start-backend": "cd backend && node index.js"
+    "start": "node index.js"
   },
   "engines": {
     "node": ">=18.0.0"
   },
   "dependencies": {
-    "axios": "^1.7.9",
     "cors": "^2.8.5",
-    "dotenv": "^16.0.3",
-    "express": "^4.18.2",
-    "framer-motion": "^10.18.0",
-    "jspdf": "^2.5.1",
-    "jspdf-autotable": "^3.8.4",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
     "mysql": "^2.18.1",
-    "mysql2": "^3.6.0",
-    "react": "^18.0.0",
-    "react-dom": "^18.0.0",
-    "react-icons": "^5.5.0",
-    "react-router-dom": "^7.2.0",
-    "react-select": "^5.10.0",
-    "serve": "^14.0.1",
-    "web-vitals": "^4.2.4"
-  },
-  "devDependencies": {
-    "nodemon": "^3.1.9",
-    "react-scripts": "^5.0.1"
+    "mysql2": "^3.14.0"
   }
 }
