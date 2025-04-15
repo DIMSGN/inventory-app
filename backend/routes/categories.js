@@ -21,7 +21,6 @@ router.post("/", async (req, res) => {
     }
 
     try {
-        // Check if category already exists
         const existing = await queryDatabase("SELECT * FROM categories WHERE name = ?", [category]);
         if (existing.length > 0) {
             return res.status(400).json({ error: "Category already exists" });
@@ -39,13 +38,12 @@ router.post("/", async (req, res) => {
     }
 });
 
-// DELETE /api/categories/id/:id
-router.delete("/id/:id", async (req, res) => {
-    const { id } = req.params;
+// DELETE category by ID
+router.delete("/id/:categoryId", async (req, res) => {
+    const { categoryId } = req.params;
 
     try {
-        // Check for products using this category
-        const products = await queryDatabase("SELECT COUNT(*) as count FROM products WHERE category = ?", [id]);
+        const products = await queryDatabase("SELECT COUNT(*) as count FROM products WHERE category = ?", [categoryId]);
         
         if (products[0].count > 0) {
             return res.status(400).json({ 
@@ -54,7 +52,7 @@ router.delete("/id/:id", async (req, res) => {
             });
         }
 
-        const results = await queryDatabase("DELETE FROM categories WHERE id = ?", [id]);
+        const results = await queryDatabase("DELETE FROM categories WHERE id = ?", [categoryId]);
         
         if (results.affectedRows === 0) {
             return res.status(404).json({ error: "Category not found" });
@@ -67,23 +65,12 @@ router.delete("/id/:id", async (req, res) => {
     }
 });
 
-// DELETE /api/categories/name/:name
-router.delete("/name/:name", async (req, res) => {
-    const { name } = req.params;
-    
+// DELETE category by name
+router.delete("/name/:categoryName", async (req, res) => {
+    const { categoryName } = req.params;
+
     try {
-        // Get category ID first
-        const category = await queryDatabase("SELECT id FROM categories WHERE name = ?", [name]);
-        
-        if (category.length === 0) {
-            return res.status(404).json({ error: "Category not found" });
-        }
-        
-        // Check for products using this category
-        const products = await queryDatabase(
-            "SELECT COUNT(*) as count FROM products WHERE category = ?", 
-            [category[0].id]
-        );
+        const products = await queryDatabase("SELECT COUNT(*) as count FROM products WHERE category = ?", [categoryName]);
         
         if (products[0].count > 0) {
             return res.status(400).json({ 
@@ -92,7 +79,12 @@ router.delete("/name/:name", async (req, res) => {
             });
         }
         
-        await queryDatabase("DELETE FROM categories WHERE name = ?", [name]);
+        const results = await queryDatabase("DELETE FROM categories WHERE name = ?", [categoryName]);
+        
+        if (results.affectedRows === 0) {
+            return res.status(404).json({ error: "Category not found" });
+        }
+        
         res.status(200).json({ message: "Category deleted successfully" });
     } catch (err) {
         console.error("Error deleting category:", err);

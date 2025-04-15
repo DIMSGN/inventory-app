@@ -13,11 +13,11 @@ router.get("/", async (req, res) => {
     }
 });
 
-// GET /api/products/:id
-router.get("/:id", async (req, res) => {
-    const { id } = req.params;
+// GET /api/products/:productId
+router.get("/:productId", async (req, res) => {
+    const { productId } = req.params;
     try {
-        const results = await queryDatabase("SELECT * FROM products WHERE product_id = ?", [id]);
+        const results = await queryDatabase("SELECT * FROM products WHERE product_id = ?", [productId]);
         if (results.length === 0) {
             return res.status(404).json({ error: "Product not found" });
         }
@@ -40,32 +40,36 @@ router.post("/", async (req, res) => {
             "INSERT INTO products (product_id, product_name, unit, category, amount) VALUES (?, ?, ?, ?, ?)",
             [product_id, product_name, unit, category, amount]
         );
-        res.status(201).json({ message: "Product added", id: results.insertId });
+        res.status(201).json({ 
+            message: "Product added", 
+            id: results.insertId,
+            product: { product_id, product_name, unit, category, amount }
+        });
     } catch (err) {
         console.error("Error adding product:", err);
         res.status(500).json({ error: err.message });
     }
 });
 
-// PUT /api/products/:id
-router.put("/:id", async (req, res) => {
-    const { id } = req.params;
+// PUT /api/products/:productId
+router.put("/:productId", async (req, res) => {
+    const { productId } = req.params;
     const { product_name, unit, category, amount } = req.body;
 
     try {
-        const existingProduct = await queryDatabase("SELECT * FROM products WHERE product_id = ?", [id]);
+        const existingProduct = await queryDatabase("SELECT * FROM products WHERE product_id = ?", [productId]);
         if (existingProduct.length === 0) {
             return res.status(404).json({ error: "Product not found" });
         }
 
         await queryDatabase(
             "UPDATE products SET product_name = ?, unit = ?, category = ?, amount = ? WHERE product_id = ?",
-            [product_name, unit, category, amount, id]
+            [product_name, unit, category, amount, productId]
         );
 
         res.status(200).json({ 
             message: "Product updated",
-            product: { product_id: id, product_name, unit, category, amount }
+            product: { product_id: productId, product_name, unit, category, amount }
         });
     } catch (err) {
         console.error("Error updating product:", err);
@@ -73,17 +77,14 @@ router.put("/:id", async (req, res) => {
     }
 });
 
-// DELETE /api/products/:id
-router.delete("/:id", async (req, res) => {
-    const { id } = req.params;
-    
+// DELETE /api/products/:productId
+router.delete("/:productId", async (req, res) => {
+    const { productId } = req.params;
     try {
-        const results = await queryDatabase("DELETE FROM products WHERE product_id = ?", [id]);
-        
+        const results = await queryDatabase("DELETE FROM products WHERE product_id = ?", [productId]);
         if (results.affectedRows === 0) {
             return res.status(404).json({ error: "Product not found" });
         }
-        
         res.status(200).json({ message: "Product deleted successfully" });
     } catch (err) {
         console.error("Error deleting product:", err);

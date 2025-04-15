@@ -5,7 +5,7 @@
     top: 0;
     bottom: 0;
     width: 280px;
-    background: linear-gradient(135deg, #8a1dff 0%, #2575fc 100%);
+    background: linear-gradient(135deg, #43008b 0%, #004fd6 100%);
     background-size: 200% 200%;
     animation: gradientShift 15s ease infinite;
     color: #ffffff;
