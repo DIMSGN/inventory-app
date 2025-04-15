@@ -1,0 +1,16 @@
+{
+  "logentries": {
+    "token": "",
+    "levels": {
+      "debug": true,
+      "info": true,
+      "notice": true,
+      "warning": true,
+      "err": true,
+      "crit": true,
+      "alert": true,
+      "emerg": true
+    },
+    "console": true
+  }
+} 
