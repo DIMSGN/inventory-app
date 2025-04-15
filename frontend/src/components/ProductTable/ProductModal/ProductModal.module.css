@@ -29,3 +29,103 @@
     font-weight: bold;
     cursor: pointer;
 }
+
+.productModal {
+    max-width: 650px;
+}
+
+.productModalContent {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+/* Form styling - these will be applied to the add/edit product form */
+.productModalContent input,
+.productModalContent select,
+.productModalContent textarea {
+    padding: 0.875rem 1rem;
+    border: 1px solid rgba(0, 0, 0, 0.12);
+    border-radius: 0.75rem;
+    font-size: 1rem;
+    transition: all 0.2s ease;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+    width: 100%;
+}
+
+.productModalContent input:focus,
+.productModalContent select:focus,
+.productModalContent textarea:focus {
+    outline: none;
+    border-color: #6a11cb;
+    box-shadow: 0 0 0 3px rgba(106, 17, 203, 0.15), 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+.productModalContent button {
+    padding: 0.875rem 1.5rem;
+    border: none;
+    border-radius: 0.75rem;
+    font-weight: 600;
+    font-size: 0.95rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    transition: all 0.2s ease;
+}
+
+.productModalContent button[type="submit"],
+.productModalContent button.primary {
+    background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+    color: white;
+    box-shadow: 0 4px 12px rgba(106, 17, 203, 0.2);
+}
+
+.productModalContent button[type="submit"]:hover,
+.productModalContent button.primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(106, 17, 203, 0.3);
+}
+
+.productModalContent button[type="submit"]:active,
+.productModalContent button.primary:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 8px rgba(106, 17, 203, 0.3);
+}
+
+.productModalContent button[type="button"],
+.productModalContent button.secondary {
+    background-color: #f1f5f9;
+    color: #475569;
+}
+
+.productModalContent button[type="button"]:hover,
+.productModalContent button.secondary:hover {
+    background-color: #e2e8f0;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.productModalContent button[type="button"]:active,
+.productModalContent button.secondary:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+/* Responsive adjustments */
+@media (max-width: 640px) {
+    .productModalContent {
+        gap: 1.25rem;
+    }
+    
+    .productModalContent .buttonGroup {
+        flex-direction: column-reverse;
+        gap: 0.75rem;
+    }
+    
+    .productModalContent button {
+        width: 100%;
+        padding: 0.75rem 1rem;
+    }
+}

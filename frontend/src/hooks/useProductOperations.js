@@ -1,84 +1,129 @@
-import { useEffect, useRef, useCallback, useState } from "react";
-import { fetchData, updateData, deleteData } from "../utils/apiUtils";
-import { toast } from "react-toastify";
+import { useState } from 'react';
+import { showSuccess, showError } from '../services/toastService';
+import { productService } from '../services/apiServices';
 
-const useProductOperations = (initialValues, setFilteredProducts, setCategories, setEditingProduct) => {
-    const productTableRef = useRef();
-    const [formData, setFormData] = useState(initialValues || {});
+/**
+ * Custom hook for product operations
+ * 
+ * @param {Object|null} initialValues - Initial values for the product
+ * @param {Function} setFilteredProducts - Function to update filtered products
+ * @param {Function} setCategories - Function to update categories
+ * @param {Function} setEditingProduct - Function to set the product being edited
+ * @returns {Object} Object containing handler functions
+ */
+const useProductOperations = (
+  initialValues = null,
+  setFilteredProducts,
+  setCategories,
+  setEditingProduct
+) => {
+  const [isLoading, setIsLoading] = useState(false);
+  const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
+  const [productToDelete, setProductToDelete] = useState(null);
 
-    const handleChange = (e) => {
-        const { name, value } = e.target;
-        setFormData((prevData) => ({ ...prevData, [name]: value })); // Update formData on input change
-    };
+  /**
+   * Handle edit product operation
+   * @param {Object} product - Product to edit
+   */
+  const handleEditProduct = async (product) => {
+    try {
+      setIsLoading(true);
+      
+      // Get existing products from localStorage
+      const products = JSON.parse(localStorage.getItem('products') || '[]');
+      
+      // Update the product
+      const updatedProducts = products.map(p => 
+        p.product_id === product.product_id ? product : p
+      );
+      
+      // Save to localStorage
+      localStorage.setItem('products', JSON.stringify(updatedProducts));
+      
+      // Update state
+      setFilteredProducts(updatedProducts);
+      setEditingProduct(null);
+      
+      showSuccess('Product updated successfully');
+    } catch (error) {
+      console.error('Error updating product:', error);
+      showError('Failed to update product');
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
-    const resetForm = (newValues) => {
-        setFormData(newValues || {});
-    };
+  /**
+   * Show delete confirmation modal for a product
+   * @param {string|number} productId - ID of the product to delete
+   */
+  const confirmDeleteProduct = (productId) => {
+    setProductToDelete(productId);
+    setShowDeleteConfirmation(true);
+  };
 
-    const fetchProducts = useCallback(async () => {
-        try {
-            const response = await fetchData("/products");
-            if (!Array.isArray(response)) {
-                throw new Error("Expected an array but got: " + JSON.stringify(response));
-            }
-            setFilteredProducts(response);
-            const uniqueCategories = [...new Set(response.map(product => product.category))];
-            setCategories(uniqueCategories);
-            toast.success("Products fetched successfully!");
-        } catch (error) {
-            console.error("Error fetching products:", error);
-            toast.error("Failed to fetch products. Please try again.");
-        }
-    }, [setFilteredProducts, setCategories]);
+  /**
+   * Cancel delete operation
+   */
+  const cancelDeleteProduct = () => {
+    setProductToDelete(null);
+    setShowDeleteConfirmation(false);
+  };
 
-    useEffect(() => {
-        fetchProducts();
-    }, [fetchProducts]);
+  /**
+   * Handle delete product operation after confirmation
+   */
+  const handleDeleteProductConfirmed = async () => {
+    if (!productToDelete) return;
+    
+    try {
+      setIsLoading(true);
+      console.log(`Confirming deletion of product: ${productToDelete}`);
+      
+      // Call the API to delete the product from the database
+      const response = await productService.deleteProduct(productToDelete);
+      console.log('Delete API response:', response);
+      
+      if (response.status === 200) {
+        console.log(`Product ${productToDelete} deleted from database successfully`);
+        
+        // After successful API deletion, update the local state
+        // Get existing products from localStorage
+        const products = JSON.parse(localStorage.getItem('products') || '[]');
+        
+        // Filter out the deleted product
+        const updatedProducts = products.filter(p => p.product_id !== productToDelete);
+        
+        // Save to localStorage
+        localStorage.setItem('products', JSON.stringify(updatedProducts));
+        
+        // Update state
+        setFilteredProducts(updatedProducts);
+        
+        showSuccess('Product deleted successfully');
+      } else {
+        console.error('Unexpected response status:', response.status);
+        showError('Failed to delete product: Unexpected response');
+      }
+    } catch (error) {
+      console.error('Error deleting product:', error);
+      showError(error.response?.data?.error || error.message || 'Failed to delete product');
+    } finally {
+      setIsLoading(false);
+      setProductToDelete(null);
+      setShowDeleteConfirmation(false);
+    }
+  };
 
-    const handleEditProduct = (product) => {
-        setEditingProduct(product);
-        toast.info("Editing product...");
-    };
-
-    const handleUpdateProduct = async (updatedProduct) => {
-        try {
-            await updateData(`/products/${updatedProduct.product_id}`, updatedProduct);
-            fetchProducts();
-            setEditingProduct(null);
-            toast.success("Product updated successfully!");
-        } catch (error) {
-            console.error("Error updating product:", error);
-            toast.error("Failed to update product. Please try again.");
-        }
-    };
-
-    const handleDeleteProduct = async (productId) => {
-        try {
-            await deleteData(`/products/${productId}`);
-            fetchProducts();
-            toast.success("Product deleted successfully!");
-        } catch (error) {
-            console.error("Error deleting product:", error);
-            toast.error("Failed to delete product. Please try again.");
-        }
-    };
-
-    const handleCancelEdit = () => {
-        setEditingProduct(null);
-        toast.info("Edit canceled.");
-    };
-
-    return {
-        productTableRef,
-        handleEditProduct,
-        handleUpdateProduct,
-        handleDeleteProduct,
-        handleCancelEdit,
-        fetchProducts,
-        formData,
-        handleChange,
-        resetForm,
-    };
+  return {
+    handleEditProduct,
+    handleDeleteProduct: confirmDeleteProduct,
+    handleDeleteProductConfirmed,
+    cancelDeleteProduct,
+    showDeleteConfirmation,
+    productToDelete,
+    isLoading
+  };
 };
 
-export default useProductOperations;
+export default useProductOperations; 

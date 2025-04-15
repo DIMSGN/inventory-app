@@ -2,12 +2,19 @@ import axios from "axios";
 
 const API_URL = process.env.REACT_APP_API_URL + "/categories";
 
-const addCategory = async (categoryName) => {
-    return axios.post(API_URL, { category: categoryName });
+const categoryService = {
+    getCategories: () => {
+        return axios.get(API_URL);
+    },
+    addCategory: (category) => {
+        return axios.post(API_URL, { category });
+    },
+    deleteCategoryById: (id) => {
+        return axios.delete(`${API_URL}/id/${id}`);
+    },
+    deleteCategoryByName: (name) => {
+        return axios.delete(`${API_URL}/name/${name}`);
+    },
 };
 
-const deleteCategory = async (categoryName) => {
-    return axios.delete(`${API_URL}/${encodeURIComponent(categoryName)}`); // Send name as URL param
-};
-
-export default { addCategory, deleteCategory };
+export default categoryService; 

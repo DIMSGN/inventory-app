@@ -1,32 +1,54 @@
 .productTableContainer {
-    padding: 10px;
+    padding: 1.5rem;
     background-color: #ffffff;
-    border: 1px solid #ddd;
-    border-radius: 10px;
+    border-radius: 12px;
     max-width: 1440px;
-    margin: 10px auto;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin: 1.5rem auto;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 1.5rem;
     width: 100%;
-    overflow-x: auto; 
+    overflow-x: auto;
+    transition: all 0.3s ease;
 }
 
 .productTable {
-    width: 95%;
-    border-collapse: collapse;
-    table-layout: auto; 
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
 }
 
 .productTable th, .productTable td {
-    padding: 8px;
-    border: 1px solid #e4e4e4;
-    text-align: center; 
-    white-space: nowrap; 
+    padding: 1rem;
+    text-align: left;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.08);
 }
 
 .productTable th {
-    background-color: #e2e2e2;
-    font-weight: bold;
+    background: linear-gradient(to right, rgba(106, 17, 203, 0.05), rgba(37, 117, 252, 0.05));
+    font-weight: 600;
+    color: #333;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+.productTable tr:hover td {
+    background-color: rgba(106, 17, 203, 0.02);
+}
+
+.productTable tbody tr:last-child td {
+    border-bottom: none;
+}
+
+/* Responsive table */
+@media (max-width: 768px) {
+    .productTable {
+        display: block;
+        overflow-x: auto;
+    }
 }

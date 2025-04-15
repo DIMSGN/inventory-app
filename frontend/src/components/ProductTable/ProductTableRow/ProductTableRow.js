@@ -1,37 +1,91 @@
 import React from "react";
 import styles from "./ProductTableRow.module.css";
+import { useAppContext } from "../../../context/AppContext";
 import { getRowColor } from "../../../utils/getRowColor";
-import ProductTableDropdown from "../ProductTableDropdown/ProductTableDropdown";
-import Button from "../../common/Button/Button"; // Updated import
+import Icon from "../../common/Icon";
 
-const ProductTableRow = ({ product, rules, onEditProduct, onDeleteProduct, openRuleModal }) => {
-    const dropdownOptions = rules.filter(rule => rule.product_id === product.product_id).map(rule => ({
-        id: rule.id,
-        name: rule.rules,
-        comparison: rule.comparison,
-        amount: rule.amount,
-        value: rule.color
-    }));
-
+const ProductTableRow = ({ product, onEditProduct, onDeleteProduct, openRuleModal, rules }) => {
+    // Get categories from context to look up category names
+    const { categories } = useAppContext();
+    
+    // Check if amount is 0 or very low to apply warning class
+    const isLowStock = product.amount <= 0;
+    
+    // Get category name if product.category is a number
+    const getCategoryDisplay = (categoryValue) => {
+        if (categoryValue === null || categoryValue === undefined) return "";
+        
+        console.log("Looking up category display for:", categoryValue, "type:", typeof categoryValue);
+        console.log("Available categories:", categories);
+        
+        // If it's not a number, display as is
+        if (isNaN(categoryValue)) return categoryValue;
+        
+        // Convert categoryValue to a number to ensure consistent comparison
+        const categoryId = parseInt(categoryValue, 10);
+        console.log("Converted category ID:", categoryId);
+        
+        // If it's a number, try to find the category name
+        const categoryObj = categories.find(cat => {
+            // Handle both string and number cases for IDs
+            const catId = typeof cat.id === 'string' ? parseInt(cat.id, 10) : cat.id;
+            console.log("Comparing category:", cat, "with ID:", catId, "against:", categoryId);
+            return catId === categoryId;
+        });
+        
+        if (categoryObj) {
+            console.log("Found category:", categoryObj.name);
+            return categoryObj.name;
+        } else {
+            console.log("Category not found, returning original value:", categoryValue);
+            return categoryValue;
+        }
+    };
+    
+    // Get row background color based on rules
+    const backgroundColor = getRowColor(product, rules);
+    
+    // Common cell styling based on rule highlighting
+    const cellStyle = { backgroundColor };
+    
     return (
-        <tr key={product.product_id} className={styles.productTableRow} style={{ backgroundColor: getRowColor(product, rules) }}>
-            <td data-label="Product ID">{product.product_id}</td>
-            <td data-label="Name">{product.product_name}</td>
-            <td data-label="Category">{product.category}</td>
-            <td data-label="Amount">{product.amount}</td>
-            <td data-label="Unit">{product.unit}</td>
-            <td data-label="Rules" className={styles.rulesCell}>
-                <ProductTableDropdown
-                    name="rules"
-                    value={rules.find(rule => rule.product_id === product.product_id && getRowColor(product, rules) === rule.color)?.id || ""}
-                    onChange={() => {}}
-                    options={dropdownOptions}
-                />
+        <tr className={isLowStock ? styles.lowStockRow : ''}>
+            <td className={styles.centeredCell} style={cellStyle}>{product.product_id}</td>
+            <td style={cellStyle}>{product.product_name}</td>
+            <td style={cellStyle}>{getCategoryDisplay(product.category)}</td>
+            <td className={`${styles.amountCell} ${isLowStock ? styles.lowStock : ''}`} style={cellStyle}>
+                {product.amount}
             </td>
-            <td data-label="Actions" className={styles.actionsCell}>
-                <Button variant="edit" onClick={() => onEditProduct(product)}>Edit</Button>
-                <Button variant="delete" onClick={() => onDeleteProduct(product.product_id)}>Delete</Button>
-                <Button variant="primary" onClick={() => openRuleModal(product)}>Add Rule</Button>
+            <td style={cellStyle}>{product.unit}</td>
+            <td className={styles.actionsCell}>
+                <div className={styles.buttonContainer}>
+                    {/* All actions as direct buttons */}
+                    <button 
+                        onClick={() => onEditProduct(product)} 
+                        className={`${styles.iconButton} ${styles.editButton}`}
+                        title="Edit Product"
+                    >
+                        <Icon className="fas fa-edit" />
+                        <span>Edit</span>
+                    </button>
+                    
+                    <button 
+                        onClick={() => openRuleModal(null, product)} 
+                        className={`${styles.iconButton} ${styles.ruleButton}`}
+                        title="Add Rule"
+                    >
+                        <Icon className="fas fa-plus-circle" />
+                        <span>Add Rule</span>
+                    </button>
+                    
+                    <button 
+                        onClick={() => onDeleteProduct(product.product_id)} 
+                        className={`${styles.iconButton} ${styles.deleteButton}`}
+                        title="Delete Product"
+                    >
+                        <Icon className="fas fa-trash-alt" />
+                    </button>
+                </div>
             </td>
         </tr>
     );

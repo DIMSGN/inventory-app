@@ -1,89 +1,40 @@
-import React, { useContext, useState } from "react";
-import { ProductContext } from "../../context/Product/ProductContext";
+import React, { useState } from 'react';
+import { useAppContext } from '../../context/AppContext';
 import ProductTableControls from "./ProductTableControls/ProductTableControls";
-import ProductTableRow from "./ProductTableRow/ProductTableRow";
-import ProductModal from "./ProductModal/ProductModal"; // Import ProductModal
-import AddProductForm from "./ProductForm/AddProductForm"; // Import AddProductForm
-import EditProductForm from "./ProductForm/EditProductForm"; // Import EditProductForm
-import { openRuleModal } from "../../utils/openRuleModal";
+import ProductTableRow from './ProductTableRow/ProductTableRow';
+import ProductModal from "./ProductModal/ProductModal";
+import AddProductForm from "./ProductForm/AddProductForm";
+import EditProductForm from "./ProductForm/EditProductForm";
+import ConfirmationModal from "../common/ConfirmationModal/ConfirmationModal";
 import styles from "./ProductTable.module.css";
-import exportOrderRequirements from "../../utils/exportOrderRequirements";
-import { exportToPDF } from "../../utils/exportToPDF";
-import RuleModal from "./RuleModal/RuleModal";
+import { exportToPDF } from '../../utils/exportToPDF';
 import useProductOperations from "../../hooks/useProductOperations";
-import { toast } from "react-toastify";
 
-const ProductTable = ({ onAddProductClick, onToggleRuleList, showRuleList, setShowForm, setCurrentRule }) => {
-    const { filteredProducts, rules, setRules, setFilteredProducts, setCategories } = useContext(ProductContext);
+const ProductTable = ({ 
+    onToggleRuleList, 
+    showRuleList, 
+    openRuleModal // This is the openRuleModal function from App.js
+}) => {
+    const { 
+        filteredProducts, 
+        rules,
+        setFilteredProducts,
+        setCategories
+    } = useAppContext();
 
-    const [currentProduct, setCurrentProduct] = useState(null);
-    const [isRuleModalOpen, setIsRuleModalOpen] = useState(false);
     const [isAddProductModalOpen, setIsAddProductModalOpen] = useState(false); // State for Add Product Modal
     const [isEditProductModalOpen, setIsEditProductModalOpen] = useState(false); // State for Edit Product Modal
     const [editingProduct, setEditingProduct] = useState(null); // State for the product being edited
-    const [formData, setFormData] = useState({
-        rules: "",
-        comparison: "=",
-        amount: "",
-        color: ""
-    });
-    const [isEditing, setIsEditing] = useState(false);
 
-    const resetForm = () => {
-        setFormData({
-            rules: "",
-            comparison: "=",
-            amount: "",
-            color: ""
-        });
-    };
-
-    const handleChange = (e) => {
-        const { name, value } = e.target;
-        setFormData((prevData) => ({ ...prevData, [name]: value }));
-    };
-
-    const handleAddRule = async (newRule, setRules, setShowForm) => {
-        try {
-            const response = await fetch("/api/rules", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify(newRule)
-            });
-            if (!response.ok) {
-                throw new Error("Failed to add rule");
-            }
-            const addedRule = await response.json();
-            setRules((prevRules) => [...prevRules, addedRule]);
-            setShowForm(false);
-            toast.success("Rule added successfully!");
-        } catch (error) {
-            console.error("Error adding rule:", error);
-            toast.error("Failed to add rule. Please try again.");
-        }
-    };
-
-    const handleFormSubmit = async (e) => {
-        e.preventDefault();
-
-        if (!currentProduct || !currentProduct.product_id) {
-            toast.error("No valid product selected.");
-            return;
-        }
-
-        try {
-            await handleAddRule({ ...formData, product_id: currentProduct.product_id }, setRules, setShowForm);
-            setIsRuleModalOpen(false);
-            resetForm();
-        } catch (error) {
-            console.error("Error adding rule:", error);
-        }
-    };
-
-    const { handleEditProduct, handleDeleteProduct } = useProductOperations(
-        {}, // Provide initialValues (empty object or default structure)
+    const { 
+        handleEditProduct, 
+        handleDeleteProduct,
+        handleDeleteProductConfirmed,
+        cancelDeleteProduct,
+        showDeleteConfirmation,
+        productToDelete
+    } = useProductOperations(
+        null, 
         setFilteredProducts,
         setCategories,
         setEditingProduct
@@ -94,14 +45,22 @@ const ProductTable = ({ onAddProductClick, onToggleRuleList, showRuleList, setSh
         setIsEditProductModalOpen(true); // Open the Edit Product Modal
     };
 
+    // Find the product name for the deletion confirmation
+    const getProductToDeleteName = () => {
+        if (!productToDelete) return "";
+        const product = filteredProducts.find(p => p.product_id === productToDelete);
+        return product ? product.product_name : "";
+    };
+
     return (
         <div className={styles.productTableContainer}>
             <ProductTableControls
-                exportToPDF={() => exportToPDF(filteredProducts)}
-                exportOrderRequirements={() => exportOrderRequirements(filteredProducts, rules)}
+                onExportToPDF={() => exportToPDF(filteredProducts)}
                 onAddProductClick={() => setIsAddProductModalOpen(true)} // Open Add Product Modal
                 onToggleRuleList={onToggleRuleList}
                 showRuleList={showRuleList}
+                products={filteredProducts}
+                rules={rules}
             />
             <table className={styles.productTable}>
                 <thead>
@@ -111,7 +70,6 @@ const ProductTable = ({ onAddProductClick, onToggleRuleList, showRuleList, setSh
                         <th>Category</th>
                         <th>Amount</th>
                         <th>Unit</th>
-                        <th>Rules</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
@@ -123,24 +81,11 @@ const ProductTable = ({ onAddProductClick, onToggleRuleList, showRuleList, setSh
                             rules={rules}
                             onEditProduct={() => handleEditClick(product)} // Pass the product to handleEditClick
                             onDeleteProduct={handleDeleteProduct}
-                            openRuleModal={(product) => openRuleModal(product, setCurrentProduct, setIsRuleModalOpen)}
+                            openRuleModal={() => openRuleModal(null, product)}
                         />
                     ))}
                 </tbody>
             </table>
-            {isRuleModalOpen && (
-                <RuleModal
-                    currentProduct={currentProduct}
-                    formData={formData}
-                    handleChange={handleChange}
-                    handleSubmit={handleFormSubmit}
-                    setIsRuleModalOpen={setIsRuleModalOpen}
-                    products={filteredProducts}
-                    rules={rules}
-                    setFormData={setFormData}
-                    isEditing={isEditing}
-                />
-            )}
             {/* Add Product Modal */}
             {isAddProductModalOpen && (
                 <ProductModal title="Add New Product" onClose={() => setIsAddProductModalOpen(false)}>
@@ -156,6 +101,18 @@ const ProductTable = ({ onAddProductClick, onToggleRuleList, showRuleList, setSh
                         onUpdateProduct={handleEditProduct}
                     />
                 </ProductModal>
+            )}
+            {/* Delete Confirmation Modal */}
+            {showDeleteConfirmation && (
+                <ConfirmationModal
+                    title="Delete Product"
+                    message={`Are you sure you want to delete "${getProductToDeleteName()}"? This action cannot be undone and will remove the product and its data from your inventory.`}
+                    onConfirm={handleDeleteProductConfirmed}
+                    onCancel={cancelDeleteProduct}
+                    confirmButtonText="Delete Product"
+                    cancelButtonText="Cancel"
+                    confirmButtonVariant="danger"
+                />
             )}
         </div>
     );

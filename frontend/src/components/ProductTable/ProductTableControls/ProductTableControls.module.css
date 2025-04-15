@@ -14,3 +14,72 @@
     gap: 20px;
 }
 
+.filterWrapper {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-right: 5px;
+}
+
+.filterWrapper i {
+    font-size: 16px;
+    color: var(--primary);
+}
+
+.inventoryCount {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 500;
+    color: #444;
+}
+
+.inventoryCount i {
+    color: var(--primary);
+}
+
+.paginationControl {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    white-space: nowrap;
+}
+
+.itemsPerPageSelect {
+    padding: 5px 8px;
+    border-radius: 4px;
+    border: 1px solid #ddd;
+    background-color: white;
+}
+
+.controlsRightContainer {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.exportModalContent {
+    padding: 10px;
+}
+
+.exportModalContent p {
+    margin-bottom: 10px;
+    line-height: 1.5;
+}
+
+.exportModalContent ul {
+    margin: 10px 0;
+    padding-left: 20px;
+}
+
+.exportModalContent li {
+    margin-bottom: 5px;
+}
+
+.exportModalContent .buttonGroup {
+    margin-top: 20px;
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+}
+

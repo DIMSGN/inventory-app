@@ -1,53 +1,103 @@
 .button {
-    padding: 10px 20px; /* Padding inside the button */
-    border: none; /* No border */
-    border-radius: 5px; /* Rounded corners */
-    cursor: pointer; /* Pointer cursor on hover */
-    font-size: 16px; /* Font size */
-    transition: background-color 0.3s ease; /* Smooth transition for background color */
-    color: white; /* White text color */
-    display: inline-block; /* Inline-block display */
-    text-align: center; /* Center text alignment */
+    min-width: 36px;
+    height: 36px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s;
+    border: none;
+    background-color: rgba(106, 17, 203, 0.05);
+    color: var(--text, #333);
+    gap: 6px;
+    padding: 0 12px;
+    font-size: 13px;
+    font-weight: 500;
+    white-space: nowrap;
+}
+
+.button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 /* Primary Button */
 .primary {
-    background-color: #008cff; /* Blue background color */
+    color: #fff;
+    background-color: var(--primary, #6a11cb);
 }
 
 .primary:hover {
-    background-color: #0066b9; /* Darker blue on hover */
+    background-color: var(--primary-dark, #5a0db0);
+    box-shadow: 0 4px 12px rgba(106, 17, 203, 0.2);
 }
 
 .primary:focus {
-    outline: none; /* Remove default outline */
-    box-shadow: 0 0 0 3px rgba(0, 136, 255, 0.5); /* Custom outline */
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(106, 17, 203, 0.3);
+}
+
+/* Secondary Button - Blue */
+.secondary {
+    color: #fff;
+    background-color: var(--secondary, #2575fc);
+}
+
+.secondary:hover {
+    background-color: var(--secondary-light, #5194ff);
+    box-shadow: 0 4px 12px rgba(37, 117, 252, 0.2);
+}
+
+.secondary:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(37, 117, 252, 0.3);
 }
 
 /* Edit Button */
 .edit {
-    background-color: #ffa500; /* Orange background color */
+    color: var(--warning, #FF9F43);
+    background-color: rgba(255, 159, 67, 0.1);
 }
 
 .edit:hover {
-    background-color: #cc8400; /* Darker orange on hover */
+    background-color: rgba(255, 159, 67, 0.2);
+    box-shadow: 0 4px 12px rgba(255, 159, 67, 0.2);
 }
 
 .edit:focus {
-    outline: none; /* Remove default outline */
-    box-shadow: 0 0 0 3px rgba(255, 165, 0, 0.5); /* Custom outline */
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(255, 159, 67, 0.3);
 }
 
 /* Delete Button */
 .delete {
-    background-color: #ff4d4d; /* Red background color */
+    color: var(--danger, #FF5555);
+    background-color: rgba(255, 85, 85, 0.1);
 }
 
 .delete:hover {
-    background-color: #cc0000; /* Darker red on hover */
+    background-color: rgba(255, 85, 85, 0.2);
+    box-shadow: 0 4px 12px rgba(255, 85, 85, 0.2);
 }
 
 .delete:focus {
-    outline: none; /* Remove default outline */
-    box-shadow: 0 0 0 3px rgba(255, 77, 77, 0.5); /* Custom outline */
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(255, 85, 85, 0.3);
+}
+
+/* Success Button */
+.success {
+    color: #fff;
+    background-color: var(--success, #28C76F);
+}
+
+.success:hover {
+    background-color: var(--success-dark, #21b865);
+    box-shadow: 0 4px 12px rgba(40, 199, 111, 0.2);
+}
+
+.success:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(40, 199, 111, 0.3);
 }

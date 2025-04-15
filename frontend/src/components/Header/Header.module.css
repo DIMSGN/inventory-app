@@ -1,35 +1,161 @@
-/* Header Styles */
+/* Header Styles - Modern Gamified Version with Optimizations */
+
 .header {
-    padding: 20px;
-    background-color: #b4b4b4;
-    color: #333333;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    border-bottom: 3px solid #cccccc;
-    position: relative;
-    z-index: 1000;
-    animation: punchIn 0.6s ease-in-out forwards;
+  position: relative;
+  height: 80px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  z-index: 10;
+  will-change: transform;
+  contain: layout;
+}
+
+.gradientBackground {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, #8a1dff 0%, #2575fc 100%);
+  transform: translateZ(0);
+  will-change: transform;
+  background-size: 200% 200%;
+  animation: gradientShift 15s ease infinite;
+  z-index: -1;
+}
+
+.gradientBackground::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='rgba(255,255,255,0.05)' fill-rule='evenodd'/%3E%3C/svg%3E");
+  opacity: 0.3;
+  pointer-events: none;
+}
+
+.headerContent {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1;
+  content-visibility: auto;
+  contain-intrinsic-size: 0 80px;
+}
+
+.inventoryBox {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(5px);
+  padding: 0.6rem 2rem;
+  border-radius: 10px;
+  color: white;
+  position: relative;
+  isolation: isolate;
+  box-shadow: 
+    0 5px 15px rgba(0, 0, 0, 0.3),
+    0 0 30px rgba(138, 29, 255, 0.3),
+    inset 0 0 10px rgba(255, 255, 255, 0.1);
+  will-change: transform, opacity;
+  transition: all 0.2s cubic-bezier(0.5, 0, 0.15, 1.35);
+  transform: translateZ(0);
+  font-family: 'Rajdhani', 'Audiowide', sans-serif;
+  font-size: 1.6rem;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  text-shadow: 
+    0 0 5px rgba(255, 255, 255, 0.5),
+    0 0 20px rgba(138, 29, 255, 0.4);
+  white-space: nowrap;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  overflow: hidden;
+}
+
+.inventoryBox::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(
+    to right,
+    transparent,
+    rgba(255, 255, 255, 0.2),
+    transparent
+  );
+  transform: skewX(-25deg);
+  transition: 0.75s all ease;
+  z-index: -1;
+}
+
+.inventoryBox:hover {
+  transform: translateY(-3px);
+  box-shadow: 
+    0 8px 25px rgba(0, 0, 0, 0.4),
+    0 0 50px rgba(138, 29, 255, 0.4),
+    inset 0 0 15px rgba(255, 255, 255, 0.2);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.inventoryBox:hover::before {
+  left: 150%;
+}
+
+@keyframes gradientShift {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+@media (prefers-reduced-motion) {
+  .gradientBackground {
+    animation: none;
+  }
+  
+  .inventoryBox {
+    transition: none;
+  }
+  
+  .inventoryBox:hover {
+    transform: none;
+  }
+  
+  .inventoryBox::before {
+    display: none;
+  }
 }
 
 .headerTitle {
     margin: 0;
-    font-size: 28px;
+    font-size: 24px; /* Reduced font size */
     font-weight: bold;
     text-align: center;
-    letter-spacing: 1px;
-    flex: 1;
+    letter-spacing: 0.5px; /* Reduced letter spacing */
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
 .header select {
-    padding: 10px;
+    padding: 8px;
     border: 1px solid #cccccc;
-    border-radius: 5px;
-    font-size: 16px;
+    border-radius: 4px;
+    font-size: 14px;
     color: #333333;
 }
 
@@ -37,56 +163,18 @@
 .controls {
     display: flex;
     align-items: center;
-    gap: 10px;
-    position: absolute;
-    right: 20px;
+    gap: 0.75rem;
 }
 
-/* Inventory Box Styles */
-.inventoryBox {
-    padding: 20px;
-    background-color: #ffffff;
-    border: 2px solid #cccccc;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    text-align: center;
-    font-size: 24px;
-    font-weight: bold;
-    color: #333333;
-    margin-top: 20px;
-    position: relative;
-    animation: punchInBox 0.6s ease-in-out forwards;
-}
-
-/* Keyframes for Punch Animation */
-@keyframes punchIn {
-    0% {
-        transform: scale(0.9);
+/* Animation Keyframes */
+@keyframes fadeIn {
+    from {
         opacity: 0;
+        transform: translateY(-10px);
     }
-    50% {
-        transform: scale(1.02);
+    to {
         opacity: 1;
-    }
-    100% {
-        transform: scale(1);
-        opacity: 1;
-    }
-}
-
-/* Keyframes for Punch Animation for Inventory Box */
-@keyframes punchInBox {
-    0% {
-        transform: scale(0.9);
-        opacity: 0;
-    }
-    50% {
-        transform: scale(1.02);
-        opacity: 1;
-    }
-    100% {
-        transform: scale(1);
-        opacity: 1;
+        transform: translateY(0);
     }
 }
 

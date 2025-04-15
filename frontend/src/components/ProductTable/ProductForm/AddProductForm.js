@@ -1,226 +1,288 @@
-import React, { useState, useContext } from "react";
-import { ProductContext } from "../../../context/Product/ProductContext";
-import productService from "../../../services/productService";
-import categoryService from "../../../services/categoryService"; // Import categoryService
-import Button from "../../common/Button/Button";
+import React, { useState, useEffect, useRef } from "react";
 import styles from "./ProductForm.module.css";
-import { toast } from "react-toastify";
+import Button from "../../common/Button/Button";
+import { useAppContext } from "../../../context/AppContext";
+import { showError } from "../../../utils/utils";
 
+/**
+ * Generates the next sequential product ID
+ * @param {Array} products - Array of existing products
+ * @returns {number} Next available product ID
+ */
+const getNextProductId = (products) => {
+    if (!products || products.length === 0) {
+        return 1; // Start with 1 if no products exist
+    }
+    
+    // Find the current highest product_id
+    const highestId = Math.max(...products.map(product => 
+        // Ensure we're comparing numbers
+        typeof product.product_id === 'string' 
+            ? parseInt(product.product_id, 10) 
+            : product.product_id
+    ));
+    
+    return highestId + 1;
+};
+
+/**
+ * Formats product ID with leading zeros for display
+ * @param {number} id - Product ID number
+ * @returns {string} Formatted product ID with leading zeros (e.g., 0001)
+ */
+const formatProductId = (id) => {
+    return id.toString().padStart(4, '0');
+};
+
+/**
+ * AddProductForm component for adding new products
+ * @param {Object} props - Component props
+ * @param {Function} props.onClose - Function to close the form
+ */
 const AddProductForm = ({ onClose }) => {
-    const { fetchProducts, categories, setCategories, products } = useContext(ProductContext); // Access products from context
+    const { addProduct, addCategory, deleteCategory, categories, products } = useAppContext();
+    const [newCategory, setNewCategory] = useState("");
     const [formData, setFormData] = useState({
-        product_id: "",
+        product_id: null, // Will be set in useEffect after products are available
         product_name: "",
         unit: "",
         category: "",
-        amount: "",
+        amount: ""
     });
-    const [newCategory, setNewCategory] = useState(""); // State for the new category name
-    const [isAddingCategory, setIsAddingCategory] = useState(false); // State to toggle between dropdown and input
+    const [categoryToDelete, setCategoryToDelete] = useState(null);
+    const [isSubmitting, setIsSubmitting] = useState(false);
+    const productNameRef = useRef(null);
+
+    // Set initial product ID when products load
+    useEffect(() => {
+        if (products && products.length >= 0) {
+            const nextId = getNextProductId(products);
+            setFormData(prevState => ({
+                ...prevState,
+                product_id: nextId
+            }));
+        }
+    }, [products]);
+
+    useEffect(() => {
+        // Focus on product_name field since product_id is auto-generated
+        if (productNameRef.current) {
+            productNameRef.current.focus();
+        }
+    }, []);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
-
-        // Validate product_id to only allow integers
-        if (name === "product_id" && value !== "" && !/^\d*$/.test(value)) {
-            return; // Prevent invalid input without showing an error immediately
+        console.log(`Form field ${name} changed to: ${value} (type: ${typeof value})`);
+        
+        // Add special handling for category to ensure consistency
+        if (name === 'category') {
+            console.log('Category selected:', value);
+            
+            // If value is numeric string, convert to number to be consistent with database
+            const newValue = !isNaN(value) ? parseInt(value, 10) : value;
+            console.log('Normalized category value:', newValue, '(type:', typeof newValue, ')');
+            
+            setFormData({
+                ...formData,
+                [name]: newValue
+            });
+        } else {
+            setFormData({
+                ...formData,
+                [name]: value
+            });
         }
-
-        setFormData((prevData) => ({ ...prevData, [name]: value }));
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-
-        // Validate product_id before submission
-        if (formData.product_id === "" || !/^\d+$/.test(formData.product_id)) {
-            toast.error("Product ID must be a valid integer.");
-            return;
-        }
-
-        // Validate product ID
-        const isDuplicateId = products.some(
-            (product) => String(product.product_id) === String(formData.product_id)
-        );
-
-        if (isDuplicateId) {
-            toast.error("Product ID already exists. Please use a unique ID."); // Notify the user
-            return;
-        }
-
-        // Validate product name
-        const isDuplicateName = products.some(
-            (product) => product.product_name.toLowerCase() === formData.product_name.toLowerCase()
-        );
-
-        if (isDuplicateName) {
-            toast.error("Product name already exists. Please use a unique name.");
-            return;
-        }
+        setIsSubmitting(true);
 
         try {
-            await productService.addProduct(formData); // Add the product via API
-            toast.success("Product added successfully!");
-            await fetchProducts(); // Refresh the product list
-            setFormData({
-                product_id: "",
-                product_name: "",
-                unit: "",
-                category: "",
-                amount: "",
-            });
-            onClose();
+            // Validate form data
+            if (!formData.product_id || !formData.product_name || !formData.unit || !formData.category || formData.amount === "") {
+                showError("All fields are required");
+                setIsSubmitting(false);
+                return;
+            }
+
+            // Ensure product_id is numeric
+            const submitData = {
+                ...formData,
+                product_id: parseInt(formData.product_id, 10)
+            };
+
+            const success = await addProduct(submitData);
+            if (success) {
+                onClose();
+            }
         } catch (error) {
-            console.error("Error adding product:", error);
-            toast.error("Failed to add product. Please try again.");
+            console.error("Error submitting form:", error);
+            showError(error.message || "Failed to add product");
+        } finally {
+            setIsSubmitting(false);
         }
     };
 
     const handleAddCategory = async () => {
         if (!newCategory.trim()) {
-            toast.error("Category name cannot be empty.");
+            showError("Category name cannot be empty");
+            return;
+        }
+
+        if (categories.includes(newCategory.trim())) {
+            showError("Category already exists");
             return;
         }
 
         try {
-            const response = await categoryService.addCategory(newCategory); // Add category via API
-            setCategories((prev) => [...prev, { id: response.data.id, name: newCategory }]); // Update categories state
-            setFormData((prevData) => ({ ...prevData, category: newCategory })); // Set the new category as selected
-            setNewCategory(""); // Clear the input
-            toast.success("Category added successfully!");
+            await addCategory(newCategory);
+            setNewCategory("");
         } catch (error) {
-            if (error.response && error.response.status === 400) {
-                toast.error(error.response.data.error); // Handle duplicate category error
-            } else {
-                console.error("Error adding category:", error);
-                toast.error("Failed to add category. Please try again.");
-            }
+            console.error("Error adding category:", error);
+            showError(error.message || "Failed to add category");
         }
     };
 
-    const handleDeleteCategory = async (categoryName) => {
-        if (!categoryName) {
-            console.error("Category name is undefined"); // Debug log
+    const handleDeleteCategory = async () => {
+        if (!categoryToDelete) {
+            showError("Please select a category to delete");
             return;
         }
 
         try {
-            await categoryService.deleteCategory(categoryName); // Call the API to delete the category
-            setCategories((prev) => prev.filter((category) => category.name !== categoryName)); // Update the state
-            toast.success("Category deleted successfully!");
+            await deleteCategory(categoryToDelete);
+            setCategoryToDelete(null);
+            
+            // If deleted category was selected in the form, reset it
+            if (formData.category === categoryToDelete) {
+                setFormData({
+                    ...formData,
+                    category: ""
+                });
+            }
         } catch (error) {
             console.error("Error deleting category:", error);
-            toast.error("Failed to delete category. Please try again.");
+            showError(error.message || "Failed to delete category");
         }
     };
 
     return (
-        <div>
-            <form onSubmit={handleSubmit} className={styles.form}>
-                <label>
-                    Product ID:
+        <form className={styles.form} onSubmit={handleSubmit}>
+            <h2 className={styles.heading}>Product Manager</h2>
+            <label>
+                Product ID:
+                <input
+                    type="text"
+                    name="product_id"
+                    value={formData.product_id ? `#${formatProductId(formData.product_id)}` : ''}
+                    readOnly
+                    className={styles.generatedField}
+                />
+                <small className={styles.fieldNote}>Auto-generated sequential ID</small>
+            </label>
+            <label>
+                Product Name:
+                <input
+                    type="text"
+                    name="product_name"
+                    value={formData.product_name}
+                    onChange={handleChange}
+                    ref={productNameRef}
+                    required
+                />
+            </label>
+            <label>
+                Unit:
+                <input
+                    type="text"
+                    name="unit"
+                    value={formData.unit}
+                    onChange={handleChange}
+                    required
+                />
+            </label>
+            <label>
+                Category:
+                <select
+                    name="category"
+                    value={formData.category}
+                    onChange={handleChange}
+                    required
+                >
+                    <option value="">Select a category</option>
+                    {categories.map((category, index) => (
+                        <option key={index} value={typeof category === 'object' ? category.id : category}>
+                            {typeof category === 'object' ? category.name : category}
+                        </option>
+                    ))}
+                </select>
+            </label>
+            <div className={styles.categorySection}>
+                <div className={styles.newCategoryInput}>
                     <input
                         type="text"
-                        name="product_id"
-                        value={formData.product_id}
-                        onChange={handleChange}
-                        required
+                        placeholder="New category name"
+                        value={newCategory}
+                        onChange={(e) => setNewCategory(e.target.value)}
                     />
-                </label>
-                <label>
-                    Name:
-                    <input
-                        type="text"
-                        name="product_name"
-                        value={formData.product_name}
-                        onChange={handleChange}
-                        required
-                    />
-                </label>
-                <label>
-                    Unit:
-                    <input
-                        type="text"
-                        name="unit"
-                        value={formData.unit}
-                        onChange={handleChange}
-                        required
-                    />
-                </label>
-                <label>
-                    Category:
-                    <div className={styles.customDropdown}>
-                        {/* Selected Category */}
-                        <div
-                            className={styles.selectedCategory}
-                            onClick={() => setIsAddingCategory((prev) => !prev)} // Toggle dropdown visibility
-                        >
-                            {formData.category || "Select a category"}
-                        </div>
-
-                        {/* Dropdown Menu */}
-                        {isAddingCategory && (
-                            <div className={styles.dropdownMenu}>
-                                {categories.map((category, index) => (
-                                    <div key={`${category.name}-${index}`} className={styles.dropdownItem}>
-                                        <span
-                                            onClick={() => {
-                                                setFormData((prevData) => ({
-                                                    ...prevData,
-                                                    category: category.name,
-                                                })); // Set selected category
-                                                setIsAddingCategory(false); // Close dropdown
-                                            }}
-                                            className={styles.categoryName}
-                                        >
-                                            {category.name}
-                                        </span>
-                                        <button
-                                            type="button"
-                                            onClick={() => handleDeleteCategory(category.name)} // Pass the name instead of the id
-                                            className={styles.deleteButton}
-                                        >
-                                            Delete
-                                        </button>
-                                    </div>
-                                ))}
-                            </div>
-                        )}
-                        {/* Add New Category */}
-                        <div className={styles.addNewCategory}>
-                            <input
-                                type="text"
-                                placeholder="New category"
-                                value={newCategory}
-                                onChange={(e) => setNewCategory(e.target.value)}
-                                className={styles.newCategoryInput}
-                            />
-                            <button type="button" onClick={handleAddCategory} className={styles.addCategoryButton}>
-                                Add
-                            </button>
-                        </div>
-                    </div>
-                </label>
-                <label>
-                    Amount:
-                    <input
-                        type="number"
-                        name="amount"
-                        value={formData.amount}
-                        onChange={handleChange}
-                        required
-                    />
-                </label>
-                <div className={styles.buttonGroup}>
-                    <Button type="submit" variant="primary">
-                        Add Product
-                    </Button>
-                    <Button type="button" onClick={onClose} variant="primary">
-                        Cancel
+                    <Button
+                        type="button"
+                        onClick={handleAddCategory}
+                        variant="success"
+                        icon="fas fa-plus"
+                    >
+                        Add Category
                     </Button>
                 </div>
-            </form>
-        </div>
+                <div className={styles.deleteCategoryInput}>
+                    <select
+                        value={categoryToDelete || ""}
+                        onChange={(e) => setCategoryToDelete(e.target.value)}
+                    >
+                        <option value="">Select a category to delete</option>
+                        {categories.map((category, index) => (
+                            <option key={index} value={typeof category === 'object' ? category.id : category}>
+                                {typeof category === 'object' ? category.name : category}
+                            </option>
+                        ))}
+                    </select>
+                    <Button
+                        type="button"
+                        onClick={handleDeleteCategory}
+                        variant="delete"
+                        icon="fas fa-trash-alt"
+                    >
+                        Delete Category
+                    </Button>
+                </div>
+            </div>
+            <label>
+                Amount:
+                <input
+                    type="number"
+                    name="amount"
+                    value={formData.amount}
+                    onChange={handleChange}
+                    required
+                />
+            </label>
+            <div className={styles.buttonGroup}>
+                <Button type="submit" variant="success" icon="fas fa-save" disabled={isSubmitting}>
+                    {isSubmitting ? "Adding..." : "Add Product"}
+                </Button>
+                <Button
+                    type="button"
+                    onClick={onClose}
+                    variant="secondary"
+                    disabled={isSubmitting}
+                    icon="fas fa-times"
+                >
+                    Cancel
+                </Button>
+            </div>
+        </form>
     );
 };
 

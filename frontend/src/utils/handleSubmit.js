@@ -1,4 +1,4 @@
-import ruleService from "../services/ruleService";
+import { ruleService } from "../services/apiServices";
 
 export const handleSubmit = async (e, formData, currentProduct, setIsRuleModalOpen, resetForm) => {
     e.preventDefault();

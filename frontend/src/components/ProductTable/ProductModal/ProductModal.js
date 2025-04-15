@@ -1,15 +1,19 @@
 import React from "react";
+import Modal from "../../common/Modal/Modal";
 import styles from "./ProductModal.module.css";
 
-const ProductModal = ({ title, children, onClose }) => {
+const ProductModal = ({ title, children, onClose, isOpen = true }) => {
     return (
-        <div className={styles.modal}>
-            <div className={styles.modalContent}>
-                <span className={styles.close} onClick={onClose}>&times;</span>
-                <h2>{title}</h2>
+        <Modal
+            isOpen={isOpen}
+            title={title}
+            onClose={onClose}
+            className={styles.productModal}
+        >
+            <div className={styles.productModalContent}>
                 {children}
             </div>
-        </div>
+        </Modal>
     );
 };
 

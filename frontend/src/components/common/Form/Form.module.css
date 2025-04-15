@@ -1,0 +1,30 @@
+.form {
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin: 20px auto;
+  max-width: 800px;
+  padding: 20px;
+  width: 100%;
+}
+
+.buttonGroup {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+}
+
+@media (max-width: 768px) {
+  .form {
+    padding: 10px;
+  }
+  
+  .buttonGroup {
+    flex-direction: column;
+    gap: 5px;
+  }
+} 

@@ -99,9 +99,9 @@ const EditRuleForm = ({ formData, handleChange, handleSubmit, setFormData, setEd
                 onChange={handleChange}
             />
             <div className={styles.buttonGroup}>
-                <Button type="submit" variant="primary">Save</Button>
+                <Button type="submit" variant="success" icon="fas fa-save">Save</Button>
                 {setEditingRule && (
-                    <Button type="button" onClick={() => setEditingRule(null)} variant="primary">
+                    <Button type="button" onClick={() => setEditingRule(null)} variant="secondary" icon="fas fa-times">
                         Cancel
                     </Button>
                 )}

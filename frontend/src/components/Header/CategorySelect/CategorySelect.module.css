@@ -1,10 +1,17 @@
 .headerDropdown {
-    margin-top: 10px;
-    width: 300px;
-    position: absolute;
-    right: 20px; /* Position the dropdown at the right corner */
-    display: inline-block;
+    width: 220px; /* Set a specific width */
     z-index: 1000; /* Ensure dropdown is above other elements */
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    position: relative; /* Establish positioning context */
+}
+
+.selectLabel {
+    font-size: 14px;
+    font-weight: 600;
+    color: #444;
+    margin-bottom: 2px;
 }
 
 .filterDropdown {
@@ -36,9 +43,110 @@
 }
 
 .filterSelect {
-    padding: 10px;
+    background-color: white;
+    border-radius: 6px;
+    color: #333333;
+    width: 100%;
+}
+
+/* Override default react-select styles for better visibility */
+:global(.select__menu-portal) {
+    z-index: 9999 !important;
+    overflow: visible !important;
+}
+
+/* Prevent any other elements from appearing above the select */
+:global(body > .select__menu-portal) {
+    z-index: 9999 !important;
+    display: block !important;
+    visibility: visible !important;
+}
+
+.filterSelect :global(.select__control) {
+    background-color: white;
     border: 1px solid #ddd;
-    border-radius: 5px;
-    font-size: 16px;
-    color: #333333; /* Dark text color for visibility */
+    box-shadow: none;
+}
+
+.filterSelect :global(.select__control:hover) {
+    border-color: var(--primary);
+}
+
+.filterSelect :global(.select__control--is-focused) {
+    background-color: white;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 1px var(--primary);
+}
+
+.filterSelect :global(.select__placeholder), 
+.filterSelect :global(.select__input-container), 
+.filterSelect :global(.select__single-value),
+.filterSelect :global(.select__multi-value__label) {
+    color: #333333;
+}
+
+.filterSelect :global(.select__multi-value) {
+    background-color: rgba(106, 17, 203, 0.1);
+    margin: 3px;
+}
+
+.filterSelect :global(.select__multi-value__remove) {
+    color: #333333;
+    cursor: pointer;
+}
+
+.filterSelect :global(.select__multi-value__remove:hover) {
+    background-color: rgba(106, 17, 203, 0.2);
+    color: var(--primary);
+}
+
+.filterSelect :global(.select__menu) {
+    background-color: white;
+    color: #333333;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    border-radius: 6px;
+    border: 1px solid #eee;
+    margin-top: 4px;
+    visibility: visible !important;
+    display: block !important;
+    position: absolute !important;
+}
+
+.filterSelect :global(.select__option) {
+    cursor: pointer;
+    padding: 8px 12px;
+}
+
+.filterSelect :global(.select__option--is-focused) {
+    background-color: rgba(106, 17, 203, 0.1);
+}
+
+.filterSelect :global(.select__option--is-selected) {
+    background-color: var(--primary);
+    color: white;
+}
+
+/* Styles for clear indicator and dropdown indicator */
+.filterSelect :global(.select__clear-indicator), 
+.filterSelect :global(.select__dropdown-indicator) {
+    color: #666666;
+}
+
+.filterSelect :global(.select__clear-indicator:hover), 
+.filterSelect :global(.select__dropdown-indicator:hover) {
+    color: #333333;
+}
+
+.filterSelect :global(.select__indicator-separator) {
+    background-color: #ddd;
+}
+
+.noMoreCategories {
+    margin-top: 5px;
+    font-size: 12px;
+    color: #666;
+    padding: 5px;
+    background-color: rgba(255, 255, 0, 0.1);
+    border-radius: 4px;
+    border: 1px solid #ddd;
 }
