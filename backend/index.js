@@ -58,8 +58,10 @@ if (process.env.NODE_ENV !== 'production') {
   });
 }
 
-// Serve static files from the React app
-app.use(express.static(path.join(__dirname, "../frontend/build")));
+// API routes
+app.use("/api/products", productsRouter);
+app.use("/api/rules", rulesRouter);
+app.use("/api/categories", categoriesRouter); // Use categories router
 
 // Debug route to verify API is working
 app.get("/api/health", (req, res) => {
@@ -71,11 +73,6 @@ app.get("/api/health", (req, res) => {
   });
 });
 
-// API routes
-app.use("/api/products", productsRouter);
-app.use("/api/rules", rulesRouter);
-app.use("/api/categories", categoriesRouter); // Use categories router
-
 // 404 handler for API routes
 app.use('/api/*', (req, res) => {
   if (process.env.NODE_ENV !== 'production') {
@@ -86,6 +83,10 @@ app.use('/api/*', (req, res) => {
     message: `The requested API endpoint ${req.originalUrl} does not exist.`
   });
 });
+
+// Serve static files from the React app
+// Important: Moved after API routes to ensure API routes take precedence
+app.use(express.static(path.join(__dirname, "../frontend/build")));
 
 // The "catchall" handler: for any request that doesn't match one above, send back React's index.html file.
 app.get("*", (req, res) => {

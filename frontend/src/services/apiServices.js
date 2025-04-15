@@ -3,6 +3,32 @@ import axios from "axios";
 // API Base URL
 const API_BASE_URL = process.env.REACT_APP_API_URL;
 
+// Log the API URL for debugging
+console.log("API Base URL:", API_BASE_URL);
+
+// Add axios interceptors for debugging
+axios.interceptors.request.use(request => {
+  console.log('Starting Request:', request.url);
+  return request;
+});
+
+axios.interceptors.response.use(
+  response => {
+    console.log('Response:', response.status, response.config.url);
+    return response;
+  },
+  error => {
+    console.error('Axios Error:', {
+      message: error.message,
+      url: error.config?.url,
+      method: error.config?.method,
+      status: error.response?.status,
+      data: error.response?.data
+    });
+    return Promise.reject(error);
+  }
+);
+
 // Product Service
 const PRODUCTS_URL = API_BASE_URL + "/products";
 export const productService = {
@@ -28,6 +54,7 @@ export const productService = {
 const RULES_URL = API_BASE_URL + "/rules";
 export const ruleService = {
     getRules: () => {
+        console.log("Fetching rules from:", RULES_URL);
         return axios.get(RULES_URL);
     },
     addRule: (rule) => {
@@ -46,6 +73,7 @@ export const ruleService = {
 const CATEGORIES_URL = API_BASE_URL + "/categories";
 export const categoryService = {
     getCategories: () => {
+        console.log("Fetching categories from:", CATEGORIES_URL);
         return axios.get(CATEGORIES_URL);
     },
     addCategory: (category) => {
