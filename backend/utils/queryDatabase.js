@@ -27,19 +27,23 @@ const queryDatabase = (query, params = []) => {
             // Add connection timeout
             setTimeout(() => {
                 rejectConn(new Error('Timeout waiting for database connection'));
-            }, 15000); // 15 seconds timeout
+            }, 15000);
         });
 
         // Handle the connection
         connectionPromise
             .then(connection => {
-                // Log the query for debugging (in development or with debug flag)
-                if (process.env.NODE_ENV !== 'production' || process.env.DEBUG_SQL === 'true') {
-                    console.log(`📝 Executing query: ${query.substring(0, 200)}${query.length > 200 ? '...' : ''}`);
+                // Only log queries in development mode or if debugging is enabled
+                const isDebugMode = process.env.NODE_ENV !== 'production' || process.env.DEBUG_SQL === 'true';
+                
+                if (isDebugMode) {
+                    const truncatedQuery = query.length > 200 ? `${query.substring(0, 200)}...` : query;
+                    console.log(`📝 Executing query: ${truncatedQuery}`);
+                    
                     if (params.length > 0) {
                         // Safely log parameters (hide sensitive data)
                         const safeParams = params.map(p => 
-                            typeof p === 'string' && p.length > 50 ? p.substring(0, 50) + '...' : p
+                            typeof p === 'string' && p.length > 50 ? `${p.substring(0, 50)}...` : p
                         );
                         console.log(`🔹 With parameters: ${JSON.stringify(safeParams)}`);
                     }
@@ -47,28 +51,17 @@ const queryDatabase = (query, params = []) => {
 
                 // Execute the query with a timeout
                 const queryTimeout = setTimeout(() => {
-                    console.error(`⏱️ Query timeout exceeded: ${query.substring(0, 100)}...`);
+                    console.error(`Query execution timeout: ${query.substring(0, 100)}...`);
                     connection.release();
                     reject(new Error('Query execution timeout'));
-                }, 30000); // 30 seconds timeout for query execution
+                }, 30000);
 
                 connection.query(query, params, (error, results) => {
-                    // Clear the timeout
                     clearTimeout(queryTimeout);
-                    
-                    // Always release the connection back to the pool
                     connection.release();
 
                     if (error) {
-                        console.error(`🔴 Database query error for query: ${query.substring(0, 100)}...`, error);
-                        
-                        // Specific error handling
-                        if (error.code === 'ER_LOCK_DEADLOCK') {
-                            console.error('Deadlock detected. Transaction will be retried.');
-                        } else if (error.code === 'ER_DUP_ENTRY') {
-                            console.error('Duplicate entry detected:', error.message);
-                        }
-                        
+                        console.error(`Database query error: ${error.message}`);
                         return reject(error);
                     }
                     
@@ -77,19 +70,16 @@ const queryDatabase = (query, params = []) => {
                         return resolve({ success: true });
                     }
                     
-                    // Log query completion if in development mode
-                    if (process.env.NODE_ENV !== 'production' || process.env.DEBUG_SQL === 'true') {
-                        console.log(`✅ Query completed successfully: ${query.substring(0, 50)}...`);
-                        if (Array.isArray(results)) {
-                            console.log(`📊 Results: ${results.length} rows returned`);
-                        }
+                    // Log completion only in debug mode
+                    if (isDebugMode && Array.isArray(results)) {
+                        console.log(`Query returned ${results.length} rows`);
                     }
                     
                     resolve(results);
                 });
             })
             .catch(err => {
-                console.error('❌ Failed to get database connection:', err);
+                console.error('Failed to get database connection:', err);
                 reject(err);
             });
     });

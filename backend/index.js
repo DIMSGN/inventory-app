@@ -29,19 +29,21 @@ app.use(express.urlencoded({
   limit: '2mb' // Limit body size
 }));
 
-// Log request information
-app.use((req, res, next) => {
-  const start = Date.now();
-  console.log(`📥 ${req.method} ${req.url} [${new Date().toISOString()}]`);
-  
-  // Log request completion time
-  res.on('finish', () => {
-    const duration = Date.now() - start;
-    console.log(`📤 ${req.method} ${req.url} ${res.statusCode} ${duration}ms`);
+// Log request information (only in non-production)
+if (process.env.NODE_ENV !== 'production') {
+  app.use((req, res, next) => {
+    const start = Date.now();
+    console.log(`${req.method} ${req.url}`);
+    
+    // Log request completion time
+    res.on('finish', () => {
+      const duration = Date.now() - start;
+      console.log(`${req.method} ${req.url} ${res.statusCode} ${duration}ms`);
+    });
+    
+    next();
   });
-  
-  next();
-});
+}
 
 // Serve static files from the React app
 app.use(express.static(path.join(__dirname, "../frontend/build")));
@@ -63,11 +65,12 @@ app.use("/api/categories", categoriesRouter); // Use categories router
 
 // 404 handler for API routes
 app.use('/api/*', (req, res) => {
-  console.log(`❌ 404 - API route not found: ${req.originalUrl}`);
+  if (process.env.NODE_ENV !== 'production') {
+    console.log(`404 - API route not found: ${req.originalUrl}`);
+  }
   res.status(404).json({ 
     error: 'Not Found', 
-    message: `The requested API endpoint ${req.originalUrl} does not exist.`,
-    timestamp: new Date().toISOString()
+    message: `The requested API endpoint ${req.originalUrl} does not exist.`
   });
 });
 
@@ -78,7 +81,7 @@ app.get("*", (req, res) => {
 
 // Global error handler
 app.use((err, req, res, next) => {
-  console.error(`🔴 Server error: ${err.message}`, err);
+  console.error(`Server error: ${err.message}`);
   res.status(500).json({ 
     error: 'Internal Server Error',
     message: process.env.NODE_ENV === 'production' ? 'An unexpected error occurred' : err.message
@@ -88,9 +91,11 @@ app.use((err, req, res, next) => {
 // Use the port provided by the environment variable or default to 8080
 const PORT = process.env.PORT || 8080;
 const server = app.listen(PORT, () => {
-  console.log(`✅ Server is running on port ${PORT}`);
-  console.log(`🔗 Database: ${process.env.MYSQL_ADDON_DB || 'Not configured'}`);
-  console.log(`🌍 Environment: ${process.env.NODE_ENV || 'development'}`);
+  console.log(`Server is running on port ${PORT}`);
+  if (process.env.NODE_ENV !== 'production') {
+    console.log(`Database: ${process.env.MYSQL_ADDON_DB || 'Not configured'}`);
+    console.log(`Environment: ${process.env.NODE_ENV || 'development'}`);
+  }
 });
 
 // Handle graceful shutdown
@@ -98,9 +103,9 @@ process.on('SIGTERM', gracefulShutdown);
 process.on('SIGINT', gracefulShutdown);
 
 function gracefulShutdown() {
-  console.log('🛑 Received shutdown signal, closing server...');
+  console.log('Received shutdown signal, closing server...');
   server.close(() => {
-    console.log('✅ Server closed gracefully');
+    console.log('Server closed gracefully');
     
     // Close database connections
     const pool = require('./db/connection');
@@ -121,7 +126,7 @@ function gracefulShutdown() {
   
   // Force close after timeout
   setTimeout(() => {
-    console.error('⚠️ Forcing server shutdown after timeout');
+    console.error('Forcing server shutdown after timeout');
     process.exit(1);
   }, 30000); // 30 seconds
 }
