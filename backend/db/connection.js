@@ -8,28 +8,46 @@ if (process.env.NODE_ENV !== 'production' || process.env.LOG_STARTUP === 'true')
   - User: ${process.env.MYSQL_ADDON_USER ? '✓ Set' : '✗ Missing'}
   - Password: ${process.env.MYSQL_ADDON_PASSWORD ? '✓ Set' : '✗ Missing'}
   - Database: ${process.env.MYSQL_ADDON_DB ? '✓ Set' : '✗ Missing'}
-  - Port: ${process.env.MYSQL_ADDON_PORT || '3306 (default)'}`);
+  - Port: ${process.env.MYSQL_ADDON_PORT || '3306 (default)'}
+  - URI: ${process.env.MYSQL_ADDON_URI ? '✓ Set' : '✗ Missing'}`);
 }
 
 // Connection configuration
-const dbConfig = {
-    connectionLimit: 10,
-    host: process.env.MYSQL_ADDON_HOST,
-    user: process.env.MYSQL_ADDON_USER,
-    password: process.env.MYSQL_ADDON_PASSWORD,
-    database: process.env.MYSQL_ADDON_DB,
-    port: process.env.MYSQL_ADDON_PORT || 3306,
-    waitForConnections: true,
-    queueLimit: 0,
-    enableKeepAlive: true,
-    keepAliveInitialDelay: 10000,
-    // SSL configuration for Clever Cloud
-    ssl: {
-        rejectUnauthorized: false // Required for Clever Cloud MySQL addon
-    },
-    // Set connection timeout
-    connectTimeout: 30000 // 30 seconds
-};
+let dbConfig;
+
+// If URI is provided, use it (simple config for Clever Cloud)
+if (process.env.MYSQL_ADDON_URI) {
+    dbConfig = {
+        uri: process.env.MYSQL_ADDON_URI,
+        connectionLimit: 10,
+        waitForConnections: true,
+        queueLimit: 0,
+        enableKeepAlive: true,
+        keepAliveInitialDelay: 10000,
+        ssl: {
+            rejectUnauthorized: false // Required for Clever Cloud MySQL addon
+        },
+        connectTimeout: 30000 // 30 seconds
+    };
+} else {
+    // Fallback to individual parameters
+    dbConfig = {
+        connectionLimit: 10,
+        host: process.env.MYSQL_ADDON_HOST,
+        user: process.env.MYSQL_ADDON_USER,
+        password: process.env.MYSQL_ADDON_PASSWORD,
+        database: process.env.MYSQL_ADDON_DB,
+        port: process.env.MYSQL_ADDON_PORT || 3306,
+        waitForConnections: true,
+        queueLimit: 0,
+        enableKeepAlive: true,
+        keepAliveInitialDelay: 10000,
+        ssl: {
+            rejectUnauthorized: false // Required for Clever Cloud MySQL addon
+        },
+        connectTimeout: 30000 // 30 seconds
+    };
+}
 
 // Create connection pool
 const pool = mysql.createPool(dbConfig);

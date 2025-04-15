@@ -12,13 +12,26 @@ dotenv.config();
 // Create Express app
 const app = express();
 
+// Pre-flight CORS middleware - respond to OPTIONS requests
+app.options('*', cors());
+
 // Enhanced CORS configuration
 app.use(cors({
-  origin: ['https://inventory-app-dimitri.cleverapps.io', 'http://localhost:3000', '*'],
+  origin: '*', // Allow all origins
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization'],
-  credentials: true
+  credentials: true,
+  preflightContinue: false,
+  optionsSuccessStatus: 204
 }));
+
+// Add headers middleware to ensure CORS works
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
+  next();
+});
 
 // Request body parsing
 app.use(express.json({
