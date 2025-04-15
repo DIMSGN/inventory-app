@@ -35,12 +35,17 @@ app.get("/api/health", (req, res) => {
   });
 });
 
+// Handle API 404s
+app.use('/api', (req, res) => {
+  res.status(404).json({ error: 'API endpoint not found' });
+});
+
 // Serve static files from React build
 app.use(express.static(path.join(__dirname, "../frontend/build")));
 
-// Catch-all route handler
-app.get("/*", (req, res) => {
-  res.sendFile(path.join(__dirname, "../frontend/build/index.html"));
+// Catch-all route for React app - must be last
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, '../frontend/build/index.html'));
 });
 
 // Error handler
@@ -52,7 +57,6 @@ app.use((err, req, res, next) => {
   });
 });
 
-// Start server
 const PORT = process.env.PORT || 3000;
 const server = app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);

@@ -7,7 +7,7 @@
   "scripts": {
     "start": "node index.js",
     "build": "cd frontend && npm install && npm run build",
-    "dev": "concurrently \"cd backend && npm start\" \"cd frontend && npm start\""
+    "dev": "concurrently \"cd backend && npm install && npm start\" \"cd frontend && npm start\""
   },
   "engines": {
     "node": ">=18.0.0"
