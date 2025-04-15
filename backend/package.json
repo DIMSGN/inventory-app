@@ -10,13 +10,9 @@
     "node": ">=18.0.0"
   },
   "dependencies": {
-    "compression": "^1.8.0",
-    "cors": "^2.8.5",
-    "dotenv": "^16.4.7",
     "express": "^4.21.2",
-    "express-rate-limit": "^7.5.0",
-    "helmet": "^8.1.0",
-    "mysql": "^2.18.1",
-    "mysql2": "^3.14.0"
+    "dotenv": "^16.4.7",
+    "mysql2": "^3.14.0",
+    "cors": "^2.8.5"
   }
 }

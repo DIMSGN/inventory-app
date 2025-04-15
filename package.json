@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "Inventory management application",
   "main": "index.js",
+  "type": "commonjs",
   "scripts": {
     "start": "node index.js",
     "build": "cd frontend && npm install && npm run build",
@@ -12,7 +13,8 @@
     "node": ">=18.0.0"
   },
   "dependencies": {
-    "dotenv": "^16.4.7"
+    "dotenv": "^16.4.7",
+    "express": "^5.1.0"
   },
   "devDependencies": {
     "concurrently": "^8.2.2"
