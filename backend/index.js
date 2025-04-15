@@ -9,12 +9,25 @@ const categoriesRouter = require("./routes/categories"); // Import categories ro
 dotenv.config();
 
 const app = express();
-app.use(cors());
+
+// Enhanced CORS configuration
+app.use(cors({
+  origin: ['https://inventory-app-dimitri.cleverapps.io', 'http://localhost:3000', '*'],
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  credentials: true
+}));
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // Serve static files from the React app
 app.use(express.static(path.join(__dirname, "../frontend/build")));
+
+// Debug route to verify API is working
+app.get("/api/health", (req, res) => {
+  res.json({ status: "API is running", env: process.env.NODE_ENV });
+});
 
 // API routes
 app.use("/api/products", productsRouter);
