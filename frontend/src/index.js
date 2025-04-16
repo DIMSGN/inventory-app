@@ -32,7 +32,8 @@ setTimeout(() => {
       </BrowserRouter>
     </React.StrictMode>
   );
-}, 0); // Using 0ms timeout to defer to next event loop cycle
+}, 0);
 
-// Report vitals for performance monitoring
+// If you want to start measuring performance in your app, pass a function
+// to log results (for example: reportWebVitals(console.log))
 reportWebVitals();

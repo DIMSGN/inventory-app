@@ -7,14 +7,17 @@ import {
   FaAngleLeft, FaAngleRight, FaSearch, FaChartLine
 } from 'react-icons/fa';
 
-const Sidebar = ({ collapsed, onToggle }) => {
-  const [activeItem, setActiveItem] = useState('dashboard');
+const Sidebar = ({ collapsed, onToggle, activeItem = 'dashboard', onNavigation }) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [mobileOpen, setMobileOpen] = useState(false);
   const [showHelpModal, setShowHelpModal] = useState(false);
   
   const handleItemClick = (item) => {
-    setActiveItem(item);
+    // Navigate to the selected route
+    if (onNavigation) {
+      onNavigation(item);
+    }
+    
     // Close mobile sidebar when item clicked
     if (window.innerWidth < 992) {
       setMobileOpen(false);

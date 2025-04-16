@@ -1,4 +1,5 @@
 import React, { useState, useEffect, Suspense, lazy } from "react";
+import { Routes, Route, useNavigate, useLocation } from "react-router-dom";
 import "react-toastify/dist/ReactToastify.css";
 import "./App.css";
 
@@ -17,6 +18,8 @@ const RuleList = lazy(() => import("./components/RuleList/RuleList"));
 const Sidebar = lazy(() => import("./components/Sidebar/Sidebar"));
 const AddProductForm = lazy(() => import("./components/ProductTable/ProductForm/AddProductForm"));
 const EditProductForm = lazy(() => import("./components/ProductTable/ProductForm/EditProductForm"));
+const Dashboard = lazy(() => import("./components/Dashboard/Dashboard"));
+const Economy = lazy(() => import("./components/Economy/Economy"));
 
 // Create a simple RuleModal component using our generic Modal
 const RuleModal = ({ 
@@ -147,6 +150,9 @@ const RuleModal = ({
 };
 
 const App = () => {
+  const navigate = useNavigate();
+  const location = useLocation();
+  
   // Local UI state
   const [activeModal, setActiveModal] = useState(null); // 'product', 'edit', 'rule' or null
   const [showRuleList, setShowRuleList] = useState(false);
@@ -268,6 +274,32 @@ const App = () => {
   const toggleSidebar = () => {
     setSidebarCollapsed(!sidebarCollapsed);
   };
+  
+  // Handle sidebar navigation
+  const handleNavigation = (item) => {
+    switch(item) {
+      case 'dashboard':
+        navigate('/');
+        break;
+      case 'products':
+        navigate('/products');
+        break;
+      case 'economy':
+        navigate('/economy');
+        break;
+      default:
+        navigate('/');
+    }
+  };
+  
+  // Determine active sidebar item from current path
+  const getActiveItemFromPath = () => {
+    const path = location.pathname;
+    if (path === '/') return 'dashboard';
+    if (path.includes('products')) return 'products';
+    if (path.includes('economy')) return 'economy';
+    return 'dashboard';
+  };
 
   // Load sidebar state from localStorage
   useEffect(() => {
@@ -287,37 +319,45 @@ const App = () => {
       <Suspense fallback={<div>Loading sidebar...</div>}>
         <Sidebar 
           collapsed={sidebarCollapsed} 
-          onToggle={toggleSidebar} 
+          onToggle={toggleSidebar}
+          activeItem={getActiveItemFromPath()}
+          onNavigation={handleNavigation}
         />
       </Suspense>
       <div className="main-content">
         <Header />
         <div className="container">
-          <Suspense fallback={<div>Loading product table...</div>}>
-            <ProductTable
-              onAddProductClick={openAddProductModal}
-              onToggleRuleList={handleToggleRuleList}
-              showRuleList={showRuleList}
-              setCurrentRule={setCurrentRule}
-              setEditingProduct={openEditProductModal}
-              setCurrentProduct={setCurrentProduct}
-              openRuleModal={openRuleModal}
-              handleDeleteProduct={deleteProduct}
-            />
+          <Suspense fallback={<div>Loading content...</div>}>
+            <Routes>
+              <Route path="/" element={<Dashboard />} />
+              <Route path="/products" element={
+                <>
+                  <ProductTable
+                    onAddProductClick={openAddProductModal}
+                    onToggleRuleList={handleToggleRuleList}
+                    showRuleList={showRuleList}
+                    setCurrentRule={setCurrentRule}
+                    setEditingProduct={openEditProductModal}
+                    setCurrentProduct={setCurrentProduct}
+                    openRuleModal={openRuleModal}
+                    handleDeleteProduct={deleteProduct}
+                  />
+                  
+                  {showRuleList && (
+                    <div className="ruleContainer">
+                      <RuleList
+                        rules={rules}
+                        onAddRule={() => openRuleModal()}
+                        onEditRule={(rule) => openRuleModal(rule)}
+                        onDeleteRule={deleteRule}
+                      />
+                    </div>
+                  )}
+                </>
+              } />
+              <Route path="/economy" element={<Economy />} />
+            </Routes>
           </Suspense>
-          
-          {showRuleList && (
-            <div className="ruleContainer">
-              <Suspense fallback={<div>Loading rules...</div>}>
-                <RuleList
-                  rules={rules}
-                  onAddRule={() => openRuleModal()}
-                  onEditRule={(rule) => openRuleModal(rule)}
-                  onDeleteRule={deleteRule}
-                />
-              </Suspense>
-            </div>
-          )}
           
           {/* Render modals based on activeModal state */}
           {activeModal === 'product' && (
