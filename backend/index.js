@@ -34,13 +34,23 @@ if (process.env.NODE_ENV === 'production') {
     app.use(helmet({
       contentSecurityPolicy: {
         directives: {
-          ...helmet.contentSecurityPolicy.getDefaultDirectives(),
-          "script-src": ["'self'"],
-          "img-src": ["'self'", "data:"],
+          defaultSrc: ["'self'"],
+          scriptSrc: ["'self'", "'unsafe-inline'", "'unsafe-eval'"],
+          styleSrc: ["'self'", "'unsafe-inline'", "https:"],
+          imgSrc: ["'self'", "data:", "https:"],
+          connectSrc: ["'self'", "https:", "wss:", "http:"],
+          fontSrc: ["'self'", "data:", "https:"],
+          objectSrc: ["'none'"],
+          mediaSrc: ["'self'"],
+          frameSrc: ["'self'"]
         }
-      }
+      },
+      // Don't set X-Powered-By header
+      hidePoweredBy: true,
+      // Disable strict-transport-security for now (can enable it after everything works)
+      strictTransportSecurity: false
     }));
-    console.log("Helmet security middleware enabled");
+    console.log("Helmet security middleware enabled with relaxed CSP");
   }
   
   if (compression) {

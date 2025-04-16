@@ -5,6 +5,8 @@ const API_BASE_URL = process.env.REACT_APP_API_URL || 'https://inventory-app-dim
 
 // Log the API URL for debugging
 console.log("API Base URL:", API_BASE_URL);
+console.log("Environment:", process.env.NODE_ENV);
+console.log("React App API URL env var:", process.env.REACT_APP_API_URL);
 
 // Configure axios defaults
 axios.defaults.timeout = 15000; // 15 seconds timeout
@@ -15,9 +17,16 @@ axios.defaults.headers.post['Content-Type'] = 'application/json';
 const apiClient = axios.create({
   baseURL: API_BASE_URL,
   timeout: 15000,
+  // Include credentials (cookies) with requests
+  withCredentials: false,
   // Retry logic built in
   validateStatus: function (status) {
     return status >= 200 && status < 500; // Resolve only if status is 2xx/3xx/4xx
+  },
+  // Set headers for CORS
+  headers: {
+    'Accept': 'application/json',
+    'Content-Type': 'application/json'
   }
 });
 
