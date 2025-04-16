@@ -1,12 +1,11 @@
 import axios from "axios";
 
-// API Base URL with fallback - ensure this is the absolute URL
-const API_BASE_URL = 'https://inventory-app-dimitri.cleverapps.io/api';
+// Use relative URL to avoid CORS issues
+const API_BASE_URL = '/api';
 
 // Log the API URL for debugging
 console.log("API Base URL:", API_BASE_URL);
 console.log("Environment:", process.env.NODE_ENV);
-console.log("React App API URL env var:", process.env.REACT_APP_API_URL);
 
 // Configure axios defaults
 axios.defaults.timeout = 15000; // 15 seconds timeout
@@ -17,7 +16,7 @@ axios.defaults.headers.post['Content-Type'] = 'application/json';
 const apiClient = axios.create({
   baseURL: API_BASE_URL,
   timeout: 15000,
-  // Include credentials (cookies) with requests
+  // Don't send credentials for CORS
   withCredentials: false,
   // Retry logic built in
   validateStatus: function (status) {
@@ -32,7 +31,7 @@ const apiClient = axios.create({
 
 // Test connectivity to API on startup
 console.log("Testing API connectivity...");
-fetch(`${API_BASE_URL}/health`, { mode: 'cors' })
+fetch(`${API_BASE_URL}/health`)
   .then(response => {
     if (!response.ok) {
       throw new Error(`API responded with status ${response.status}`);

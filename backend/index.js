@@ -59,22 +59,14 @@ if (process.env.NODE_ENV === 'production') {
   }
 }
 
-// Enhanced CORS setup
-const corsOptions = process.env.NODE_ENV === 'production' 
-  ? {
-      // In production, allow requests from anywhere to prevent CORS issues
-      origin: true,
-      methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-      allowedHeaders: ['Content-Type', 'Authorization']
-    } 
-  : {
-      // In development, be more restrictive
-      origin: ['http://localhost:3000'],
-      methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-      allowedHeaders: ['Content-Type', 'Authorization']
-    };
-
-app.use(cors(corsOptions));
+// Enhanced CORS setup - simplified and permissive
+app.use(cors({
+  // Allow requests from any origin in production
+  origin: '*',
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'Accept']
+}));
+console.log("CORS configured with permissive settings");
 
 // Body parsing middleware
 app.use(express.json({ limit: '2mb' }));
