@@ -2,8 +2,20 @@ const express = require("express");
 const path = require("path");
 const cors = require("cors");
 const dotenv = require("dotenv");
-const helmet = require("helmet");
-const compression = require("compression");
+
+// Try to load optional modules
+let helmet, compression;
+try {
+  helmet = require("helmet");
+} catch (e) {
+  console.log("Helmet module not available, skipping security middleware");
+}
+
+try {
+  compression = require("compression");
+} catch (e) {
+  console.log("Compression module not available, skipping compression middleware");
+}
 
 // Load environment variables
 dotenv.config({ path: path.resolve(__dirname, '../.env') });
@@ -18,16 +30,23 @@ console.log(`PORT: ${process.env.PORT || 3000}`);
 
 // Security and performance middleware for production
 if (process.env.NODE_ENV === 'production') {
-  app.use(helmet({
-    contentSecurityPolicy: {
-      directives: {
-        ...helmet.contentSecurityPolicy.getDefaultDirectives(),
-        "script-src": ["'self'"],
-        "img-src": ["'self'", "data:"],
+  if (helmet) {
+    app.use(helmet({
+      contentSecurityPolicy: {
+        directives: {
+          ...helmet.contentSecurityPolicy.getDefaultDirectives(),
+          "script-src": ["'self'"],
+          "img-src": ["'self'", "data:"],
+        }
       }
-    }
-  }));
-  app.use(compression());
+    }));
+    console.log("Helmet security middleware enabled");
+  }
+  
+  if (compression) {
+    app.use(compression());
+    console.log("Compression middleware enabled");
+  }
 }
 
 // Enhanced CORS setup
