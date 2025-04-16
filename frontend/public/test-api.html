@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>API Test</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 20px; }
+    pre { background: #f5f5f5; padding: 10px; border-radius: 4px; overflow: auto; }
+    button { padding: 8px 16px; background: #4CAF50; color: white; border: none; border-radius: 4px; cursor: pointer; margin: 5px; }
+    button:hover { background: #45a049; }
+    .error { color: red; }
+    .success { color: green; }
+  </style>
+</head>
+<body>
+  <h1>Inventory App API Test</h1>
+  
+  <div>
+    <h2>Test API Health</h2>
+    <button id="health-check">Check API Health</button>
+    <div id="health-result"></div>
+  </div>
+  
+  <div>
+    <h2>Test Products API</h2>
+    <button id="get-products">Get Products</button>
+    <div id="products-result"></div>
+  </div>
+  
+  <div>
+    <h2>Test Categories API</h2>
+    <button id="get-categories">Get Categories</button>
+    <div id="categories-result"></div>
+  </div>
+  
+  <div>
+    <h2>Test Rules API</h2>
+    <button id="get-rules">Get Rules</button>
+    <div id="rules-result"></div>
+  </div>
+
+  <script>
+    const API_BASE_URL = 'https://inventory-app-dimitri.cleverapps.io/api';
+    
+    document.getElementById('health-check').addEventListener('click', () => {
+      testEndpoint(`${API_BASE_URL}/health`, 'health-result');
+    });
+    
+    document.getElementById('get-products').addEventListener('click', () => {
+      testEndpoint(`${API_BASE_URL}/products`, 'products-result');
+    });
+    
+    document.getElementById('get-categories').addEventListener('click', () => {
+      testEndpoint(`${API_BASE_URL}/categories`, 'categories-result');
+    });
+    
+    document.getElementById('get-rules').addEventListener('click', () => {
+      testEndpoint(`${API_BASE_URL}/rules`, 'rules-result');
+    });
+    
+    function testEndpoint(url, resultId) {
+      const resultElement = document.getElementById(resultId);
+      resultElement.innerHTML = 'Loading...';
+      
+      fetch(url, {
+        method: 'GET',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        mode: 'cors' 
+      })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error(`Status: ${response.status}`);
+        }
+        return response.json();
+      })
+      .then(data => {
+        resultElement.innerHTML = `
+          <div class="success">✅ Success!</div>
+          <pre>${JSON.stringify(data, null, 2)}</pre>
+        `;
+      })
+      .catch(error => {
+        resultElement.innerHTML = `
+          <div class="error">❌ Error: ${error.message}</div>
+        `;
+        console.error('API Test Error:', error);
+      });
+    }
+  </script>
+</body>
+</html> 

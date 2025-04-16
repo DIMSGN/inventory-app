@@ -1,7 +1,7 @@
 import axios from "axios";
 
-// API Base URL with fallback
-const API_BASE_URL = process.env.REACT_APP_API_URL || 'https://inventory-app-dimitri.cleverapps.io/api';
+// API Base URL with fallback - ensure this is the absolute URL
+const API_BASE_URL = 'https://inventory-app-dimitri.cleverapps.io/api';
 
 // Log the API URL for debugging
 console.log("API Base URL:", API_BASE_URL);
@@ -30,9 +30,25 @@ const apiClient = axios.create({
   }
 });
 
+// Test connectivity to API on startup
+console.log("Testing API connectivity...");
+fetch(`${API_BASE_URL}/health`, { mode: 'cors' })
+  .then(response => {
+    if (!response.ok) {
+      throw new Error(`API responded with status ${response.status}`);
+    }
+    return response.json();
+  })
+  .then(data => {
+    console.log("API Health Check Successful:", data);
+  })
+  .catch(error => {
+    console.error("API Health Check Failed:", error.message);
+  });
+
 // Add axios interceptors for debugging with more detail
 apiClient.interceptors.request.use(request => {
-  console.log('Starting Request:', request.url);
+  console.log('Starting Request:', request.url, 'Full URL:', request.baseURL + request.url);
   return request;
 }, error => {
   console.error('Request Error:', error.message);
@@ -97,8 +113,9 @@ export const productService = {
         return `${API_BASE_URL}${PRODUCTS_URL}`;
     },
     getProducts: (customUrl) => {
-        console.log("Fetching products from:", customUrl || `${API_BASE_URL}${PRODUCTS_URL}`);
-        return apiClient.get(customUrl || PRODUCTS_URL)
+        const url = customUrl || PRODUCTS_URL;
+        console.log("Fetching products from:", `${API_BASE_URL}${url}`);
+        return apiClient.get(url)
           .catch(err => {
             console.error("Error fetching products:", err.message);
             throw err;
