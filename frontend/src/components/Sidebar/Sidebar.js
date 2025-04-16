@@ -4,13 +4,14 @@ import styles from './Sidebar.module.css';
 import { 
   FaTachometerAlt, FaBox, FaRuler, FaTags, 
   FaClipboardList, FaQuestionCircle, FaBars,
-  FaAngleLeft, FaAngleRight, FaSearch
+  FaAngleLeft, FaAngleRight, FaSearch, FaChartLine
 } from 'react-icons/fa';
 
 const Sidebar = ({ collapsed, onToggle }) => {
   const [activeItem, setActiveItem] = useState('dashboard');
   const [searchTerm, setSearchTerm] = useState('');
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [showHelpModal, setShowHelpModal] = useState(false);
   
   const handleItemClick = (item) => {
     setActiveItem(item);
@@ -24,12 +25,18 @@ const Sidebar = ({ collapsed, onToggle }) => {
     setMobileOpen(!mobileOpen);
   };
   
+  const handleHelpClick = () => {
+    setShowHelpModal(true);
+  };
+  
+  const closeHelpModal = () => {
+    setShowHelpModal(false);
+  };
+  
   const menuItems = [
     { id: 'dashboard', icon: <FaTachometerAlt />, label: 'Dashboard' },
-    { id: 'products', icon: <FaBox />, label: 'Products' },
-    { id: 'rules', icon: <FaRuler />, label: 'Rules' },
-    { id: 'categories', icon: <FaTags />, label: 'Categories' },
-    { id: 'reports', icon: <FaClipboardList />, label: 'Reports' }
+    { id: 'products', icon: <FaBox />, label: 'Product Inventory' },
+    { id: 'economy', icon: <FaChartLine />, label: 'Economy' }
   ];
   
   // Filter menu items based on search term
@@ -135,7 +142,7 @@ const Sidebar = ({ collapsed, onToggle }) => {
           </nav>
           
           <div className={styles.sidebarFooter}>
-            <button className={styles.helpLink}>
+            <button className={styles.helpLink} onClick={handleHelpClick}>
               <span className={styles.helpIcon}><FaQuestionCircle /></span>
               {!collapsed && <span className={styles.helpText}>Need Help?</span>}
               {collapsed && <span className={styles.tooltip}>Need Help?</span>}
@@ -164,6 +171,55 @@ const Sidebar = ({ collapsed, onToggle }) => {
           onClick={() => setMobileOpen(false)}
         />
       </aside>
+      
+      {/* Help Modal */}
+      {showHelpModal && (
+        <div className={styles.modalOverlay} onClick={closeHelpModal}>
+          <div className={styles.helpModal} onClick={e => e.stopPropagation()}>
+            <button className={styles.closeButton} onClick={closeHelpModal}>×</button>
+            <h2>Application Guide</h2>
+            
+            <div className={styles.helpContent}>
+              <div className={styles.helpSection}>
+                <h3>Dashboard</h3>
+                <p>Get an overview of your business with key metrics and statistics:</p>
+                <ul>
+                  <li>Total inventory value</li>
+                  <li>Low stock alerts</li>
+                  <li>Sales performance</li>
+                  <li>Revenue metrics</li>
+                </ul>
+              </div>
+              
+              <div className={styles.helpSection}>
+                <h3>Product Inventory</h3>
+                <p>Manage your product catalog and inventory levels:</p>
+                <ul>
+                  <li><strong>Products:</strong> Add, edit, and delete products in your inventory</li>
+                  <li><strong>Categories:</strong> Organize products by category for better management</li>
+                  <li><strong>Rules:</strong> Set up alerts for low stock or other inventory conditions</li>
+                </ul>
+              </div>
+              
+              <div className={styles.helpSection}>
+                <h3>Economy</h3>
+                <p>Track your business finances and performance:</p>
+                <ul>
+                  <li><strong>Income:</strong> Record and analyze revenue streams</li>
+                  <li><strong>Expenses:</strong> Track costs and expenditures</li>
+                  <li><strong>Reports:</strong> Generate financial reports and insights</li>
+                </ul>
+              </div>
+            </div>
+            
+            <div className={styles.helpFooter}>
+              <button className={styles.helpCloseButton} onClick={closeHelpModal}>
+                Close Guide
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </>
   );
 };

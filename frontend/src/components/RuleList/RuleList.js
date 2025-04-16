@@ -103,7 +103,7 @@ const RuleList = ({ rules, openRuleModal, onEditRule, handleDelete, onDeleteRule
                             
                             <div className={styles.ruleDescription}>
                                 <div className={styles.ruleCondition}>
-                                    When inventory is <strong>{getComparisonDisplay(rule.comparison)}</strong> <strong>{formatAmount(rule.amount)}</strong>
+                                    {rule.rules} <strong>{getComparisonDisplay(rule.comparison)}</strong> <strong>{formatAmount(rule.amount)}</strong>
                                     <span className={styles.rowBecomes}> the row becomes </span>
                                     <div 
                                         className={styles.colorIndicator} 

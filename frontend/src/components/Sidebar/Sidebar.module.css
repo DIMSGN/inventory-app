@@ -478,4 +478,108 @@
     .sidebar {
         animation: none;
     }
+}
+
+/* Help Modal Styles */
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  animation: fadeIn 0.2s ease-out;
+}
+
+.helpModal {
+  background-color: white;
+  border-radius: 8px;
+  width: 80%;
+  max-width: 800px;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  position: relative;
+  padding: 24px;
+  animation: scaleIn 0.2s ease-out;
+}
+
+.closeButton {
+  position: absolute;
+  top: 12px;
+  right: 15px;
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  color: #666;
+  transition: color 0.2s;
+}
+
+.closeButton:hover {
+  color: #000;
+}
+
+.helpContent {
+  margin-top: 20px;
+}
+
+.helpSection {
+  margin-bottom: 24px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid #eee;
+}
+
+.helpSection:last-child {
+  border-bottom: none;
+}
+
+.helpSection h3 {
+  color: #9333EA;
+  margin-bottom: 12px;
+  font-size: 18px;
+}
+
+.helpSection ul {
+  padding-left: 20px;
+  margin-top: 8px;
+}
+
+.helpSection li {
+  margin-bottom: 6px;
+}
+
+.helpFooter {
+  margin-top: 20px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.helpCloseButton {
+  background-color: #9333EA;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background-color 0.2s;
+}
+
+.helpCloseButton:hover {
+  background-color: #7D25F6;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes scaleIn {
+  from { transform: scale(0.9); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
 } 
