@@ -2,13 +2,13 @@ const path = require('path');
 require('dotenv').config({ path: path.resolve(__dirname, '../../.env') });
 const mysql = require('mysql2');
 
-// Log environment variables for debugging
-if (process.env.NODE_ENV !== 'production') {
-  console.log('Database Configuration:');
-  console.log(`Host: ${process.env.MYSQL_ADDON_HOST}`);
-  console.log(`Database: ${process.env.MYSQL_ADDON_DB}`);
-  console.log(`Port: ${process.env.MYSQL_ADDON_PORT}`);
-}
+// Always log critical database configuration in production for debugging
+console.log('Database Configuration:');
+console.log(`Host: ${process.env.MYSQL_ADDON_HOST || 'NOT_SET'}`);
+console.log(`Database: ${process.env.MYSQL_ADDON_DB || 'NOT_SET'}`);
+console.log(`Port: ${process.env.MYSQL_ADDON_PORT || 'NOT_SET'}`);
+console.log(`User: ${process.env.MYSQL_ADDON_USER ? 'SET' : 'NOT_SET'}`);
+console.log(`Password: ${process.env.MYSQL_ADDON_PASSWORD ? 'SET' : 'NOT_SET'}`);
 
 // Connection configuration
 const dbConfig = {
@@ -24,6 +24,21 @@ const dbConfig = {
     rejectUnauthorized: false
   }
 };
+
+// Check that all required environment variables are set
+const requiredEnvVars = [
+  'MYSQL_ADDON_HOST',
+  'MYSQL_ADDON_USER',
+  'MYSQL_ADDON_PASSWORD',
+  'MYSQL_ADDON_DB',
+  'MYSQL_ADDON_PORT'
+];
+
+const missingVars = requiredEnvVars.filter(varName => !process.env[varName]);
+if (missingVars.length > 0) {
+  console.error('Missing required environment variables:', missingVars.join(', '));
+  console.error('API will start but database operations will fail');
+}
 
 // Create connection pool
 const pool = mysql.createPool(dbConfig);
@@ -43,13 +58,22 @@ function testConnection(retryAttempt = 0) {
         setTimeout(() => testConnection(retryAttempt + 1), delay);
       } else {
         console.error(`Failed to connect to database after ${MAX_RETRY_ATTEMPTS} attempts.`);
-        process.exit(1);
+        console.error('API will start but database operations will fail');
       }
       return;
     }
     
-    console.log('✓ Successfully connected to MySQL database!');
-    connection.release();
+    // Check if we can actually query the database
+    connection.query('SELECT 1', (error, results) => {
+      connection.release();
+      
+      if (error) {
+        console.error('Database query test failed:', error.message);
+        return;
+      }
+      
+      console.log('✓ Successfully connected to MySQL database and verified query execution!');
+    });
   });
 }
 
@@ -60,6 +84,12 @@ testConnection();
 pool.on('error', function (err) {
   console.error('Unexpected error on idle client', err);
   testConnection();
+});
+
+// Don't terminate the app on connection failures
+process.on('unhandledRejection', (reason, promise) => {
+  console.error('Unhandled Rejection at:', promise, 'reason:', reason);
+  // Don't crash the server, just log the error
 });
 
 module.exports = pool;

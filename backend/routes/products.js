@@ -2,14 +2,27 @@ const express = require("express");
 const router = express.Router();
 const queryDatabase = require("../utils/queryDatabase");
 
+// Utility to handle database errors
+const handleDatabaseError = (res, error, operation) => {
+    console.error(`Error ${operation}:`, error);
+    // Check if it's a connection error
+    if (error.code === 'ECONNREFUSED' || error.code === 'PROTOCOL_CONNECTION_LOST') {
+        return res.status(503).json({ 
+            error: "Database connection error", 
+            message: "Unable to connect to database. Please try again later."
+        });
+    }
+    // General error
+    return res.status(500).json({ error: `Failed to ${operation}` });
+};
+
 // GET /api/products
 router.get("/", async (req, res) => {
     try {
         const rows = await queryDatabase("SELECT * FROM products");
         res.json(rows);
     } catch (error) {
-        console.error("Error fetching products:", error);
-        res.status(500).json({ error: "Failed to fetch products" });
+        handleDatabaseError(res, error, "fetch products");
     }
 });
 
@@ -23,8 +36,7 @@ router.get("/:productId", async (req, res) => {
         }
         res.json(results[0]);
     } catch (error) {
-        console.error("Error fetching product:", error);
-        res.status(500).json({ error: "Failed to fetch product" });
+        handleDatabaseError(res, error, "fetch product");
     }
 });
 
@@ -46,8 +58,7 @@ router.post("/", async (req, res) => {
             product: { product_id, product_name, unit, category, amount }
         });
     } catch (err) {
-        console.error("Error adding product:", err);
-        res.status(500).json({ error: err.message });
+        handleDatabaseError(res, err, "add product");
     }
 });
 
@@ -72,8 +83,7 @@ router.put("/:productId", async (req, res) => {
             product: { product_id: productId, product_name, unit, category, amount }
         });
     } catch (err) {
-        console.error("Error updating product:", err);
-        res.status(500).json({ error: err.message });
+        handleDatabaseError(res, err, "update product");
     }
 });
 
@@ -87,8 +97,7 @@ router.delete("/:productId", async (req, res) => {
         }
         res.status(200).json({ message: "Product deleted successfully" });
     } catch (err) {
-        console.error("Error deleting product:", err);
-        res.status(500).json({ error: err.message });
+        handleDatabaseError(res, err, "delete product");
     }
 });
 

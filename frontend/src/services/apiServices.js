@@ -6,8 +6,23 @@ const API_BASE_URL = process.env.REACT_APP_API_URL || 'https://inventory-app-dim
 // Log the API URL for debugging
 console.log("API Base URL:", API_BASE_URL);
 
+// Configure axios defaults
+axios.defaults.timeout = 15000; // 15 seconds timeout
+axios.defaults.headers.common['Accept'] = 'application/json';
+axios.defaults.headers.post['Content-Type'] = 'application/json';
+
+// Create an axios instance with custom config
+const apiClient = axios.create({
+  baseURL: API_BASE_URL,
+  timeout: 15000,
+  // Retry logic built in
+  validateStatus: function (status) {
+    return status >= 200 && status < 500; // Resolve only if status is 2xx/3xx/4xx
+  }
+});
+
 // Add axios interceptors for debugging with more detail
-axios.interceptors.request.use(request => {
+apiClient.interceptors.request.use(request => {
   console.log('Starting Request:', request.url);
   return request;
 }, error => {
@@ -15,7 +30,7 @@ axios.interceptors.request.use(request => {
   return Promise.reject(error);
 });
 
-axios.interceptors.response.use(
+apiClient.interceptors.response.use(
   response => {
     console.log('Response:', response.status, response.config.url);
     return response;
@@ -42,42 +57,62 @@ axios.interceptors.response.use(
       });
     }
     
+    // Add retry logic for network errors
+    if (error.code === 'ERR_NETWORK' && error.config && !error.config.__isRetryRequest) {
+      console.log('Retrying request after network error...');
+      error.config.__isRetryRequest = true;
+      return new Promise(resolve => setTimeout(() => resolve(apiClient(error.config)), 2000));
+    }
+    
     return Promise.reject(error);
   }
 );
 
+// Health check function to verify API connectivity
+export const checkApiHealth = () => {
+  return apiClient.get('/health')
+    .then(response => {
+      console.log('API Health Check:', response.data);
+      return response.data;
+    })
+    .catch(error => {
+      console.error('API Health Check Failed:', error.message);
+      throw error;
+    });
+};
+
 // Product Service
-const PRODUCTS_URL = API_BASE_URL + "/products";
+const PRODUCTS_URL = "/products";
 export const productService = {
     getBaseUrl: () => {
-        return PRODUCTS_URL;
+        return `${API_BASE_URL}${PRODUCTS_URL}`;
     },
     getProducts: (customUrl) => {
-        console.log("Fetching products from:", customUrl || PRODUCTS_URL);
-        return axios.get(customUrl || PRODUCTS_URL)
+        console.log("Fetching products from:", customUrl || `${API_BASE_URL}${PRODUCTS_URL}`);
+        return apiClient.get(customUrl || PRODUCTS_URL)
           .catch(err => {
             console.error("Error fetching products:", err.message);
             throw err;
           });
     },
     addProduct: (product) => {
-        return axios.post(PRODUCTS_URL, product);
+        return apiClient.post(PRODUCTS_URL, product);
     },
     updateProduct: (id, product) => {
-        return axios.put(`${PRODUCTS_URL}/${id}`, product);
+        return apiClient.put(`${PRODUCTS_URL}/${id}`, product);
     },
     deleteProduct: (id) => {
         console.log(`Sending delete request for product ID: ${id}`);
-        return axios.delete(`${PRODUCTS_URL}/${id}`);
+        return apiClient.delete(`${PRODUCTS_URL}/${id}`);
     },
 };
 
 // Rule Service
-const RULES_URL = API_BASE_URL + "/rules";
+const RULES_URL = "/rules";
 export const ruleService = {
     getRules: () => {
-        console.log("Fetching rules from:", RULES_URL);
-        return axios.get(RULES_URL)
+        console.log("Fetching rules from:", `${API_BASE_URL}${RULES_URL}`);
+        return apiClient.get(RULES_URL)
           .catch(err => {
             console.error("Error fetching rules:", err.message);
             throw err;
@@ -85,40 +120,41 @@ export const ruleService = {
     },
     addRule: (rule) => {
         console.log("Sending rule to backend:", rule); // Debugging log
-        return axios.post(RULES_URL, rule);
+        return apiClient.post(RULES_URL, rule);
     },
     updateRule: (id, rule) => {
-        return axios.put(`${RULES_URL}/${id}`, rule);
+        return apiClient.put(`${RULES_URL}/${id}`, rule);
     },
     deleteRule: (id) => {
-        return axios.delete(`${RULES_URL}/${id}`);
+        return apiClient.delete(`${RULES_URL}/${id}`);
     },
 };
 
 // Category Service
-const CATEGORIES_URL = API_BASE_URL + "/categories";
+const CATEGORIES_URL = "/categories";
 export const categoryService = {
     getCategories: () => {
-        console.log("Fetching categories from:", CATEGORIES_URL);
-        return axios.get(CATEGORIES_URL)
+        console.log("Fetching categories from:", `${API_BASE_URL}${CATEGORIES_URL}`);
+        return apiClient.get(CATEGORIES_URL)
           .catch(err => {
             console.error("Error fetching categories:", err.message);
             throw err;
           });
     },
     addCategory: (category) => {
-        return axios.post(CATEGORIES_URL, { category });
+        return apiClient.post(CATEGORIES_URL, { category });
     },
     deleteCategoryById: (id) => {
-        return axios.delete(`${CATEGORIES_URL}/id/${id}`);
+        return apiClient.delete(`${CATEGORIES_URL}/id/${id}`);
     },
     deleteCategoryByName: (name) => {
-        return axios.delete(`${CATEGORIES_URL}/name/${name}`);
+        return apiClient.delete(`${CATEGORIES_URL}/name/${name}`);
     },
 };
 
 // Default export all services together
 const apiServices = {
+    health: checkApiHealth,
     productService,
     ruleService,
     categoryService
