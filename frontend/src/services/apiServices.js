@@ -1,7 +1,7 @@
 import axios from "axios";
 
-// API Base URL
-const API_BASE_URL = process.env.REACT_APP_API_URL;
+// API Base URL with fallback
+const API_BASE_URL = process.env.REACT_APP_API_URL || 'https://inventory-app-dimitri.cleverapps.io/api';
 
 // Log the API URL for debugging
 console.log("API Base URL:", API_BASE_URL);

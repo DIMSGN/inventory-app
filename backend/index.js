@@ -12,8 +12,15 @@ dotenv.config({ path: path.resolve(__dirname, '../.env') });
 // Create Express app
 const app = express();
 
-// Basic CORS setup
-app.use(cors());
+// Enhanced CORS setup
+app.use(cors({
+  origin: [
+    'https://inventory-app-dimitri.cleverapps.io', 
+    process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : null
+  ].filter(Boolean),
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization']
+}));
 
 // Body parsing middleware
 app.use(express.json({ limit: '2mb' }));
