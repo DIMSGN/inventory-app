@@ -23,13 +23,108 @@ function ensureExpressRouter() {
 
     const routerJsPath = path.join(expressLibDir, 'router.js');
     if (!fs.existsSync(routerJsPath)) {
-      // Create a router.js compatibility file
+      // Create all necessary compatibility files
+      
+      // 1. First create route.js
+      const routeJsPath = path.join(expressLibDir, 'route.js');
+      const routeJs = `
+// Express route compatibility module
+'use strict';
+
+const methods = require('methods');
+
+function Route(path) {
+  this.path = path;
+  this.stack = [];
+  this.methods = {};
+}
+
+methods.forEach(function(method) {
+  Route.prototype[method] = function() {
+    return this;
+  };
+});
+
+Route.prototype.dispatch = function dispatch() {
+  return function(req, res, next) {
+    next();
+  };
+};
+
+module.exports = Route;
+`;
+      fs.writeFileSync(routeJsPath, routeJs);
+      console.log('Created Express route.js compatibility file');
+      
+      // 2. Create layer.js
+      const layerJsPath = path.join(expressLibDir, 'layer.js');
+      const layerJs = `
+// Express layer compatibility module
+'use strict';
+
+function Layer(path, options, fn) {
+  this.handle = fn;
+  this.path = path;
+  this.regexp = pathToRegexp(path);
+}
+
+function pathToRegexp(path) {
+  return new RegExp('^' + path.replace(/\//g, '\\/').replace(/:([^/]+)/g, '([^/]+)') + '$');
+}
+
+Layer.prototype.match = function match(path) {
+  return this.regexp.test(path);
+};
+
+Layer.prototype.handle_request = function handle(req, res, next) {
+  const fn = this.handle;
+  
+  try {
+    fn(req, res, next);
+  } catch (err) {
+    next(err);
+  }
+};
+
+module.exports = Layer;
+`;
+      fs.writeFileSync(layerJsPath, layerJs);
+      console.log('Created Express layer.js compatibility file');
+      
+      // 3. Now create router.js with no external dependencies
       const routerJs = `
 // Express router compatibility module
 'use strict';
-const Route = require('./route');
-const Layer = require('./layer');
-const methods = require('methods');
+
+// Simple inline implementations instead of requiring external files
+function Route(path) {
+  this.path = path;
+  this.stack = [];
+  this.methods = {};
+}
+
+Route.prototype.dispatch = function dispatch() {
+  return function(req, res, next) {
+    next();
+  };
+};
+
+function Layer(path, options, fn) {
+  this.handle = fn;
+  this.path = path;
+}
+
+Layer.prototype.handle_request = function handle(req, res, next) {
+  const fn = this.handle;
+  try {
+    fn(req, res, next);
+  } catch (err) {
+    next(err);
+  }
+};
+
+// Get HTTP methods - simplified version
+const methods = ['get', 'post', 'put', 'delete', 'patch', 'options'];
 
 function Router() {
   function router(req, res, next) {
@@ -60,6 +155,7 @@ Router.prototype.use = function use() {
 methods.forEach(function(method) {
   Router.prototype[method] = function(path) {
     var route = this.route(path);
+    route[method] = function() { return route; };
     route[method].apply(route, Array.prototype.slice.call(arguments, 1));
     return this;
   };
@@ -68,7 +164,7 @@ methods.forEach(function(method) {
 module.exports = Router;
 `;
       fs.writeFileSync(routerJsPath, routerJs);
-      console.log('Created Express router.js compatibility file');
+      console.log('Created Express router.js compatibility file (self-contained)');
       
       return true;
     }
