@@ -8,10 +8,11 @@
     "backend"
   ],
   "scripts": {
-    "start": "node index.js",
+    "start": "npm run patch-express && node index.js",
     "build": "npm run --workspace=frontend build",
     "dev": "concurrently \"npm run --workspace=backend dev\" \"npm run --workspace=frontend start\"",
-    "predeploy": "cd backend && npm install"
+    "predeploy": "cd backend && npm install",
+    "patch-express": "node scripts/patch-express.js"
   },
   "engines": {
     "node": ">=18.0.0"
