@@ -1,5 +1,7 @@
-// Root index.js - Routes requests to the backend app
+// Root index.js - Simplified approach that creates a minimal Express app
+// and forwards requests to the backend
 require('dotenv').config();
+const express = require('express');
 const path = require('path');
 const fs = require('fs');
 
@@ -7,218 +9,103 @@ const fs = require('fs');
 console.log(`Starting server in ${process.env.NODE_ENV || 'development'} mode`);
 console.log(`PORT: ${process.env.PORT || 8080}`);
 
-// Create missing Express modules if they don't exist
-// This fixes common issues with Express on Clever Cloud
-function ensureExpressModules() {
-  try {
-    // First check in the backend node_modules
-    let expressLibDir = path.join(__dirname, 'backend', 'node_modules', 'express', 'lib');
-    if (!fs.existsSync(expressLibDir)) {
-      // Then check in the root node_modules
-      expressLibDir = path.join(__dirname, 'node_modules', 'express', 'lib');
-      if (!fs.existsSync(expressLibDir)) {
-        return false;
-      }
-    }
+// Create root Express app
+const app = express();
 
-    // Create middleware directory if it doesn't exist
-    const middlewareDir = path.join(expressLibDir, 'middleware');
-    if (!fs.existsSync(middlewareDir)) {
-      fs.mkdirSync(middlewareDir, { recursive: true });
-    }
-
-    // Create middleware/init.js
-    const initJsPath = path.join(middlewareDir, 'init.js');
-    if (!fs.existsSync(initJsPath)) {
-      const initJs = `
-// Express middleware/init.js compatibility module
-'use strict';
-
-/**
- * Initialization middleware, exposing the request and response to each other.
- */
-exports.init = function(app) {
-  return function expressInit(req, res, next) {
-    req.res = res;
-    res.req = req;
-    req.next = next;
-    
-    req.app = app;
-    res.app = app;
-    
-    res.locals = res.locals || Object.create(null);
-    
-    next();
-  };
-};
-`;
-      fs.writeFileSync(initJsPath, initJs);
-      console.log('Created Express middleware/init.js compatibility file');
-    }
-
-    // Check for router.js
-    const routerJsPath = path.join(expressLibDir, 'router.js');
-    if (!fs.existsSync(routerJsPath)) {
-      // Create all necessary compatibility files
-      
-      // 1. First create route.js
-      const routeJsPath = path.join(expressLibDir, 'route.js');
-      const routeJs = `
-// Express route compatibility module
-'use strict';
-
-const methods = require('methods');
-
-function Route(path) {
-  this.path = path;
-  this.stack = [];
-  this.methods = {};
-}
-
-methods.forEach(function(method) {
-  Route.prototype[method] = function() {
-    return this;
-  };
+// Simple health check endpoint directly in root app
+app.get('/api/health', (req, res) => {
+  res.json({
+    status: 'Root API is running',
+    timestamp: new Date().toISOString(),
+    environment: process.env.NODE_ENV || 'development'
+  });
 });
 
-Route.prototype.dispatch = function dispatch() {
-  return function(req, res, next) {
-    next();
-  };
-};
-
-module.exports = Route;
-`;
-      fs.writeFileSync(routeJsPath, routeJs);
-      console.log('Created Express route.js compatibility file');
-      
-      // 2. Create layer.js
-      const layerJsPath = path.join(expressLibDir, 'layer.js');
-      const layerJs = `
-// Express layer compatibility module
-'use strict';
-
-function Layer(path, options, fn) {
-  this.handle = fn;
-  this.path = path;
-  this.regexp = pathToRegexp(path);
+// Serve static files from React build
+const buildPath = path.join(__dirname, 'frontend', 'build');
+if (fs.existsSync(buildPath)) {
+  console.log('Serving static files from:', buildPath);
+  app.use(express.static(buildPath));
 }
 
-function pathToRegexp(path) {
-  return new RegExp('^' + path.replace(/\//g, '\\/').replace(/:([^/]+)/g, '([^/]+)') + '$');
-}
-
-Layer.prototype.match = function match(path) {
-  return this.regexp.test(path);
-};
-
-Layer.prototype.handle_request = function handle(req, res, next) {
-  const fn = this.handle;
-  
-  try {
-    fn(req, res, next);
-  } catch (err) {
-    next(err);
-  }
-};
-
-module.exports = Layer;
-`;
-      fs.writeFileSync(layerJsPath, layerJs);
-      console.log('Created Express layer.js compatibility file');
-      
-      // 3. Now create router.js with no external dependencies
-      const routerJs = `
-// Express router compatibility module
-'use strict';
-
-// Simple inline implementations instead of requiring external files
-function Route(path) {
-  this.path = path;
-  this.stack = [];
-  this.methods = {};
-}
-
-Route.prototype.dispatch = function dispatch() {
-  return function(req, res, next) {
-    next();
-  };
-};
-
-function Layer(path, options, fn) {
-  this.handle = fn;
-  this.path = path;
-}
-
-Layer.prototype.handle_request = function handle(req, res, next) {
-  const fn = this.handle;
-  try {
-    fn(req, res, next);
-  } catch (err) {
-    next(err);
-  }
-};
-
-// Get HTTP methods - simplified version
-const methods = ['get', 'post', 'put', 'delete', 'patch', 'options'];
-
-function Router() {
-  function router(req, res, next) {
-    next();
-  }
-  
-  Object.setPrototypeOf(router, Router.prototype);
-  
-  router.params = {};
-  router._params = [];
-  router.stack = [];
-  
-  return router;
-}
-
-Router.prototype.route = function route(path) {
-  var route = new Route(path);
-  var layer = new Layer(path, {}, route.dispatch.bind(route));
-  layer.route = route;
-  this.stack.push(layer);
-  return route;
-};
-
-Router.prototype.use = function use() {
-  return this;
-};
-
-methods.forEach(function(method) {
-  Router.prototype[method] = function(path) {
-    var route = this.route(path);
-    route[method] = function() { return route; };
-    route[method].apply(route, Array.prototype.slice.call(arguments, 1));
-    return this;
-  };
-});
-
-module.exports = Router;
-`;
-      fs.writeFileSync(routerJsPath, routerJs);
-      console.log('Created Express router.js compatibility file (self-contained)');
-    }
-    
-    return true;
-  } catch (error) {
-    console.error('Error ensuring Express modules:', error);
-    return false;
-  }
-}
-
-// Make sure Express has all required modules available
-ensureExpressModules();
-
-// Load the backend app
+// Try to connect and forward to backend API
 try {
-  const app = require('./backend/index.js');
-  console.log('Backend loaded successfully');
-  module.exports = app;
+  console.log('Attempting to mount backend API...');
+  
+  // Import API routes directly
+  const productsRouter = require('./backend/routes/products');
+  const rulesRouter = require('./backend/routes/rules');
+  const categoriesRouter = require('./backend/routes/categories');
+  const unitsRouter = require('./backend/routes/units');
+  const suppliersRouter = require('./backend/routes/suppliers');
+  const invoicesRouter = require('./backend/routes/invoices');
+  const recipesRouter = require('./backend/routes/recipes');
+  const salesRouter = require('./backend/routes/sales');
+  const expensesRouter = require('./backend/routes/expenses');
+  const financialsRouter = require('./backend/routes/financials');
+  const payrollExpensesRouter = require('./backend/routes/payroll-expenses');
+  const operatingExpensesRouter = require('./backend/routes/operating-expenses');
+  const dailyEconomyRouter = require('./backend/routes/daily-economy');
+
+  // Mount all API routes
+  app.use("/api/products", productsRouter);
+  app.use("/api/rules", rulesRouter);
+  app.use("/api/categories", categoriesRouter);
+  app.use("/api/units", unitsRouter);
+  app.use("/api/suppliers", suppliersRouter);
+  app.use("/api/invoices", invoicesRouter);
+  app.use("/api/recipes", recipesRouter);
+  app.use("/api/sales", salesRouter);
+  app.use("/api/expenses", expensesRouter);
+  app.use("/api/financial", financialsRouter);
+  app.use("/api/payroll-expenses", payrollExpensesRouter);
+  app.use("/api/operating-expenses", operatingExpensesRouter);
+  app.use("/api/daily-economy", dailyEconomyRouter);
+  
+  console.log('Backend API routes mounted successfully');
 } catch (error) {
-  console.error('Error loading backend:', error);
-  process.exit(1);
+  console.error('Error loading backend routes:', error.message);
+  console.log('Continuing with limited functionality');
 }
+
+// Handle API 404s
+app.use('/api', (req, res) => {
+  res.status(404).json({ error: 'API endpoint not found' });
+});
+
+// Catch-all route for React app - must be last
+app.get('*', (req, res) => {
+  if (fs.existsSync(path.join(buildPath, 'index.html'))) {
+    res.sendFile(path.join(buildPath, 'index.html'));
+  } else {
+    res.status(404).send('Frontend not built');
+  }
+});
+
+// Error handler
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).json({ 
+    error: 'Internal Server Error',
+    message: process.env.NODE_ENV === 'production' ? 'Something went wrong' : err.message 
+  });
+});
+
+const PORT = process.env.PORT || 8080;
+
+// Start server directly
+const server = app.listen(PORT, '0.0.0.0', () => {
+  console.log(`Server running on port ${PORT}`);
+});
+
+// Handle graceful shutdown
+process.on('SIGTERM', () => {
+  console.info('SIGTERM signal received.');
+  console.log('Closing HTTP server.');
+  server.close(() => {
+    console.log('HTTP server closed.');
+    process.exit(0);
+  });
+});
+
+module.exports = app;
