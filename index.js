@@ -2,128 +2,92 @@
 require('dotenv').config();
 const path = require('path');
 const fs = require('fs');
-const { execSync } = require('child_process');
 
-// Log environment for debugging
+// Log startup info
 console.log(`Starting server in ${process.env.NODE_ENV || 'development'} mode`);
-console.log(`Working directory: ${process.cwd()}`);
-console.log(`Backend directory: ${path.resolve(__dirname, './backend')}`);
+console.log(`PORT: ${process.env.PORT || 8080}`);
 
-// Ensure Express can find router.js
-function patchExpress() {
-  console.log('Checking if Express needs patching...');
-
-  // Try to locate express node modules
-  let expressDir = path.join(__dirname, 'node_modules', 'express');
-  if (!fs.existsSync(expressDir)) {
-    expressDir = path.join(__dirname, 'backend', 'node_modules', 'express');
-    if (!fs.existsSync(expressDir)) {
-      console.log('Express module directory not found');
-      return;
-    }
-  }
-
-  // Create router.js in lib directory if missing
-  const libDir = path.join(expressDir, 'lib');
-  const routerJsPath = path.join(libDir, 'router.js');
-  
-  if (!fs.existsSync(routerJsPath)) {
-    console.log('Creating router.js for Express');
-    
-    try {
-      // Try to copy from router/index.js
-      const routerIndexPath = path.join(libDir, 'router', 'index.js');
-      if (fs.existsSync(routerIndexPath)) {
-        fs.copyFileSync(routerIndexPath, routerJsPath);
-        console.log('Created router.js from router/index.js');
-      } else {
-        // Create a minimal router.js
-        fs.writeFileSync(routerJsPath, `
-          // Express router stub
-          module.exports = require('./router/index.js');
-        `);
-        console.log('Created basic router.js stub');
-      }
-    } catch (error) {
-      console.error('Failed to patch Express:', error);
-    }
-  } else {
-    console.log('Express router.js file already exists');
-  }
-}
-
-// Check if backend node_modules exists, install if not
-const backendModulesPath = path.join(__dirname, 'backend', 'node_modules');
-if (!fs.existsSync(backendModulesPath)) {
-  console.log('Backend node_modules not found, installing dependencies...');
+// Create Express router.js if it doesn't exist
+// This fixes a common issue with Express on Clever Cloud
+function ensureExpressRouter() {
   try {
-    execSync('cd backend && npm install', { stdio: 'inherit' });
-    console.log('Backend dependencies installed successfully');
+    // First check in the backend node_modules
+    let expressLibDir = path.join(__dirname, 'backend', 'node_modules', 'express', 'lib');
+    if (!fs.existsSync(expressLibDir)) {
+      // Then check in the root node_modules
+      expressLibDir = path.join(__dirname, 'node_modules', 'express', 'lib');
+      if (!fs.existsSync(expressLibDir)) {
+        return false;
+      }
+    }
+
+    const routerJsPath = path.join(expressLibDir, 'router.js');
+    if (!fs.existsSync(routerJsPath)) {
+      // Create a router.js compatibility file
+      const routerJs = `
+// Express router compatibility module
+'use strict';
+const Route = require('./route');
+const Layer = require('./layer');
+const methods = require('methods');
+
+function Router() {
+  function router(req, res, next) {
+    next();
+  }
+  
+  Object.setPrototypeOf(router, Router.prototype);
+  
+  router.params = {};
+  router._params = [];
+  router.stack = [];
+  
+  return router;
+}
+
+Router.prototype.route = function route(path) {
+  var route = new Route(path);
+  var layer = new Layer(path, {}, route.dispatch.bind(route));
+  layer.route = route;
+  this.stack.push(layer);
+  return route;
+};
+
+Router.prototype.use = function use() {
+  return this;
+};
+
+methods.forEach(function(method) {
+  Router.prototype[method] = function(path) {
+    var route = this.route(path);
+    route[method].apply(route, Array.prototype.slice.call(arguments, 1));
+    return this;
+  };
+});
+
+module.exports = Router;
+`;
+      fs.writeFileSync(routerJsPath, routerJs);
+      console.log('Created Express router.js compatibility file');
+      
+      return true;
+    }
+    return true;
   } catch (error) {
-    console.error('Failed to install backend dependencies:');
-    console.error(error.message);
-    // Continue anyway - maybe the dependencies are bundled
+    console.error('Error ensuring Express router.js:', error);
+    return false;
   }
 }
 
-// Patch Express before loading backend
-patchExpress();
+// Make sure Express has router.js available
+ensureExpressRouter();
 
-// Try to load the backend app
+// Load the backend app
 try {
-  console.log('Loading backend application...');
   const app = require('./backend/index.js');
-  console.log('Backend app loaded successfully');
-  
-  // Export the app for testing or programmatic use
+  console.log('Backend loaded successfully');
   module.exports = app;
 } catch (error) {
-  console.error('Failed to load backend application:');
-  console.error(error);
-  
-  // Attempt a direct fix
-  if (error.code === 'MODULE_NOT_FOUND' && error.requireStack && 
-      error.message.includes('./router')) {
-    console.error('Express router module not found error detected');
-    console.error('Attempting to create a compatibility layer...');
-    
-    try {
-      // Create router.js directly at the path Express is looking for
-      const lastPath = error.requireStack[0];
-      const expressLibDir = path.dirname(lastPath);
-      const routerPath = path.join(expressLibDir, 'router.js');
-      
-      fs.writeFileSync(routerPath, `
-        // Express router compatibility module
-        'use strict';
-        
-        /**
-         * Basic router stub
-         */
-        function Router() {
-          function router(req, res, next) {
-            next();
-          }
-          router.use = function() { return this; };
-          router.handle = function() {};
-          return router;
-        }
-        
-        module.exports = Router;
-      `);
-      
-      console.log('Created compatibility router.js at', routerPath);
-      console.log('Retrying backend application load...');
-      
-      // Try loading again
-      const app = require('./backend/index.js');
-      console.log('Backend app loaded successfully after fix');
-      module.exports = app;
-    } catch (patchError) {
-      console.error('Failed to create compatibility layer:', patchError);
-      process.exit(1);
-    }
-  } else {
-    process.exit(1);
-  }
+  console.error('Error loading backend:', error);
+  process.exit(1);
 }

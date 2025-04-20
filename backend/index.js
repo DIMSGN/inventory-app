@@ -26,7 +26,7 @@ const app = express();
 // Log environment variables for debugging
 console.log('Environment:');
 console.log(`NODE_ENV: ${process.env.NODE_ENV}`);
-console.log(`PORT: ${process.env.PORT || 3000}`);
+console.log(`PORT: ${process.env.PORT || 8080}`);
 
 // Security and performance middleware for production
 if (process.env.NODE_ENV === 'production') {
@@ -165,7 +165,7 @@ app.use((err, req, res, next) => {
   });
 });
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 8080;
 
 // Initialize database and run migrations before starting server
 async function startServer() {
@@ -181,7 +181,7 @@ async function startServer() {
     }
     
     // Start server
-    const server = app.listen(PORT, () => {
+    const server = app.listen(PORT, '0.0.0.0', () => {
       console.log(`Server running on port ${PORT}`);
     });
     
