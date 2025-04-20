@@ -1,0 +1,40 @@
+.financial-page-container {
+  padding: 0 24px 24px;
+  background-color: #f5f7fa;
+  min-height: calc(100vh - 64px);
+}
+
+.financial-breadcrumb {
+  margin: 16px 0;
+}
+
+.financial-page-header {
+  padding: 16px 0;
+  background-color: transparent;
+}
+
+.financial-page-header .ant-page-header-heading-title {
+  font-size: 24px;
+  font-weight: 600;
+}
+
+.financial-page-header .ant-page-header-heading-sub-title {
+  font-size: 14px;
+  color: rgba(0, 0, 0, 0.45);
+}
+
+.financial-page-content {
+  background-color: #fff;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+@media (max-width: 768px) {
+  .financial-page-container {
+    padding: 0 12px 12px;
+  }
+  
+  .financial-page-header .ant-page-header-heading-title {
+    font-size: 20px;
+  }
+} 

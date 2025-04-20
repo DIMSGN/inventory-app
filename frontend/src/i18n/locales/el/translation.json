@@ -1,0 +1,36 @@
+{
+  "recipeModal": {
+    "addTitle": "Προσθήκη Νέας Συνταγής",
+    "editTitle": "Επεξεργασία Συνταγής",
+    "nameLabel": "Όνομα Συνταγής",
+    "namePlaceholder": "Εισάγετε όνομα συνταγής",
+    "salePriceLabel": "Τιμή Πώλησης",
+    "descriptionLabel": "Περιγραφή",
+    "descriptionPlaceholder": "Προσθέστε μια σύντομη περιγραφή",
+    "preparationLabel": "Προετοιμασία",
+    "preparationPlaceholder": "Προσθέστε οδηγίες προετοιμασίας",
+    "ingredientsTitle": "Υλικά",
+    "addIngredient": "Προσθήκη Υλικού",
+    "ingredientLabel": "Υλικό",
+    "amountLabel": "Ποσότητα",
+    "unitLabel": "Μονάδα",
+    "costCalculation": "Υπολογισμός Κόστους",
+    "totalCost": "Συνολικό Κόστος",
+    "profit": "Κέρδος",
+    "profitMargin": "Περιθώριο Κέρδους",
+    "cancel": "Ακύρωση",
+    "save": "Αποθήκευση"
+  },
+  "recipesSection": {
+    "title": "Συνταγές Φαγητού",
+    "searchPlaceholder": "Αναζήτηση συνταγών"
+  },
+  "general": {
+    "languageSwitch": "Αλλαγή σε Αγγλικά",
+    "dashboard": "Πίνακας Ελέγχου",
+    "inventory": "Αποθήκη",
+    "inventoryItems": "Είδη Αποθήκης",
+    "foodRecipes": "Συνταγές Φαγητού",
+    "kitchenDisplay": "Οθόνη Κουζίνας"
+  }
+} 

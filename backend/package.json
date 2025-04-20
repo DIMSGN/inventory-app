@@ -4,10 +4,11 @@
   "description": "Backend for inventory management",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js"
+    "start": "node index.js",
+    "dev": "node index.js"
   },
   "engines": {
-    "node": ">=18.x"
+    "node": ">=18.0.0"
   },
   "dependencies": {
     "cors": "^2.8.5",

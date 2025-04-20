@@ -1,0 +1,223 @@
+.economy-overview {
+  padding: 24px;
+  background-color: #f8f9fa;
+  border-radius: 12px;
+  margin-bottom: 32px;
+}
+
+.overview-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.overview-header h3 {
+  margin-bottom: 4px;
+  color: #1e1e1e;
+}
+
+.metrics-cards {
+  margin-bottom: 32px;
+}
+
+.metric-card {
+  height: 100%;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s ease;
+}
+
+.metric-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+}
+
+.sales-card .ant-statistic-title,
+.expenses-card .ant-statistic-title,
+.profit-card .ant-statistic-title {
+  font-size: 16px;
+  font-weight: 500;
+  margin-bottom: 16px;
+}
+
+.sales-card {
+  border-top: 3px solid #3861fb;
+}
+
+.expenses-card {
+  border-top: 3px solid #f3a712;
+}
+
+.profit-card {
+  border-top: 3px solid #0ecb81;
+}
+
+.trend-indicator {
+  display: flex;
+  align-items: center;
+  margin-top: 8px;
+  font-size: 14px;
+  color: #6c757d;
+}
+
+.trend-indicator span {
+  margin-left: 4px;
+}
+
+.sub-metrics {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid #eaeaea;
+}
+
+.sub-metrics div {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Loading state */
+.economy-dashboard-loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 300px;
+}
+
+/* Detail cards */
+.detail-card {
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  padding: 20px;
+  margin-top: 16px;
+}
+
+.detail-card h5 {
+  margin-bottom: 20px;
+  color: #1e1e1e;
+}
+
+/* Dashboard tabs */
+.dashboard-tabs .ant-tabs-nav {
+  margin-bottom: 0;
+}
+
+.dashboard-tabs .ant-tabs-tab {
+  padding: 12px 16px;
+}
+
+.dashboard-tabs .ant-tabs-tab-active {
+  font-weight: 500;
+}
+
+/* Top products styles */
+.top-products {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.product-item {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.product-info {
+  display: flex;
+  align-items: center;
+}
+
+.product-rank {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background-color: #f0f2f5;
+  color: #1e1e1e;
+  font-weight: 600;
+  margin-right: 12px;
+}
+
+.product-name {
+  font-weight: 500;
+  color: #1e1e1e;
+}
+
+.product-stats {
+  display: flex;
+  align-items: center;
+  padding-left: 40px; /* To align with the product name */
+}
+
+.product-bar {
+  flex: 1;
+  margin-right: 12px;
+}
+
+.product-sales {
+  font-weight: 500;
+  color: #1e1e1e;
+  width: 80px;
+  text-align: right;
+}
+
+/* Category list styles */
+.category-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.category-item {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.category-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.category-name {
+  font-weight: 500;
+  color: #1e1e1e;
+}
+
+.category-value {
+  font-weight: 500;
+  color: #1e1e1e;
+}
+
+/* Calendar and Trends sections */
+.calendar-overview, .trends-overview {
+  min-height: 250px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .overview-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+  }
+  
+  .sub-metrics {
+    flex-direction: column;
+    gap: 12px;
+  }
+  
+  .product-stats {
+    padding-left: 0;
+  }
+} 

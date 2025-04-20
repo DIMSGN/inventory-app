@@ -1,0 +1,59 @@
+@import '../../styles/variables.css';
+
+.recipeCard {
+  background-color: var(--chef-bg-white);
+  border-radius: var(--chef-radius-lg);
+  box-shadow: var(--chef-shadow-md);
+  padding: var(--chef-spacing-lg);
+  transition: transform 0.2s, box-shadow 0.2s;
+  border-left: 4px solid var(--chef-primary);
+}
+
+.recipeCard:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--chef-shadow-lg);
+}
+
+.recipeName {
+  margin-top: 0;
+  margin-bottom: var(--chef-spacing-md);
+  font-size: 1.2rem;
+  color: var(--chef-text-dark);
+}
+
+.recipeInfo {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: var(--chef-spacing-lg);
+  font-size: 0.9rem;
+  color: var(--chef-text-muted);
+}
+
+.recipeCost {
+  font-weight: 500;
+  color: var(--chef-primary);
+}
+
+.recipeActions {
+  display: flex;
+  gap: var(--chef-spacing-sm);
+}
+
+.viewButton, .editButton {
+  flex: 1;
+  text-align: center;
+  padding: var(--chef-spacing-xs) 0;
+  border-radius: var(--chef-radius-sm);
+  font-weight: 500;
+  text-decoration: none;
+}
+
+.viewButton {
+  background-color: var(--chef-bg-light);
+  color: var(--chef-text-dark);
+}
+
+.editButton {
+  background-color: var(--chef-primary);
+  color: var(--chef-text-light);
+} 

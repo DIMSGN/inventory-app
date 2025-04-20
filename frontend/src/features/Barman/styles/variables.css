@@ -1,0 +1,47 @@
+/**
+ * Global CSS variables for Barman feature
+ */
+
+:root {
+  /* Color palette */
+  --barman-primary: #3498db;
+  --barman-primary-dark: #2980b9;
+  --barman-secondary: #2ecc71;
+  --barman-secondary-dark: #27ae60;
+  --barman-accent: #9b59b6;
+  --barman-accent-dark: #8e44ad;
+  --barman-warning: #e74c3c;
+  --barman-warning-dark: #c0392b;
+  
+  /* Text colors */
+  --barman-text-dark: #2c3e50;
+  --barman-text-muted: #6c757d;
+  --barman-text-light: #f8f9fa;
+  
+  /* Background colors */
+  --barman-bg-light: #f8f9fa;
+  --barman-bg-medium: #e9ecef;
+  --barman-bg-white: #ffffff;
+  
+  /* Border colors */
+  --barman-border-light: #dee2e6;
+  --barman-border-medium: #e0e0e0;
+  
+  /* Spacing */
+  --barman-spacing-xs: 0.5rem;
+  --barman-spacing-sm: 0.75rem;
+  --barman-spacing-md: 1rem;
+  --barman-spacing-lg: 1.5rem;
+  --barman-spacing-xl: 2rem;
+  
+  /* Border radius */
+  --barman-radius-sm: 4px;
+  --barman-radius-md: 8px;
+  --barman-radius-lg: 10px;
+  --barman-radius-xl: 20px;
+  
+  /* Shadow */
+  --barman-shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.05);
+  --barman-shadow-md: 0 2px 8px rgba(0, 0, 0, 0.1);
+  --barman-shadow-lg: 0 5px 15px rgba(0, 0, 0, 0.1);
+} 

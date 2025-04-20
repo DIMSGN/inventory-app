@@ -1,0 +1,248 @@
+.financial-spreadsheet-container {
+  padding: 20px;
+  background-color: #f5f7fa;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.financial-spreadsheet {
+  padding: 20px;
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.spreadsheet-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+  gap: 15px;
+}
+
+.spreadsheet-controls {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+  gap: 15px;
+}
+
+.spreadsheet-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.date-selector {
+  min-width: 180px;
+}
+
+.spreadsheet-title {
+  margin-bottom: 24px;
+  color: #1a3353;
+  font-weight: 600;
+}
+
+/* Table styling */
+.financial-table {
+  overflow-x: auto;
+  margin-bottom: 20px;
+}
+
+.financial-table .ant-table {
+  border: 1px solid #ddd;
+}
+
+.financial-table .ant-table-thead > tr > th {
+  background-color: #f0f5ff;
+  color: #1a3353;
+  font-weight: 600;
+  text-align: center;
+  padding: 12px 8px;
+}
+
+/* Month column styling */
+.financial-table .ant-table-thead > tr > th.month-column {
+  background-color: #e6f7ff;
+  min-width: 120px;
+}
+
+/* Category header styling */
+.category-header {
+  background-color: #f2f6fc !important;
+  font-weight: bold;
+  color: #1a3353;
+}
+
+/* Category row styling */
+.category-row {
+  background-color: rgba(242, 246, 252, 0.6);
+}
+
+/* Total row styling */
+.total-row {
+  background-color: #fff7e6;
+  font-weight: bold;
+}
+
+.total-row td {
+  border-top: 2px solid #ffd591 !important;
+  border-bottom: 2px solid #ffd591 !important;
+}
+
+/* Section total row styling */
+.section-total-row {
+  background-color: #f6ffed;
+  font-weight: bold;
+}
+
+.section-total-row td {
+  border-top: 1px solid #b7eb8f !important;
+  border-bottom: 1px solid #b7eb8f !important;
+}
+
+/* Grand total row styling */
+.grand-total-row {
+  background-color: #e6f7ff;
+  font-weight: bold;
+}
+
+.grand-total-row td {
+  border-top: 2px solid #91d5ff !important;
+  border-bottom: 2px solid #91d5ff !important;
+}
+
+/* Profit row styling */
+.profit-row {
+  background-color: #f9f0ff;
+  font-weight: bold;
+}
+
+.profit-row td {
+  border-top: 1px solid #d3adf7 !important;
+  border-bottom: 1px solid #d3adf7 !important;
+}
+
+/* Editable cell styling */
+.editable-cell {
+  position: relative;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.editable-cell:hover {
+  background-color: #e6f7ff;
+}
+
+.editable-cell-input {
+  margin: -5px;
+  padding: 5px;
+}
+
+/* Cell values styling */
+.cell-value {
+  text-align: right;
+  padding-right: 8px;
+}
+
+.percent-cell {
+  color: #722ed1;
+  font-weight: 500;
+}
+
+.money-cell {
+  font-family: 'Courier New', Courier, monospace;
+}
+
+.positive-value {
+  color: #52c41a;
+}
+
+.negative-value {
+  color: #f5222d;
+}
+
+/* Section dividers */
+.section-divider {
+  height: 20px;
+  background-color: #f5f7fa;
+}
+
+.section-title {
+  padding: 10px 15px;
+  background-color: #1a3353;
+  color: white;
+  font-weight: bold;
+  border-radius: 4px;
+  margin: 15px 0;
+}
+
+/* Summary section styling */
+.summary-container {
+  background-color: #fafafa;
+  padding: 16px;
+  border-radius: 8px;
+  border: 1px solid #d9d9d9;
+  margin-top: 24px;
+}
+
+.summary-title {
+  color: #1a3353;
+  margin-bottom: 16px;
+}
+
+.summary-item {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 8px;
+  padding: 8px;
+  border-bottom: 1px dashed #d9d9d9;
+}
+
+.summary-item:last-child {
+  border-bottom: none;
+}
+
+.summary-label {
+  font-weight: 500;
+  color: #1a3353;
+}
+
+.summary-value {
+  font-weight: 600;
+}
+
+/* Custom DatePickerField styling for year picker */
+.year-picker {
+  margin-bottom: 0 !important;
+  min-width: 100px;
+}
+
+.year-picker :global(.react-datepicker__year-wrapper) {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  max-width: 220px;
+}
+
+.year-picker :global(.react-datepicker__year-text) {
+  padding: 8px;
+  margin: 2px;
+  width: auto !important;
+}
+
+.year-picker :global(.react-datepicker__year-text--selected) {
+  background-color: #1677ff;
+  color: white;
+  border-radius: 4px;
+}
+
+.year-picker :global(.react-datepicker-wrapper) {
+  width: auto;
+}
+
+.year-picker :global(.react-datepicker__input-container input) {
+  padding: 4px 11px;
+  height: 32px;
+  border-radius: 6px;
+} 

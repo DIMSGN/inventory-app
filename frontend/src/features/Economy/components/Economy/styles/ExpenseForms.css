@@ -1,0 +1,85 @@
+/* ExpenseForms.css - Styles for Operating and Payroll Expense Forms */
+
+.expense-form-container {
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  background-color: #fff;
+  margin-bottom: 20px;
+}
+
+.expense-form-title {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.expense-form-group {
+  margin-bottom: 15px;
+}
+
+.expense-form-label {
+  font-weight: 500;
+  margin-bottom: 5px;
+}
+
+.expense-form-submit {
+  margin-top: 20px;
+}
+
+.expense-table {
+  margin-top: 30px;
+}
+
+.expense-table-header {
+  background-color: #f8f9fa;
+  font-weight: bold;
+}
+
+.expense-row-positive {
+  background-color: rgba(40, 167, 69, 0.1);
+}
+
+.expense-row-negative {
+  background-color: rgba(220, 53, 69, 0.1);
+}
+
+.expense-row-neutral {
+  background-color: rgba(255, 193, 7, 0.1);
+}
+
+.expense-total-row {
+  font-weight: bold;
+  background-color: #f1f1f1;
+}
+
+.expense-date-picker .react-datepicker-wrapper {
+  width: 100%;
+}
+
+.expense-form-alert {
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+
+.expense-category-badge {
+  padding: 5px 10px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+
+.expense-actions-cell {
+  white-space: nowrap;
+}
+
+.expense-actions-btn {
+  margin-right: 5px;
+}
+
+.expense-pagination {
+  margin-top: 15px;
+  display: flex;
+  justify-content: flex-end;
+} 

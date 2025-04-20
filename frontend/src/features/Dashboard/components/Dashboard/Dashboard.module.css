@@ -1,0 +1,599 @@
+@import '../../styles/variables.css';
+
+.dashboard {
+  padding: 1.5rem;
+  width: 100%;
+  max-width: 1440px;
+  margin: 0 auto;
+  background-color: #f9fafb;
+  min-height: calc(100vh - 60px);
+}
+
+.dashboardHeader {
+  margin-bottom: 1.5rem;
+}
+
+.dashboardHeader h1 {
+  color: #1f2937;
+  font-size: 1.75rem;
+  font-weight: 600;
+  margin: 0;
+}
+
+.dashboardContent {
+  display: grid;
+  grid-template-columns: 1fr 300px;
+  gap: 1.5rem;
+}
+
+/* When there's no sidebar, use full width */
+.dashboardContent:only-child .mainArea {
+  grid-column: 1 / -1;
+}
+
+.mainArea {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.statsSection {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.statsCard {
+  background-color: white;
+  border-radius: 0.5rem;
+  padding: 1.25rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.statsCard:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.actionsSection {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.actionsCard {
+  background-color: white;
+  border-radius: 0.5rem;
+  padding: 1.25rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.mainContent {
+  background-color: white;
+  border-radius: 0.5rem;
+  padding: 1.25rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  flex: 1;
+}
+
+.sidebar {
+  background-color: white;
+  border-radius: 0.5rem;
+  padding: 1.25rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  height: fit-content;
+}
+
+/* Responsive layout */
+@media (max-width: 1024px) {
+  .dashboardContent {
+    grid-template-columns: 1fr;
+  }
+  
+  .sidebar {
+    grid-row: 1;
+    margin-bottom: 1.5rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .dashboard {
+    padding: 1rem;
+  }
+  
+  .statsSection,
+  .actionsSection {
+    grid-template-columns: 1fr;
+  }
+}
+
+.dashboardGrid {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  width: 100%;
+}
+
+.errorMessage {
+  margin-bottom: 1rem;
+  padding: 1rem;
+  background-color: #ffe0e0;
+  border-radius: 0.5rem;
+  color: #d32f2f;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.retryButton {
+  background-color: #d32f2f;
+  color: white;
+  border: none;
+  border-radius: 0.25rem;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.retryButton:hover {
+  background-color: #b71c1c;
+}
+
+/* Section Styling */
+.section {
+  background-color: #fff;
+  border-radius: 0.75rem;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+  margin-bottom: 1.5rem;
+}
+
+.sectionHeader {
+  padding: 1rem 1.5rem;
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid #f0f0f0;
+  background-color: #fcfcfc;
+}
+
+.sectionIcon {
+  color: #5e35b1;
+  font-size: 1.2rem;
+  margin-right: 0.75rem;
+}
+
+.sectionHeader h2 {
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #333;
+}
+
+/* Card Grid */
+.cardGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1rem;
+  padding: 1rem;
+}
+
+/* Card Styling */
+.card {
+  background-color: #fff;
+  border-radius: 0.75rem;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+  border: 1px solid #f0f0f0;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.cardHeader {
+  padding: 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #f0f0f0;
+  background-color: #fcfcfc;
+}
+
+.cardHeader h3 {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #424242;
+}
+
+.cardHeader svg {
+  color: #5e35b1;
+}
+
+/* Revenue Stats */
+.revenueStats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.5rem;
+  padding: 1rem;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.revenueChange {
+  grid-column: 1 / -1;
+  text-align: center;
+  margin-top: 0.5rem;
+  font-size: 0.875rem;
+  color: #757575;
+}
+
+.revenueStat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.revenueLabel {
+  font-size: 0.75rem;
+  color: #757575;
+  margin-bottom: 0.25rem;
+}
+
+.revenueValue {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #333;
+}
+
+.percentChange {
+  font-weight: 600;
+  margin-right: 0.25rem;
+}
+
+.positive {
+  color: #4caf50;
+}
+
+.negative {
+  color: #f44336;
+}
+
+/* Mock Charts */
+.chartPlaceholder {
+  padding: 1rem;
+  height: 180px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+
+.mockChart {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-around;
+  width: 100%;
+  height: 100%;
+}
+
+.mockBar {
+  width: 10%;
+  max-width: 30px;
+  background-color: #673ab7;
+  border-radius: 4px 4px 0 0;
+  transition: height 0.3s ease;
+}
+
+.mockPieChart {
+  position: relative;
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  background-color: #f5f5f5;
+  margin: 0 auto;
+}
+
+.mockPieSlice {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+}
+
+/* Profit Stats */
+.profitStats {
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.profitStat {
+  display: flex;
+  align-items: center;
+}
+
+.profitDot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  margin-right: 0.5rem;
+}
+
+.profitCategory {
+  flex: 1;
+  font-size: 0.875rem;
+  color: #616161;
+}
+
+.profitValue {
+  font-weight: 600;
+  color: #333;
+}
+
+/* Occupancy Chart */
+.occupancyDisplay {
+  display: flex;
+  padding: 1rem;
+}
+
+.occupancyRate {
+  flex: 0 0 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.occupancyCircle {
+  width: 150px;
+  height: 150px;
+  transform: rotate(-90deg);
+}
+
+.occupancyCircleBg {
+  fill: none;
+  stroke: #eee;
+  stroke-width: 3.8;
+}
+
+.occupancyCircleFill {
+  fill: none;
+  stroke: #673ab7;
+  stroke-width: 3.8;
+  stroke-linecap: round;
+}
+
+.occupancyText {
+  fill: #333;
+  font-size: 0.6rem;
+  text-anchor: middle;
+  transform: rotate(90deg);
+  font-weight: bold;
+}
+
+.occupancyDetails {
+  flex: 0 0 50%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.occupancyDetail {
+  display: flex;
+  justify-content: space-between;
+}
+
+.detailLabel {
+  font-size: 0.875rem;
+  color: #616161;
+}
+
+.detailValue {
+  font-weight: 600;
+  color: #333;
+}
+
+/* Top Selling Items */
+.itemList {
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid #f5f5f5;
+}
+
+.item:last-child {
+  border-bottom: none;
+}
+
+.itemRank {
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #7e57c2;
+  color: white;
+  border-radius: 50%;
+  font-size: 0.75rem;
+  font-weight: 600;
+  margin-right: 0.75rem;
+}
+
+.itemName {
+  flex: 1;
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.itemCount {
+  font-size: 0.75rem;
+  color: #757575;
+  margin-right: 0.75rem;
+}
+
+.itemRevenue {
+  font-weight: 600;
+  color: #5e35b1;
+}
+
+/* Inventory Section */
+.inventorySection {
+  padding: 1rem;
+}
+
+.alertsTable {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.alertsTableHeader {
+  display: grid;
+  grid-template-columns: 3fr 1fr 1fr 1.5fr;
+  padding: 0.75rem 1rem;
+  background-color: #f5f5f5;
+  border-radius: 0.25rem;
+  margin-bottom: 0.5rem;
+}
+
+.alertsTableHeaderItem {
+  font-weight: 600;
+  font-size: 0.875rem;
+  color: #616161;
+}
+
+.alertsTableRow {
+  display: grid;
+  grid-template-columns: 3fr 1fr 1fr 1.5fr;
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid #f0f0f0;
+  align-items: center;
+}
+
+.alertsTableItem {
+  font-size: 0.875rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.alertStatus {
+  font-size: 0.75rem;
+  font-weight: 500;
+  padding: 0.25rem 0.5rem;
+  border-radius: 1rem;
+  background-color: #ffecb3;
+  color: #ff6f00;
+}
+
+.noAlerts {
+  padding: 2rem;
+  text-align: center;
+  color: #757575;
+  font-style: italic;
+}
+
+.actionButtonRow {
+  display: flex;
+  justify-content: space-between;
+  padding: 1rem;
+  border-top: 1px solid #f0f0f0;
+}
+
+.viewAllButton, .updateButton {
+  padding: 0.5rem 1rem;
+  border-radius: 0.25rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.viewAllButton {
+  background-color: transparent;
+  border: 1px solid #673ab7;
+  color: #673ab7;
+}
+
+.viewAllButton:hover {
+  background-color: #f5f0ff;
+}
+
+.updateButton {
+  background-color: #673ab7;
+  color: white;
+  border: none;
+}
+
+.updateButton:hover {
+  background-color: #5e35b1;
+}
+
+/* Recipes Section */
+.recipesSection {
+  padding: 1rem;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.recipesGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 1rem;
+  padding: 1rem;
+}
+
+.recipeCard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+}
+
+.recipeImagePlaceholder {
+  width: 100%;
+  height: 100px;
+  background-color: #e0e0e0;
+  border-radius: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.recipeCard h4 {
+  margin: 0;
+  font-size: 0.875rem;
+  text-align: center;
+  font-weight: 500;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 1200px) {
+  .cardGrid {
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  }
+  
+  .recipesSection {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .occupancyDisplay {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .occupancyRate {
+    margin-bottom: 1rem;
+  }
+  
+  .alertsTableHeader, .alertsTableRow {
+    grid-template-columns: 2fr 1fr 1fr 1.5fr;
+  }
+} 

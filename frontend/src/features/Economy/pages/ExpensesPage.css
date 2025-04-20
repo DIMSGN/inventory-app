@@ -1,0 +1,112 @@
+.expenses-page {
+  padding: 0 24px 24px;
+}
+
+.expenses-page .ant-card {
+  margin-top: 16px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.expenses-page .ant-tabs-nav {
+  margin-bottom: 0;
+}
+
+.expenses-page .ant-card-head {
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.expenses-page .ant-table-summary {
+  background-color: #fafafa;
+}
+
+.expenses-page .ant-table-summary .ant-table-cell {
+  border-bottom: 1px solid #f0f0f0;
+  font-weight: 500;
+}
+
+.expenses-page .ant-table-row:hover .ant-btn-link {
+  visibility: visible;
+}
+
+.expenses-page .ant-btn-link {
+  visibility: hidden;
+}
+
+.expenses-page .ant-pagination {
+  margin-top: 16px;
+}
+
+/* Modal styles */
+.expenses-page .ant-modal-content {
+  border-radius: 4px;
+}
+
+.expenses-page .ant-form-item:last-child {
+  margin-bottom: 0;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .expenses-page {
+    padding: 0 12px 12px;
+  }
+  
+  .expenses-page .ant-btn-link {
+    visibility: visible;
+  }
+  
+  .expenses-page .ant-card-head-title,
+  .expenses-page .ant-card-extra {
+    padding: 12px 0;
+  }
+  
+  .expenses-page .ant-table {
+    font-size: 12px;
+  }
+}
+
+/* Print styles */
+@media print {
+  .expenses-page .ant-btn,
+  .expenses-page .ant-pagination,
+  .expenses-page .ant-tabs-nav {
+    display: none;
+  }
+  
+  .expenses-page .ant-card {
+    box-shadow: none;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .expenses-page .ant-table-wrapper {
+    overflow: visible !important;
+  }
+}
+
+.expenses-page-container {
+  padding: 20px;
+}
+
+.expenses-tabs {
+  background-color: #fff;
+  border-radius: 8px;
+  padding: 16px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+}
+
+.expenses-card {
+  margin-top: 16px;
+  border-radius: 8px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+}
+
+@media (max-width: 768px) {
+  .expenses-page-container {
+    padding: 12px;
+  }
+  
+  .expenses-tabs {
+    padding: 12px;
+  }
+} 

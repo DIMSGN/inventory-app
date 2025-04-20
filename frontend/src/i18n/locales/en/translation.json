@@ -1,0 +1,36 @@
+{
+  "recipeModal": {
+    "addTitle": "Add New Food Recipe",
+    "editTitle": "Edit Food Recipe",
+    "nameLabel": "Recipe Name",
+    "namePlaceholder": "Enter recipe name",
+    "salePriceLabel": "Sale Price",
+    "descriptionLabel": "Description",
+    "descriptionPlaceholder": "Add a short description",
+    "preparationLabel": "Preparation",
+    "preparationPlaceholder": "Add preparation instructions",
+    "ingredientsTitle": "Ingredients",
+    "addIngredient": "Add Ingredient",
+    "ingredientLabel": "Ingredient",
+    "amountLabel": "Amount",
+    "unitLabel": "Unit",
+    "costCalculation": "Cost Calculation",
+    "totalCost": "Total Cost",
+    "profit": "Profit",
+    "profitMargin": "Profit Margin",
+    "cancel": "Cancel",
+    "save": "Save"
+  },
+  "recipesSection": {
+    "title": "Food Recipes",
+    "searchPlaceholder": "Search recipes"
+  },
+  "general": {
+    "languageSwitch": "Switch to Greek",
+    "dashboard": "Dashboard",
+    "inventory": "Inventory",
+    "inventoryItems": "Inventory Items",
+    "foodRecipes": "Food Recipes",
+    "kitchenDisplay": "Kitchen Display"
+  }
+} 

@@ -1,0 +1,59 @@
+.datePickerField {
+  margin-bottom: 16px;
+}
+
+.datePickerField label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 500;
+  color: #333;
+}
+
+.required {
+  color: #e53e3e;
+  margin-left: 2px;
+}
+
+.datePicker {
+  display: block;
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 14px;
+  background-color: #fff;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.datePicker:focus {
+  outline: none;
+  border-color: #7d25f6;
+  box-shadow: 0 0 0 2px rgba(125, 37, 246, 0.2);
+}
+
+.datePicker:hover {
+  border-color: #9333ea;
+}
+
+.helpText {
+  display: block;
+  font-size: 0.8rem;
+  color: #718096;
+  margin-top: 4px;
+  font-style: italic;
+}
+
+.fullWidth {
+  width: 100%;
+}
+
+.halfWidth {
+  width: calc(50% - 8px);
+}
+
+/* Responsive adjustments */
+@media (max-width: 576px) {
+  .halfWidth {
+    width: 100%;
+  }
+} 

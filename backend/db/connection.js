@@ -17,9 +17,19 @@ const dbConfig = {
   password: process.env.MYSQL_ADDON_PASSWORD,
   database: process.env.MYSQL_ADDON_DB,
   port: process.env.MYSQL_ADDON_PORT || 3306,
-  connectionLimit: 10,
+  // Reduce connection limit to avoid exceeding the maximum user connections (5)
+  connectionLimit: 5, 
   waitForConnections: true,
-  queueLimit: 0,
+  queueLimit: 10,
+  // Add connection timeout
+  connectTimeout: 10000,
+  // Add keepalive to prevent connections from being closed by the server
+  enableKeepAlive: true,
+  keepAliveInitialDelay: 10000,
+  // Enable connection timeouts
+  acquireTimeout: 15000,
+  // Ensure connections are released back to the pool after use
+  releaseTimeout: 5000,
   ssl: {
     rejectUnauthorized: false
   }
@@ -46,6 +56,10 @@ const pool = mysql.createPool(dbConfig);
 // Maximum retry attempts for connection
 const MAX_RETRY_ATTEMPTS = 5;
 
+// Connection monitor
+let connectionAttempts = 0;
+let activeConnections = 0;
+
 // Function to test database connection with retries
 function testConnection(retryAttempt = 0) {
   pool.getConnection((err, connection) => {
@@ -63,9 +77,15 @@ function testConnection(retryAttempt = 0) {
       return;
     }
     
+    activeConnections++;
+    connectionAttempts++;
+    console.log(`Connection established. Active connections: ${activeConnections}`);
+    
     // Check if we can actually query the database
     connection.query('SELECT 1', (error, results) => {
       connection.release();
+      activeConnections--;
+      console.log(`Connection released. Remaining active connections: ${activeConnections}`);
       
       if (error) {
         console.error('Database query test failed:', error.message);
@@ -83,13 +103,39 @@ testConnection();
 // Add error listener for unexpected errors
 pool.on('error', function (err) {
   console.error('Unexpected error on idle client', err);
-  testConnection();
+  // Don't immediately retry on error to avoid connection spikes
+  setTimeout(() => testConnection(), 5000);
+});
+
+// Add connection acquire listeners
+pool.on('acquire', function (connection) {
+  activeConnections++;
+  console.log(`Connection %d acquired. Active connections: ${activeConnections}`, connection.threadId);
+});
+
+// Add connection release listeners
+pool.on('release', function (connection) {
+  activeConnections--;
+  console.log(`Connection %d released. Remaining active connections: ${activeConnections}`, connection.threadId);
 });
 
 // Don't terminate the app on connection failures
 process.on('unhandledRejection', (reason, promise) => {
   console.error('Unhandled Rejection at:', promise, 'reason:', reason);
   // Don't crash the server, just log the error
+});
+
+// Handle graceful shutdown
+process.on('SIGINT', () => {
+  console.log('Closing database connections...');
+  pool.end(function (err) {
+    if (err) {
+      console.error('Error closing connection pool:', err);
+    } else {
+      console.log('All database connections closed.');
+    }
+    process.exit(0);
+  });
 });
 
 module.exports = pool;

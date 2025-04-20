@@ -1,0 +1,94 @@
+.economy-overview-section {
+  margin-bottom: 24px;
+}
+
+.section-header {
+  margin-bottom: 20px;
+}
+
+.section-header h4 {
+  margin-bottom: 8px !important;
+}
+
+.metric-card {
+  height: 100%;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  transition: all 0.3s ease;
+}
+
+.metric-card:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+  transform: translateY(-2px);
+}
+
+.metric-trend {
+  margin-top: 12px;
+  display: flex;
+  align-items: center;
+}
+
+.metric-trend .anticon {
+  margin-right: 6px;
+}
+
+.metric-progress {
+  margin-top: 12px;
+}
+
+.metric-description {
+  margin-top: 12px;
+  font-style: italic;
+}
+
+.category-card {
+  height: 100%;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+.category-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.category-header strong {
+  font-size: 16px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .ant-card-body {
+    padding: 16px;
+  }
+  
+  .section-header h4 {
+    font-size: 18px;
+  }
+}
+
+/* Custom color theme for cards */
+.metric-card:nth-child(1) {
+  border-top: 3px solid #52c41a;
+}
+
+.metric-card:nth-child(2) {
+  border-top: 3px solid #f5222d;
+}
+
+.metric-card:nth-child(3) {
+  border-top: 3px solid #1890ff;
+}
+
+.metric-card:nth-child(4) {
+  border-top: 3px solid #722ed1;
+}
+
+.category-card:nth-child(1) {
+  border-top: 3px solid #fa8c16;
+}
+
+.category-card:nth-child(2) {
+  border-top: 3px solid #13c2c2;
+} 

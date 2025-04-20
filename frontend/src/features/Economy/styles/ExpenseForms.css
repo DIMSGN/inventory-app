@@ -1,0 +1,218 @@
+/* Modern, professional style for Economy section forms */
+:root {
+  --primary-color: #3861fb;
+  --primary-light: #ebf1ff;
+  --success-color: #0ecb81;
+  --warning-color: #f3a712;
+  --danger-color: #ea3943;
+  --text-primary: #1e1e1e;
+  --text-secondary: #6c757d;
+  --text-muted: #8f8f8f;
+  --border-color: #e6e8ea;
+  --background-light: #f8f9fa;
+  --card-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+  --transition-speed: 0.3s;
+}
+
+/* Form Container Styles */
+.expense-form-container {
+  background-color: white;
+  border-radius: 12px;
+  box-shadow: var(--card-shadow);
+  padding: 24px;
+  margin-bottom: 24px;
+  transition: box-shadow var(--transition-speed);
+}
+
+.expense-form-container:hover {
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.12);
+}
+
+/* Form Header */
+.form-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.form-header h2 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 0;
+}
+
+.form-header .form-actions {
+  display: flex;
+  gap: 12px;
+}
+
+/* Form Layout */
+.form-row {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+}
+
+.form-row .ant-form-item {
+  margin-bottom: 8px;
+}
+
+/* Form Controls */
+.ant-form-item-label > label {
+  font-weight: 500;
+  color: var(--text-primary);
+}
+
+.form-footer {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 24px;
+  gap: 12px;
+}
+
+/* Table Styling */
+.expenses-table {
+  background-color: white;
+  border-radius: 12px;
+  box-shadow: var(--card-shadow);
+  padding: 24px;
+  margin-top: 24px;
+}
+
+.expenses-table .ant-table {
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.expenses-table .ant-table-thead > tr > th {
+  background-color: var(--background-light);
+  color: var(--text-primary);
+  font-weight: 600;
+}
+
+.expenses-table .ant-table-tbody > tr:hover > td {
+  background-color: var(--primary-light);
+}
+
+.expenses-table .ant-typography {
+  margin-bottom: 16px;
+}
+
+/* Table summary footer */
+.ant-table-summary {
+  background-color: var(--background-light);
+  font-weight: 600;
+}
+
+/* Action Buttons */
+.action-button {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: all var(--transition-speed);
+}
+
+.action-button:hover {
+  transform: translateY(-2px);
+}
+
+/* Card based sections */
+.section-card {
+  background-color: white;
+  border-radius: 12px;
+  box-shadow: var(--card-shadow);
+  padding: 24px;
+  margin-bottom: 24px;
+}
+
+.section-card .card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.section-card .card-header h3 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 0;
+}
+
+/* Metrics and KPI styles */
+.metrics-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.metric-card {
+  flex: 1;
+  min-width: 200px;
+  background-color: white;
+  border-radius: 12px;
+  box-shadow: var(--card-shadow);
+  padding: 16px;
+  transition: transform var(--transition-speed);
+}
+
+.metric-card:hover {
+  transform: translateY(-4px);
+}
+
+.metric-title {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  margin-bottom: 8px;
+}
+
+.metric-value {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.metric-trend {
+  font-size: 0.85rem;
+  display: flex;
+  align-items: center;
+  margin-top: 8px;
+}
+
+.metric-trend.positive {
+  color: var(--success-color);
+}
+
+.metric-trend.negative {
+  color: var(--danger-color);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .form-row {
+    flex-direction: column;
+  }
+  
+  .form-row .ant-form-item {
+    width: 100% !important;
+  }
+  
+  .metrics-row {
+    flex-direction: column;
+  }
+  
+  .metric-card {
+    width: 100%;
+  }
+}
+
+/* Customizations for specific pages/components */
+.operating-form-container, .payroll-form-container {
+  composes: expense-form-container;
+} 

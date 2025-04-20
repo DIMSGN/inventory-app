@@ -1,0 +1,49 @@
+/**
+ * Global CSS variables for Dashboard feature
+ */
+
+:root {
+  /* Color palette */
+  --dashboard-primary: #3498db;
+  --dashboard-primary-dark: #2980b9;
+  --dashboard-secondary: #2ecc71;
+  --dashboard-secondary-dark: #27ae60;
+  --dashboard-accent: #9b59b6;
+  --dashboard-accent-dark: #8e44ad;
+  --dashboard-warning: #f39c12;
+  --dashboard-warning-dark: #e67e22;
+  --dashboard-danger: #e74c3c;
+  --dashboard-danger-dark: #c0392b;
+  
+  /* Text colors */
+  --dashboard-text-dark: #2c3e50;
+  --dashboard-text-muted: #6c757d;
+  --dashboard-text-light: #f8f9fa;
+  
+  /* Background colors */
+  --dashboard-bg-light: #f8f9fa;
+  --dashboard-bg-medium: #e9ecef;
+  --dashboard-bg-white: #ffffff;
+  
+  /* Border colors */
+  --dashboard-border-light: #dee2e6;
+  --dashboard-border-medium: #e0e0e0;
+  
+  /* Spacing */
+  --dashboard-spacing-xs: 0.5rem;
+  --dashboard-spacing-sm: 0.75rem;
+  --dashboard-spacing-md: 1rem;
+  --dashboard-spacing-lg: 1.5rem;
+  --dashboard-spacing-xl: 2rem;
+  
+  /* Border radius */
+  --dashboard-radius-sm: 4px;
+  --dashboard-radius-md: 8px;
+  --dashboard-radius-lg: 10px;
+  --dashboard-radius-xl: 20px;
+  
+  /* Shadow */
+  --dashboard-shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.05);
+  --dashboard-shadow-md: 0 2px 8px rgba(0, 0, 0, 0.1);
+  --dashboard-shadow-lg: 0 5px 15px rgba(0, 0, 0, 0.1);
+} 

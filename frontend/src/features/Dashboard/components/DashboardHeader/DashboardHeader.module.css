@@ -1,0 +1,58 @@
+@import '../../styles/variables.css';
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--dashboard-spacing-md) 0;
+  margin-bottom: var(--dashboard-spacing-lg);
+  border-bottom: 1px solid var(--dashboard-border-light);
+}
+
+.titleContainer {
+  display: flex;
+  align-items: center;
+  gap: var(--dashboard-spacing-sm);
+}
+
+.headerIcon {
+  font-size: 1.5rem;
+  color: var(--dashboard-primary);
+}
+
+.title {
+  margin: 0;
+  font-size: 1.75rem;
+  font-weight: 600;
+  color: var(--dashboard-text-dark);
+}
+
+.userContainer {
+  display: flex;
+  align-items: center;
+  gap: var(--dashboard-spacing-md);
+}
+
+.userIcon {
+  font-size: 1.2rem;
+  color: var(--dashboard-text-muted);
+}
+
+.username {
+  color: var(--dashboard-text-dark);
+  font-weight: 500;
+}
+
+.homeLink {
+  display: inline-block;
+  padding: var(--dashboard-spacing-xs) var(--dashboard-spacing-md);
+  background-color: var(--dashboard-bg-light);
+  color: var(--dashboard-text-muted);
+  border-radius: var(--dashboard-radius-sm);
+  text-decoration: none;
+  transition: background-color 0.2s;
+}
+
+.homeLink:hover {
+  background-color: var(--dashboard-bg-medium);
+} 

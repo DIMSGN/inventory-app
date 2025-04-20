@@ -1,0 +1,41 @@
+.indicator {
+  display: inline-block;
+  border-radius: 50%;
+  cursor: help;
+  margin: 0 4px;
+}
+
+.small {
+  width: 8px;
+  height: 8px;
+}
+
+.medium {
+  width: 12px;
+  height: 12px;
+}
+
+.large {
+  width: 16px;
+  height: 16px;
+}
+
+/* Animation for attention if needed */
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.2);
+    opacity: 0.8;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.pulse {
+  animation: pulse 2s infinite ease-in-out;
+} 

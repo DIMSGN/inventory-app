@@ -1,0 +1,69 @@
+@import '../../styles/variables.css';
+
+.dashboardContainer {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 var(--dashboard-spacing-lg);
+}
+
+.dashboard {
+  padding: 20px;
+  width: 100%;
+}
+
+.dashboardHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.title {
+  font-size: 24px;
+  color: #333;
+  margin: 0;
+}
+
+.actionButtons {
+  display: flex;
+  gap: 12px;
+}
+
+.statsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 20px;
+  margin-bottom: 30px;
+}
+
+.dashboardContent {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--dashboard-spacing-lg);
+}
+
+.mainContent {
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+}
+
+.sideContent {
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+}
+
+@media (max-width: 768px) {
+  .dashboardContainer {
+    padding: 0 var(--dashboard-spacing-md);
+  }
+}
+
+@media (max-width: 992px) {
+  .dashboardContent {
+    grid-template-columns: 1fr;
+  }
+} 

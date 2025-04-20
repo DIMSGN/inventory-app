@@ -4,11 +4,18 @@ import { BrowserRouter } from 'react-router-dom';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import { AppProvider } from "./context/AppContext";
+import { AppProvider } from "./common/contexts/AppContext";
 import { ToastContainer } from "react-toastify"; 
-import "react-toastify/dist/ReactToastify.css"; 
-import { defaultConfig } from './services/toastService';
-import PreloadResources from './components/PreloadResources';
+import "react-toastify/dist/ReactToastify.css";
+import 'bootstrap/dist/css/bootstrap.min.css';
+import { defaultConfig } from './common/services/toastService';
+import PreloadResources from './common/components/PreloadResources';
+import 'antd/dist/reset.css';
+import { ConfigProvider } from 'antd';
+import enUS from 'antd/lib/locale/en_US';
+
+// Import i18n
+import './i18n';
 
 // Create root once
 const root = ReactDOM.createRoot(document.getElementById('root'));
@@ -22,12 +29,14 @@ setTimeout(() => {
     <React.StrictMode>
       <BrowserRouter>
         <AppProvider>
-          <PreloadResources />
-          <App />
-          <ToastContainer 
-            {...defaultConfig}
-            position="bottom-right"
-          />
+          <ConfigProvider locale={enUS}>
+            <PreloadResources />
+            <App />
+            <ToastContainer 
+              {...defaultConfig}
+              position="bottom-right"
+            />
+          </ConfigProvider>
         </AppProvider>
       </BrowserRouter>
     </React.StrictMode>

@@ -1,0 +1,45 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 20px;
+  text-align: center;
+}
+
+.title {
+  font-size: 72px;
+  margin-bottom: 20px;
+  color: #6a11cb;
+}
+
+.subtitle {
+  font-size: 24px;
+  margin-bottom: 30px;
+}
+
+.message {
+  font-size: 16px;
+  max-width: 500px;
+  margin-bottom: 30px;
+  color: #666;
+}
+
+.button {
+  padding: 10px 20px;
+  background-color: #6a11cb;
+  color: white;
+  border-radius: 4px;
+  text-decoration: none;
+  font-weight: bold;
+  transition: background-color 0.2s;
+}
+
+.button:hover {
+  background-color: #5209a7;
+}
+
+.button:focus {
+  outline: 2px solid #9445e9;
+  outline-offset: 2px;
+} 

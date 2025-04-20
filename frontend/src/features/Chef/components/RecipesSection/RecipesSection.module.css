@@ -1,0 +1,60 @@
+@import '../../styles/variables.css';
+
+.recipesSection {
+  background-color: var(--chef-bg-white);
+  border-radius: var(--chef-radius-md);
+  box-shadow: var(--chef-shadow-md);
+  padding: var(--chef-spacing-lg);
+  margin-top: var(--chef-spacing-xl);
+}
+
+.sectionHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--chef-spacing-lg);
+}
+
+.sectionTitle {
+  margin: 0;
+  color: var(--chef-text-dark);
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+.headerActions {
+  display: flex;
+  align-items: center;
+  gap: var(--chef-spacing-md);
+}
+
+.headerActions button {
+  margin-right: var(--chef-spacing-md);
+}
+
+@media (max-width: 768px) {
+  .sectionHeader {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .sectionTitle {
+    margin-bottom: var(--chef-spacing-md);
+  }
+  
+  .headerActions {
+    width: 100%;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-top: var(--chef-spacing-md);
+  }
+  
+  .headerActions button {
+    margin-right: 0;
+    margin-bottom: var(--chef-spacing-md);
+  }
+  
+  .recipesSection {
+    padding: var(--chef-spacing-md);
+  }
+} 

@@ -1,0 +1,47 @@
+/**
+ * Global CSS variables for Chef feature
+ */
+
+:root {
+  /* Color palette */
+  --chef-primary: #e74c3c;
+  --chef-primary-dark: #c0392b;
+  --chef-secondary: #2ecc71;
+  --chef-secondary-dark: #27ae60;
+  --chef-accent: #f39c12;
+  --chef-accent-dark: #d35400;
+  --chef-warning: #e67e22;
+  --chef-warning-dark: #d35400;
+  
+  /* Text colors */
+  --chef-text-dark: #2c3e50;
+  --chef-text-muted: #6c757d;
+  --chef-text-light: #f8f9fa;
+  
+  /* Background colors */
+  --chef-bg-light: #f8f9fa;
+  --chef-bg-medium: #e9ecef;
+  --chef-bg-white: #ffffff;
+  
+  /* Border colors */
+  --chef-border-light: #dee2e6;
+  --chef-border-medium: #e0e0e0;
+  
+  /* Spacing */
+  --chef-spacing-xs: 0.5rem;
+  --chef-spacing-sm: 0.75rem;
+  --chef-spacing-md: 1rem;
+  --chef-spacing-lg: 1.5rem;
+  --chef-spacing-xl: 2rem;
+  
+  /* Border radius */
+  --chef-radius-sm: 4px;
+  --chef-radius-md: 8px;
+  --chef-radius-lg: 10px;
+  --chef-radius-xl: 20px;
+  
+  /* Shadow */
+  --chef-shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.05);
+  --chef-shadow-md: 0 2px 8px rgba(0, 0, 0, 0.1);
+  --chef-shadow-lg: 0 5px 15px rgba(0, 0, 0, 0.1);
+} 

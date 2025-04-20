@@ -76,15 +76,39 @@ app.use(express.urlencoded({ extended: true, limit: '2mb' }));
 console.log('Initializing database connection...');
 const pool = require('./db/connection');
 
+// Run database migrations
+console.log('Checking database schema...');
+const runMigrations = require('./utils/schema_migration');
+
 // Import routes - deferred loading them until after the DB connection is established
 const productsRouter = require("./routes/products");
 const rulesRouter = require("./routes/rules");
 const categoriesRouter = require("./routes/categories");
+const unitsRouter = require("./routes/units");
+const suppliersRouter = require("./routes/suppliers");
+const invoicesRouter = require("./routes/invoices");
+const recipesRouter = require("./routes/recipes");
+const salesRouter = require("./routes/sales");
+const expensesRouter = require("./routes/expenses");
+const financialsRouter = require("./routes/financials");
+const payrollExpensesRouter = require("./routes/payroll-expenses");
+const operatingExpensesRouter = require("./routes/operating-expenses");
+const dailyEconomyRouter = require("./routes/daily-economy");
 
 // API routes
 app.use("/api/products", productsRouter);
 app.use("/api/rules", rulesRouter);
 app.use("/api/categories", categoriesRouter);
+app.use("/api/units", unitsRouter);
+app.use("/api/suppliers", suppliersRouter);
+app.use("/api/invoices", invoicesRouter);
+app.use("/api/recipes", recipesRouter);
+app.use("/api/sales", salesRouter);
+app.use("/api/expenses", expensesRouter);
+app.use("/api/financial", financialsRouter);
+app.use("/api/payroll-expenses", payrollExpensesRouter);
+app.use("/api/operating-expenses", operatingExpensesRouter);
+app.use("/api/daily-economy", dailyEconomyRouter);
 
 // API health check
 app.get("/api/health", (req, res) => {
@@ -142,21 +166,43 @@ app.use((err, req, res, next) => {
 });
 
 const PORT = process.env.PORT || 3000;
-const server = app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-});
 
-// Handle graceful shutdown
-process.on('SIGTERM', () => {
-  console.info('SIGTERM signal received.');
-  console.log('Closing HTTP server.');
-  server.close(() => {
-    console.log('HTTP server closed.');
-    pool.end(() => {
-      console.log('Database connection closed.');
-      process.exit(0);
+// Initialize database and run migrations before starting server
+async function startServer() {
+  try {
+    // Run migrations
+    const migrationResult = await runMigrations();
+    
+    if (migrationResult.success) {
+      console.log('Database schema is up to date');
+    } else {
+      console.error('Migration issues detected:', migrationResult.error);
+      console.log('Server will start but some functionality might be limited');
+    }
+    
+    // Start server
+    const server = app.listen(PORT, () => {
+      console.log(`Server running on port ${PORT}`);
     });
-  });
-});
+    
+    // Handle graceful shutdown
+    process.on('SIGTERM', () => {
+      console.info('SIGTERM signal received.');
+      console.log('Closing HTTP server.');
+      server.close(() => {
+        console.log('HTTP server closed.');
+        pool.end(() => {
+          console.log('Database connection closed.');
+          process.exit(0);
+        });
+      });
+    });
+  } catch (error) {
+    console.error('Failed to start server:', error);
+    process.exit(1);
+  }
+}
+
+startServer();
 
 module.exports = app;

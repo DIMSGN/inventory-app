@@ -1,0 +1,231 @@
+.controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding: 10px;
+    background-color: #f5f5f5;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.controlsLeft {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.controlsCenter {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.controlsRight {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.buttonPrimary {
+    background-color: #4A6FFF;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 8px 16px;
+    cursor: pointer;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: background-color 0.2s;
+}
+
+.buttonPrimary:hover {
+    background-color: #3A5FEF;
+}
+
+.buttonSecondary {
+    background-color: #e0e0e0;
+    color: #333;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 8px 16px;
+    cursor: pointer;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: background-color 0.2s;
+}
+
+.buttonSecondary:hover {
+    background-color: #d0d0d0;
+}
+
+.buttonActive {
+    background-color: #3A5FEF;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 8px 16px;
+    cursor: pointer;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: background-color 0.2s;
+}
+
+.buttonSuccess {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 8px 16px;
+    cursor: pointer;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: background-color 0.2s;
+}
+
+.buttonSuccess:hover {
+    background-color: #388E3C;
+}
+
+.buttonGroup {
+    display: flex;
+    gap: 20px;
+}
+
+.actionsDropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdownContent {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: white;
+    min-width: 200px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+    border-radius: 4px;
+    overflow: hidden;
+    margin-top: 5px;
+}
+
+.dropdownContent button {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 16px;
+    width: 100%;
+    text-align: left;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.2s;
+}
+
+.dropdownContent button:hover {
+    background-color: #f0f0f0;
+}
+
+.filterWrapper {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-right: 5px;
+}
+
+.filterWrapper i {
+    font-size: 16px;
+    color: var(--primary);
+}
+
+.inventoryCount {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 500;
+    color: #444;
+}
+
+.inventoryCount i {
+    color: var(--primary);
+}
+
+.paginationControl {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    white-space: nowrap;
+}
+
+.itemsPerPageSelect {
+    padding: 5px 8px;
+    border-radius: 4px;
+    border: 1px solid #ddd;
+    background-color: white;
+}
+
+.controlsRightContainer {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.exportModalContent {
+    padding: 10px;
+}
+
+.exportModalContent p {
+    margin-bottom: 10px;
+    line-height: 1.5;
+}
+
+.exportModalContent ul {
+    margin: 10px 0;
+    padding-left: 20px;
+}
+
+.exportModalContent li {
+    margin-bottom: 5px;
+}
+
+.exportModalContent .buttonGroup {
+    margin-top: 20px;
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+}
+
+/* Rules Modal Styles */
+.rulesModalContent {
+    padding: 10px;
+    max-height: calc(80vh - 100px);
+    overflow-y: auto;
+}
+
+.rulesModalHeader {
+    display: flex;
+    justify-content: flex-end;
+    padding: 10px 0 20px 0;
+    margin-bottom: 15px;
+    border-bottom: 1px solid #eee;
+}
+
+.rulesModalContent .buttonGroup {
+    margin-top: 20px;
+    padding-top: 15px;
+    border-top: 1px solid #eee;
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+}
+

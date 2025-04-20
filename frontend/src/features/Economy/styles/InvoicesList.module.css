@@ -1,0 +1,27 @@
+.invoicesListContainer {
+  padding: 24px;
+  background-color: #fff;
+  border-radius: 4px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.tableHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.tableTitle {
+  margin: 0;
+  color: #333;
+  font-weight: 600;
+  font-size: 20px;
+}
+
+.searchForm {
+  display: flex;
+  margin-bottom: 16px;
+  gap: 16px;
+  flex-wrap: wrap;
+} 

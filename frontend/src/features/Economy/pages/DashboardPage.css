@@ -1,0 +1,163 @@
+.economy-dashboard-container {
+  padding: 24px;
+  background-color: #f8f9fa;
+  min-height: calc(100vh - 64px);
+}
+
+.economy-breadcrumb {
+  margin-bottom: 16px;
+}
+
+.dashboard-header {
+  margin-bottom: 32px;
+}
+
+.dashboard-title h2 {
+  margin-bottom: 4px;
+  color: #1e1e1e;
+}
+
+/* Quick Actions Section */
+.quick-actions-section {
+  margin-bottom: 32px;
+}
+
+.quick-action-card {
+  height: 100%;
+  border-radius: 10px;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.quick-action-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+}
+
+.card-link {
+  display: block;
+  color: inherit;
+}
+
+.quick-action-content {
+  display: flex;
+  align-items: center;
+  padding: 8px;
+}
+
+.quick-action-icon {
+  font-size: 24px;
+  padding: 16px;
+  border-radius: 8px;
+  margin-right: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.sales-icon {
+  background-color: #e6f7ff;
+  color: #3861fb;
+}
+
+.expenses-icon {
+  background-color: #fff7e6;
+  color: #f3a712;
+}
+
+.payroll-icon {
+  background-color: #f6ffed;
+  color: #0ecb81;
+}
+
+.financials-icon {
+  background-color: #f9f0ff;
+  color: #722ed1;
+}
+
+.quick-action-text {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Financial Sections */
+.financial-sections {
+  margin-bottom: 32px;
+}
+
+.custom-tabs .ant-tabs-nav {
+  margin-bottom: 16px;
+}
+
+.custom-tabs .ant-tabs-tab {
+  padding: 12px 16px;
+  margin-right: 8px;
+  border-radius: 6px 6px 0 0;
+  background-color: #f0f2f5;
+  transition: all 0.3s ease;
+}
+
+.custom-tabs .ant-tabs-tab-active {
+  background-color: white;
+  font-weight: 500;
+}
+
+.custom-tabs .ant-tabs-content {
+  background-color: white;
+  padding: 16px;
+  border-radius: 0 8px 8px 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.tab-content {
+  padding: 16px;
+}
+
+.section-card {
+  height: 100%;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+}
+
+.section-card:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.section-card .ant-card-head {
+  border-bottom: 1px solid #f0f0f0;
+  padding: 0 16px;
+}
+
+.section-card .ant-card-head-title {
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.section-card .ant-card-body {
+  padding: 16px;
+}
+
+.section-card .ant-btn {
+  margin-top: 16px;
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+  .economy-dashboard-container {
+    padding: 16px;
+  }
+  
+  .dashboard-header {
+    margin-bottom: 24px;
+  }
+  
+  .quick-action-content {
+    flex-direction: column;
+    text-align: center;
+  }
+  
+  .quick-action-icon {
+    margin-right: 0;
+    margin-bottom: 12px;
+  }
+} 

@@ -1,0 +1,29 @@
+@import '../../styles/variables.css';
+
+.searchBar {
+  display: flex;
+  align-items: center;
+  background-color: var(--barman-bg-light);
+  border-radius: var(--barman-radius-xl);
+  padding: var(--barman-spacing-xs) var(--barman-spacing-md);
+  box-shadow: var(--barman-shadow-sm);
+  width: 100%;
+  max-width: 300px;
+}
+
+.searchIcon {
+  color: var(--barman-text-muted);
+  margin-right: var(--barman-spacing-xs);
+}
+
+.searchInput {
+  border: none;
+  background: transparent;
+  width: 100%;
+  outline: none;
+  font-size: 0.9rem;
+}
+
+.searchInput::placeholder {
+  color: #adb5bd;
+} 

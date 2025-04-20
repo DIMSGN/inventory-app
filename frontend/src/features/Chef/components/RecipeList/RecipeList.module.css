@@ -1,0 +1,47 @@
+@import '../../styles/variables.css';
+
+.recipeGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: var(--chef-spacing-lg);
+}
+
+.loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: var(--chef-spacing-xl);
+  font-size: 1.1rem;
+  color: var(--chef-text-muted);
+}
+
+.emptyState {
+  background-color: var(--chef-bg-light);
+  border-radius: var(--chef-radius-lg);
+  padding: var(--chef-spacing-xl);
+  text-align: center;
+  color: var(--chef-text-muted);
+  margin-top: var(--chef-spacing-md);
+}
+
+.emptyState p {
+  margin-bottom: var(--chef-spacing-lg);
+  font-size: 1.1rem;
+}
+
+.createRecipeButton {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--chef-spacing-xs);
+  background-color: var(--chef-primary);
+  color: var(--chef-text-light);
+  padding: var(--chef-spacing-sm) var(--chef-spacing-lg);
+  border-radius: var(--chef-radius-sm);
+  text-decoration: none;
+  font-weight: 500;
+  transition: background-color 0.2s;
+}
+
+.createRecipeButton:hover {
+  background-color: var(--chef-primary-dark);
+} 

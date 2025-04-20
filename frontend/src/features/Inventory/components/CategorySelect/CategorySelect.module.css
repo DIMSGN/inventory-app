@@ -1,0 +1,14 @@
+.categorySelect {
+  display: flex;
+  align-items: center;
+}
+
+.select {
+  min-width: 180px;
+}
+
+@media (max-width: 768px) {
+  .select {
+    min-width: 120px;
+  }
+} 

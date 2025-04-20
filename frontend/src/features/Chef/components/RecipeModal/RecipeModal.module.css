@@ -1,0 +1,100 @@
+.recipeForm {
+  max-height: 65vh;
+  overflow-y: auto;
+  padding-right: 8px;
+}
+
+.costSection {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.costSection :global(.ant-form-item) {
+  width: 40%;
+  margin-bottom: 0;
+}
+
+.statistics {
+  width: 60%;
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 8px 12px;
+  background-color: #f5f5f5;
+  border-radius: 4px;
+}
+
+.statItem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.statLabel {
+  font-size: 12px;
+  color: #666;
+  margin-bottom: 4px;
+}
+
+.statValue {
+  font-weight: bold;
+  font-size: 16px;
+}
+
+.positive {
+  color: #52c41a;
+}
+
+.negative {
+  color: #f5222d;
+}
+
+.ingredientRow {
+  display: flex;
+  width: 100%;
+  gap: 8px;
+}
+
+.productSelect {
+  width: 50%;
+}
+
+.amountInput {
+  width: 20%;
+}
+
+.unitSelect {
+  width: 25%;
+}
+
+.modalFooter {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 16px;
+  gap: 8px;
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+  .costSection {
+    flex-direction: column;
+  }
+  
+  .costSection :global(.ant-form-item),
+  .statistics {
+    width: 100%;
+  }
+  
+  .ingredientRow {
+    flex-wrap: wrap;
+  }
+  
+  .productSelect,
+  .amountInput,
+  .unitSelect {
+    width: 100%;
+  }
+} 

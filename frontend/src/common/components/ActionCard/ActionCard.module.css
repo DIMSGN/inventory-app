@@ -1,0 +1,58 @@
+.actionCard {
+  background-color: #fff;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+  overflow: hidden;
+}
+
+.cardTitle {
+  font-size: 1.2rem;
+  color: #333;
+  margin-top: 0;
+  margin-bottom: 16px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #eee;
+}
+
+.actionsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 16px;
+}
+
+.actionButton {
+  display: flex;
+  align-items: center;
+  padding: 16px;
+  border-radius: 6px;
+  color: white;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.actionButton:hover {
+  transform: translateY(-3px);
+  filter: brightness(1.1);
+}
+
+.actionIcon {
+  margin-right: 12px;
+  font-size: 1.2rem;
+}
+
+.actionText {
+  font-weight: 500;
+  font-size: 1rem;
+}
+
+@media (max-width: 768px) {
+  .actionsGrid {
+    grid-template-columns: 1fr;
+  }
+  
+  .actionButton {
+    padding: 12px;
+  }
+} 
