@@ -4,7 +4,11 @@
       "app_id": "app_b30bbfa2-3c65-42a9-9fa9-1b49eebc8bdd",
       "deploy_url": "https://push-n4-par-clevercloud-customers.services.clever-cloud.com/app_b30bbfa2-3c65-42a9-9fa9-1b49eebc8bdd.git",
       "name": "inventory-app-dimitri",
-      "alias": "backend"
+      "alias": "backend",
+      "force_https": true,
+      "env": {
+        "CC_NODE_START_GOAL": "start"
+      }
     }
   ]
 } 
