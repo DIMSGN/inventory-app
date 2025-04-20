@@ -7,9 +7,9 @@ const fs = require('fs');
 console.log(`Starting server in ${process.env.NODE_ENV || 'development'} mode`);
 console.log(`PORT: ${process.env.PORT || 8080}`);
 
-// Create Express router.js if it doesn't exist
-// This fixes a common issue with Express on Clever Cloud
-function ensureExpressRouter() {
+// Create missing Express modules if they don't exist
+// This fixes common issues with Express on Clever Cloud
+function ensureExpressModules() {
   try {
     // First check in the backend node_modules
     let expressLibDir = path.join(__dirname, 'backend', 'node_modules', 'express', 'lib');
@@ -21,6 +21,42 @@ function ensureExpressRouter() {
       }
     }
 
+    // Create middleware directory if it doesn't exist
+    const middlewareDir = path.join(expressLibDir, 'middleware');
+    if (!fs.existsSync(middlewareDir)) {
+      fs.mkdirSync(middlewareDir, { recursive: true });
+    }
+
+    // Create middleware/init.js
+    const initJsPath = path.join(middlewareDir, 'init.js');
+    if (!fs.existsSync(initJsPath)) {
+      const initJs = `
+// Express middleware/init.js compatibility module
+'use strict';
+
+/**
+ * Initialization middleware, exposing the request and response to each other.
+ */
+exports.init = function(app) {
+  return function expressInit(req, res, next) {
+    req.res = res;
+    res.req = req;
+    req.next = next;
+    
+    req.app = app;
+    res.app = app;
+    
+    res.locals = res.locals || Object.create(null);
+    
+    next();
+  };
+};
+`;
+      fs.writeFileSync(initJsPath, initJs);
+      console.log('Created Express middleware/init.js compatibility file');
+    }
+
+    // Check for router.js
     const routerJsPath = path.join(expressLibDir, 'router.js');
     if (!fs.existsSync(routerJsPath)) {
       // Create all necessary compatibility files
@@ -165,18 +201,17 @@ module.exports = Router;
 `;
       fs.writeFileSync(routerJsPath, routerJs);
       console.log('Created Express router.js compatibility file (self-contained)');
-      
-      return true;
     }
+    
     return true;
   } catch (error) {
-    console.error('Error ensuring Express router.js:', error);
+    console.error('Error ensuring Express modules:', error);
     return false;
   }
 }
 
-// Make sure Express has router.js available
-ensureExpressRouter();
+// Make sure Express has all required modules available
+ensureExpressModules();
 
 // Load the backend app
 try {
