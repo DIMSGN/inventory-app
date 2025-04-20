@@ -11,7 +11,7 @@
     "start": "node index.js",
     "build": "npm run --workspace=frontend build",
     "dev": "concurrently \"npm run --workspace=backend dev\" \"npm run --workspace=frontend start\"",
-    "postinstall": "npm install --workspace=backend"
+    "predeploy": "cd backend && npm install"
   },
   "engines": {
     "node": ">=18.0.0"
