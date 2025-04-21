@@ -14,8 +14,7 @@ import { useAppContext } from '../../../common/contexts/AppContext';
  * @returns {Object} Recipe data and state management functions
  */
 const useBarRecipes = ({ initialTab }) => {
-  // Use empty array as default value to avoid filter errors
-  const { recipes = [] } = useAppContext() || {};
+  const { recipes = [] } = useAppContext();
   const [barRecipes, setBarRecipes] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
   const [activeTab, setActiveTab] = useState(initialTab);
@@ -27,23 +26,12 @@ const useBarRecipes = ({ initialTab }) => {
     setIsLoading(false);
   }, [recipes]);
 
-  // Initialize a safe default first
-  let filteredRecipes = [];
-  
-  // Then try to filter if barRecipes is an array
-  try {
-    if (Array.isArray(barRecipes)) {
-      filteredRecipes = barRecipes.filter(recipe => 
-        recipe && 
-        recipe.name && 
-        typeof recipe.name.toLowerCase === 'function' && 
-        recipe.name.toLowerCase().includes((searchQuery || '').toLowerCase())
-      );
-    }
-  } catch (error) {
-    console.error("Error filtering recipes:", error);
-    // Keep the default empty array if there's an error
-  }
+  // Filter recipes based on search query - ensure barRecipes is an array before filtering
+  const filteredRecipes = Array.isArray(barRecipes) 
+    ? barRecipes.filter(recipe => 
+        recipe && recipe.name && recipe.name.toLowerCase().includes(searchQuery.toLowerCase())
+      )
+    : [];
 
   return {
     barRecipes,
