@@ -1,6 +1,9 @@
 import React, { createContext, useState, useEffect, useCallback, useContext } from 'react';
 import axios from 'axios';
-import { toast } from 'react-toastify';
+import { API_URL, STORAGE_KEYS } from '../config';
+import { categoryService, toastService } from '../services';
+
+const { showSuccess, showError } = toastService;
 
 const CategoriesContext = createContext();
 
@@ -15,12 +18,14 @@ export const CategoriesProvider = ({ children }) => {
     setLoading(true);
     setError(null);
     try {
-      const response = await axios.get('/api/categories');
+      const response = await categoryService.getCategories();
       setCategories(response.data);
+      localStorage.setItem(STORAGE_KEYS.CATEGORIES, JSON.stringify(response.data));
       return response.data;
     } catch (err) {
+      console.error('Error fetching categories:', err);
       setError(err.message || 'Failed to fetch categories');
-      toast.error(`Error loading categories: ${err.message}`);
+      showError(`Error loading categories: ${err.message}`);
       return [];
     } finally {
       setLoading(false);
@@ -31,13 +36,14 @@ export const CategoriesProvider = ({ children }) => {
     setLoading(true);
     setError(null);
     try {
-      const response = await axios.post('/api/categories', categoryData);
+      const response = await categoryService.addCategory(categoryData);
       setCategories(prev => [...prev, response.data]);
-      toast.success('Category added successfully');
+      showSuccess('Category added successfully');
       return response.data;
     } catch (err) {
+      console.error('Error adding category:', err);
       setError(err.message || 'Failed to add category');
-      toast.error(`Error adding category: ${err.message}`);
+      showError(`Error adding category: ${err.message}`);
       throw err;
     } finally {
       setLoading(false);
@@ -48,18 +54,19 @@ export const CategoriesProvider = ({ children }) => {
     setLoading(true);
     setError(null);
     try {
-      const response = await axios.put(`/api/categories/${id}`, categoryData);
+      const response = await categoryService.updateCategory(id, categoryData);
       const updatedCategory = response.data;
       
       setCategories(prev => 
         prev.map(category => category.id === id ? updatedCategory : category)
       );
       
-      toast.success('Category updated successfully');
+      showSuccess('Category updated successfully');
       return updatedCategory;
     } catch (err) {
+      console.error('Error updating category:', err);
       setError(err.message || 'Failed to update category');
-      toast.error(`Error updating category: ${err.message}`);
+      showError(`Error updating category: ${err.message}`);
       throw err;
     } finally {
       setLoading(false);
@@ -70,27 +77,48 @@ export const CategoriesProvider = ({ children }) => {
     setLoading(true);
     setError(null);
     try {
-      await axios.delete(`/api/categories/${id}`);
+      await categoryService.deleteCategory(id);
       setCategories(prev => prev.filter(category => category.id !== id));
-      toast.success('Category deleted successfully');
+      showSuccess('Category deleted successfully');
+      return true;
     } catch (err) {
+      console.error('Error deleting category:', err);
       setError(err.message || 'Failed to delete category');
-      toast.error(`Error deleting category: ${err.message}`);
+      showError(`Error deleting category: ${err.message}`);
       throw err;
     } finally {
       setLoading(false);
     }
   }, []);
 
-  // Initial fetch
+  // Initial load
   useEffect(() => {
-    fetchCategories();
+    const loadInitialData = async () => {
+      try {
+        // Try to use cached data first for faster initial render
+        const cachedCategories = localStorage.getItem(STORAGE_KEYS.CATEGORIES);
+        if (cachedCategories) {
+          setCategories(JSON.parse(cachedCategories));
+          console.log("Using cached categories");
+        }
+      } catch (err) {
+        console.error("Error loading cached categories:", err);
+      }
+      
+      // Then fetch fresh data
+      await fetchCategories();
+    };
+    
+    loadInitialData();
   }, [fetchCategories]);
 
   const value = {
+    // State
     categories,
     loading,
     error,
+    
+    // Operations
     fetchCategories,
     addCategory,
     updateCategory,

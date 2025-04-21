@@ -1,19 +1,23 @@
-import axios from "axios";
+import { API_URL } from '../config';
+import apiClient from './api';
 
-const API_URL = process.env.REACT_APP_API_URL + "/products";
+const PRODUCTS_URL = "/products";
 
 const productService = {
     getProducts: () => {
-        return axios.get(API_URL);
+        return apiClient.get(PRODUCTS_URL);
+    },
+    getProductById: (id) => {
+        return apiClient.get(`${PRODUCTS_URL}/${id}`);
     },
     addProduct: (product) => {
-        return axios.post(API_URL, product);
+        return apiClient.post(PRODUCTS_URL, product);
     },
     updateProduct: (id, product) => {
-        return axios.put(`${API_URL}/${id}`, product);
+        return apiClient.put(`${PRODUCTS_URL}/${id}`, product);
     },
     deleteProduct: (id) => {
-        return axios.delete(`${API_URL}/${id}`);
+        return apiClient.delete(`${PRODUCTS_URL}/${id}`);
     },
 };
 

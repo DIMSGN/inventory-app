@@ -25,11 +25,11 @@ import { useAppContext } from '../../../common/contexts/AppContext';
 const useRuleManagement = () => {
   // Get global context values and methods
   const {
-    addRule,
-    updateRule,
-    deleteRule,
-    rules
-  } = useAppContext();
+    addRule = () => Promise.resolve(),
+    updateRule = () => Promise.resolve(),
+    deleteRule = () => Promise.resolve(),
+    rules = []
+  } = useAppContext() || {};
 
   // Local state
   const [isLoading, setIsLoading] = useState(false);

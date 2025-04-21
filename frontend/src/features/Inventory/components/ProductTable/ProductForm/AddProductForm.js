@@ -229,9 +229,9 @@ const AddProductForm = ({ onClose }) => {
                             style={{ width: '100%' }}
                         >
                             <Option value="">Select Unit</Option>
-                            {units.map(unit => (
+                            {Array.isArray(units) ? units.map(unit => (
                                 <Option key={unit.id} value={unit.id}>{unit.name}</Option>
-                            ))}
+                            )) : null}
                         </Select>
                     </label>
 
@@ -257,9 +257,9 @@ const AddProductForm = ({ onClose }) => {
                         style={{ width: '100%' }}
                     >
                         <Option value="">Select Category</Option>
-                        {categories.map(cat => (
+                        {Array.isArray(categories) ? categories.map(cat => (
                             <Option key={cat.id} value={cat.id}>{cat.name}</Option>
-                        ))}
+                        )) : null}
                     </Select>
                 </label>
 
@@ -291,9 +291,9 @@ const AddProductForm = ({ onClose }) => {
                                 style={{ width: '100%' }}
                                 placeholder="Select category to delete"
                             >
-                                {categories.map(cat => (
+                                {Array.isArray(categories) ? categories.map(cat => (
                                     <Option key={cat.id} value={cat.id}>{cat.name}</Option>
-                                ))}
+                                )) : null}
                             </Select>
                             <Button 
                                 type="button" 
@@ -318,9 +318,9 @@ const AddProductForm = ({ onClose }) => {
                             style={{ width: '100%' }}
                         >
                             <Option value="">Select Supplier</Option>
-                            {suppliers.map(supplier => (
+                            {Array.isArray(suppliers) ? suppliers.map(supplier => (
                                 <Option key={supplier.id} value={supplier.id}>{supplier.name}</Option>
-                            ))}
+                            )) : null}
                         </Select>
                     </label>
                     <label className={styles.halfWidth}>

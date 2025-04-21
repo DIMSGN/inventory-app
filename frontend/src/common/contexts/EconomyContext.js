@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
-import axios from 'axios';
 import { toast } from 'react-toastify';
+import { salesService, expensesService } from '../services';
 
 // Create the context
 const EconomyContext = createContext();
@@ -53,9 +53,9 @@ export function EconomyProvider({ children }) {
     setLoading((prev) => ({ ...prev, sales: true }));
     
     try {
-      const response = await axios.get('/api/sales');
-      setSalesData(response.data);
-      return response.data;
+      const data = await salesService.getAllSales();
+      setSalesData(data);
+      return data;
     } catch (err) {
       console.error('Error fetching sales data:', err);
       setError((prev) => ({ ...prev, sales: 'Failed to fetch sales data' }));
@@ -71,9 +71,9 @@ export function EconomyProvider({ children }) {
     setLoading((prev) => ({ ...prev, dailySummary: true }));
     
     try {
-      const response = await axios.get('/api/sales/daily');
-      setDailySummary(response.data);
-      return response.data;
+      const data = await salesService.getDailySummary();
+      setDailySummary(data);
+      return data;
     } catch (err) {
       console.error('Error fetching daily summary:', err);
       setError((prev) => ({ ...prev, dailySummary: 'Failed to fetch daily summary' }));
@@ -89,9 +89,9 @@ export function EconomyProvider({ children }) {
     setLoading((prev) => ({ ...prev, monthlySummary: true }));
     
     try {
-      const response = await axios.get('/api/sales/monthly');
-      setMonthlySummary(response.data);
-      return response.data;
+      const data = await salesService.getMonthlySummary();
+      setMonthlySummary(data);
+      return data;
     } catch (err) {
       console.error('Error fetching monthly summary:', err);
       setError((prev) => ({ ...prev, monthlySummary: 'Failed to fetch monthly summary' }));
@@ -107,9 +107,9 @@ export function EconomyProvider({ children }) {
     setLoading((prev) => ({ ...prev, payrollExpenses: true }));
     
     try {
-      const response = await axios.get('/api/expenses/payroll');
-      setPayrollExpenses(response.data);
-      return response.data;
+      const data = await expensesService.getPayrollExpenses();
+      setPayrollExpenses(data);
+      return data;
     } catch (err) {
       console.error('Error fetching payroll expenses:', err);
       setError((prev) => ({ ...prev, payrollExpenses: 'Failed to fetch payroll expenses' }));
@@ -125,9 +125,9 @@ export function EconomyProvider({ children }) {
     setLoading((prev) => ({ ...prev, operatingExpenses: true }));
     
     try {
-      const response = await axios.get('/api/expenses/operating');
-      setOperatingExpenses(response.data);
-      return response.data;
+      const data = await expensesService.getOperatingExpenses();
+      setOperatingExpenses(data);
+      return data;
     } catch (err) {
       console.error('Error fetching operating expenses:', err);
       setError((prev) => ({ ...prev, operatingExpenses: 'Failed to fetch operating expenses' }));
@@ -140,7 +140,7 @@ export function EconomyProvider({ children }) {
   // Add a new payroll expense
   const addPayrollExpense = async (expenseData) => {
     try {
-      const response = await axios.post('/api/expenses/payroll', expenseData);
+      const response = await expensesService.recordPayrollExpense(expenseData);
       setPayrollExpenses((prev) => [response.data, ...prev]);
       toast.success('Payroll expense added successfully');
       return response.data;
@@ -154,7 +154,7 @@ export function EconomyProvider({ children }) {
   // Delete a payroll expense
   const deletePayrollExpense = async (id) => {
     try {
-      await axios.delete(`/api/expenses/payroll/${id}`);
+      await expensesService.deletePayrollExpense(id);
       setPayrollExpenses((prev) => prev.filter(expense => expense.id !== id));
       toast.success('Payroll expense deleted successfully');
     } catch (err) {
@@ -167,7 +167,7 @@ export function EconomyProvider({ children }) {
   // Add a new operating expense
   const addOperatingExpense = async (expenseData) => {
     try {
-      const response = await axios.post('/api/expenses/operating', expenseData);
+      const response = await expensesService.recordOperatingExpense(expenseData);
       setOperatingExpenses((prev) => [response.data, ...prev]);
       toast.success('Operating expense added successfully');
       return response.data;
@@ -181,7 +181,7 @@ export function EconomyProvider({ children }) {
   // Delete an operating expense
   const deleteOperatingExpense = async (id) => {
     try {
-      await axios.delete(`/api/expenses/operating/${id}`);
+      await expensesService.deleteOperatingExpense(id);
       setOperatingExpenses((prev) => prev.filter(expense => expense.id !== id));
       toast.success('Operating expense deleted successfully');
     } catch (err) {
@@ -194,7 +194,7 @@ export function EconomyProvider({ children }) {
   // Record a sale (food recipe)
   const recordFoodSale = async (saleData) => {
     try {
-      const response = await axios.post('/api/sales/food', saleData);
+      const response = await salesService.recordFoodSale(saleData);
       await fetchSalesData();
       await fetchDailySummary();
       await fetchMonthlySummary();
@@ -210,7 +210,7 @@ export function EconomyProvider({ children }) {
   // Record a coffee sale
   const recordCoffeeSale = async (saleData) => {
     try {
-      const response = await axios.post('/api/sales/coffee', saleData);
+      const response = await salesService.recordCoffeeSale(saleData);
       await fetchSalesData();
       await fetchDailySummary();
       await fetchMonthlySummary();
@@ -226,7 +226,7 @@ export function EconomyProvider({ children }) {
   // Record a cocktail sale
   const recordCocktailSale = async (saleData) => {
     try {
-      const response = await axios.post('/api/sales/cocktail', saleData);
+      const response = await salesService.recordCocktailSale(saleData);
       await fetchSalesData();
       await fetchDailySummary();
       await fetchMonthlySummary();
@@ -242,7 +242,7 @@ export function EconomyProvider({ children }) {
   // Record a drink sale
   const recordDrinkSale = async (saleData) => {
     try {
-      const response = await axios.post('/api/sales/drink', saleData);
+      const response = await salesService.recordDrinkSale(saleData);
       await fetchSalesData();
       await fetchDailySummary();
       await fetchMonthlySummary();
@@ -257,16 +257,51 @@ export function EconomyProvider({ children }) {
   
   // Refresh all data
   const refreshAllData = useCallback(async () => {
+    const results = {
+      sales: null,
+      dailySummary: null,
+      monthlySummary: null,
+      payrollExpenses: null,
+      operatingExpenses: null
+    };
+    
     try {
-      await Promise.all([
-        fetchSalesData(),
-        fetchDailySummary(),
-        fetchMonthlySummary(),
-        fetchPayrollExpenses(),
-        fetchOperatingExpenses()
-      ]);
+      // Run each fetch operation individually with try/catch rather than Promise.all
+      // to prevent one failure from affecting the others
+      try {
+        results.sales = await fetchSalesData();
+      } catch (err) {
+        console.warn('Error refreshing sales data:', err.message);
+      }
+      
+      try {
+        results.dailySummary = await fetchDailySummary();
+      } catch (err) {
+        console.warn('Error refreshing daily summary:', err.message);
+      }
+      
+      try {
+        results.monthlySummary = await fetchMonthlySummary();
+      } catch (err) {
+        console.warn('Error refreshing monthly summary:', err.message);
+      }
+      
+      try {
+        results.payrollExpenses = await fetchPayrollExpenses();
+      } catch (err) {
+        console.warn('Error refreshing payroll expenses:', err.message);
+      }
+      
+      try {
+        results.operatingExpenses = await fetchOperatingExpenses();
+      } catch (err) {
+        console.warn('Error refreshing operating expenses:', err.message);
+      }
+
+      return results;
     } catch (err) {
-      console.error('Error refreshing economy data:', err);
+      console.error('General error refreshing economy data:', err);
+      return results;
     }
   }, [fetchSalesData, fetchDailySummary, fetchMonthlySummary, fetchPayrollExpenses, fetchOperatingExpenses]);
 

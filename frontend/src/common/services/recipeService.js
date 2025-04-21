@@ -1,12 +1,13 @@
-import axios from 'axios';
-import { API_URL } from '../../config';
+import apiClient from './api';
+import { API_URL } from '../config';
 
 // Recipe service for managing recipes
 const recipeService = {
   // Get all recipes
-  getAllRecipes: async () => {
+  getAllRecipes: async (type = null) => {
     try {
-      const response = await axios.get(`${API_URL}/recipes`);
+      const endpoint = type ? `/recipes/${type}` : '/recipes';
+      const response = await apiClient.get(endpoint);
       return response.data;
     } catch (error) {
       console.error('Error fetching recipes:', error);
@@ -20,7 +21,7 @@ const recipeService = {
    * @returns {Promise} Promise with recipe data including ingredients and costs
    */
   getRecipeById: (recipeId) => {
-    return axios.get(`${API_URL}/recipes/${recipeId}`)
+    return apiClient.get(`/recipes/${recipeId}`)
       .then(response => response.data)
       .catch(error => {
         console.error(`Error fetching recipe ${recipeId}:`, error);
@@ -34,7 +35,7 @@ const recipeService = {
    * @returns {Promise} Promise with recipe cost data
    */
   calculateRecipeCost: (recipeId) => {
-    return axios.get(`${API_URL}/recipes/${recipeId}/cost`)
+    return apiClient.get(`/recipes/${recipeId}/cost`)
       .then(response => response.data)
       .catch(error => {
         console.error(`Error calculating recipe cost for ${recipeId}:`, error);
@@ -48,7 +49,7 @@ const recipeService = {
    * @returns {Promise} Promise with created recipe data
    */
   createRecipe: (recipeData) => {
-    return axios.post(`${API_URL}/recipes`, recipeData)
+    return apiClient.post('/recipes', recipeData)
       .then(response => response.data)
       .catch(error => {
         console.error('Error creating recipe:', error);
@@ -63,7 +64,7 @@ const recipeService = {
    * @returns {Promise} Promise with updated recipe data
    */
   updateRecipe: (recipeId, recipeData) => {
-    return axios.put(`${API_URL}/recipes/${recipeId}`, recipeData)
+    return apiClient.put(`/recipes/${recipeId}`, recipeData)
       .then(response => response.data)
       .catch(error => {
         console.error(`Error updating recipe ${recipeId}:`, error);
@@ -77,7 +78,7 @@ const recipeService = {
    * @returns {Promise} Promise with deletion confirmation
    */
   deleteRecipe: (recipeId) => {
-    return axios.delete(`${API_URL}/recipes/${recipeId}`)
+    return apiClient.delete(`/recipes/${recipeId}`)
       .then(response => response.data)
       .catch(error => {
         console.error(`Error deleting recipe ${recipeId}:`, error);

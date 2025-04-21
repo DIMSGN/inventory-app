@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
-import { expensesService } from '../../../common/services/apiServices';
+import { expensesService } from '../../../common/services';
 import { getTodayISOString } from '../utils/expenseUtils';
 
 /**

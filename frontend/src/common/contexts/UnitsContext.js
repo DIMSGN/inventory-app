@@ -1,6 +1,8 @@
 import React, { createContext, useState, useEffect, useCallback, useContext } from 'react';
-import axios from 'axios';
-import { toast } from 'react-toastify';
+import { API_URL, STORAGE_KEYS } from '../config';
+import { unitsService, toastService } from '../services';
+
+const { showSuccess, showError } = toastService;
 
 const UnitsContext = createContext();
 
@@ -15,12 +17,19 @@ export const UnitsProvider = ({ children }) => {
     setLoading(true);
     setError(null);
     try {
-      const response = await axios.get('/api/units');
-      setUnits(response.data);
-      return response.data;
+      // Use unitsService instead of direct axios call
+      const unitData = await unitsService.getUnits();
+      // unitsService handles 404 errors and returns mock data if needed
+      
+      // Set the units - either from the API or the mock data from unitsService
+      setUnits(unitData);
+      localStorage.setItem(STORAGE_KEYS.UNITS, JSON.stringify(unitData));
+      return unitData;
     } catch (err) {
+      console.error('Error fetching units:', err);
       setError(err.message || 'Failed to fetch units');
-      toast.error(`Error loading units: ${err.message}`);
+      // Return empty array to prevent type errors
+      setUnits([]);
       return [];
     } finally {
       setLoading(false);
@@ -31,13 +40,14 @@ export const UnitsProvider = ({ children }) => {
     setLoading(true);
     setError(null);
     try {
-      const response = await axios.post('/api/units', unitData);
-      setUnits(prev => [...prev, response.data]);
-      toast.success('Unit added successfully');
-      return response.data;
+      const response = await unitsService.addUnit(unitData);
+      setUnits(prev => [...prev, response]);
+      showSuccess('Unit added successfully');
+      return response;
     } catch (err) {
+      console.error('Error adding unit:', err);
       setError(err.message || 'Failed to add unit');
-      toast.error(`Error adding unit: ${err.message}`);
+      showError(`Error adding unit: ${err.message}`);
       throw err;
     } finally {
       setLoading(false);
@@ -48,18 +58,18 @@ export const UnitsProvider = ({ children }) => {
     setLoading(true);
     setError(null);
     try {
-      const response = await axios.put(`/api/units/${id}`, unitData);
-      const updatedUnit = response.data;
+      const updatedUnit = await unitsService.updateUnit(id, unitData);
       
       setUnits(prev => 
         prev.map(unit => unit.id === id ? updatedUnit : unit)
       );
       
-      toast.success('Unit updated successfully');
+      showSuccess('Unit updated successfully');
       return updatedUnit;
     } catch (err) {
+      console.error('Error updating unit:', err);
       setError(err.message || 'Failed to update unit');
-      toast.error(`Error updating unit: ${err.message}`);
+      showError(`Error updating unit: ${err.message}`);
       throw err;
     } finally {
       setLoading(false);
@@ -70,27 +80,48 @@ export const UnitsProvider = ({ children }) => {
     setLoading(true);
     setError(null);
     try {
-      await axios.delete(`/api/units/${id}`);
+      await unitsService.deleteUnit(id);
       setUnits(prev => prev.filter(unit => unit.id !== id));
-      toast.success('Unit deleted successfully');
+      showSuccess('Unit deleted successfully');
+      return true;
     } catch (err) {
+      console.error('Error deleting unit:', err);
       setError(err.message || 'Failed to delete unit');
-      toast.error(`Error deleting unit: ${err.message}`);
+      showError(`Error deleting unit: ${err.message}`);
       throw err;
     } finally {
       setLoading(false);
     }
   }, []);
 
-  // Initial fetch
+  // Initial load
   useEffect(() => {
-    fetchUnits();
+    const loadInitialData = async () => {
+      try {
+        // Try to use cached data first for faster initial render
+        const cachedUnits = localStorage.getItem(STORAGE_KEYS.UNITS);
+        if (cachedUnits) {
+          setUnits(JSON.parse(cachedUnits));
+          console.log("Using cached units");
+        }
+      } catch (err) {
+        console.error("Error loading cached units:", err);
+      }
+      
+      // Then fetch fresh data
+      await fetchUnits();
+    };
+    
+    loadInitialData();
   }, [fetchUnits]);
 
   const value = {
+    // State
     units,
     loading,
     error,
+    
+    // Operations
     fetchUnits,
     addUnit,
     updateUnit,

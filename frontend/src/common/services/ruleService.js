@@ -1,20 +1,24 @@
-import axios from "axios";
+import { API_URL } from '../config';
+import apiClient from './api';
 
-const API_URL = process.env.REACT_APP_API_URL + "/rules";
+const RULES_URL = "/rules";
 
 const ruleService = {
     getRules: () => {
-        return axios.get(API_URL);
+        return apiClient.get(RULES_URL);
+    },
+    getProductRules: (productId) => {
+        return apiClient.get(`${RULES_URL}/product/${productId}`);
     },
     addRule: (rule) => {
         console.log("Sending rule to backend:", rule); // Debugging log
-        return axios.post(API_URL, rule);
+        return apiClient.post(RULES_URL, rule);
     },
     updateRule: (id, rule) => {
-        return axios.put(`${API_URL}/${id}`, rule);
+        return apiClient.put(`${RULES_URL}/${id}`, rule);
     },
     deleteRule: (id) => {
-        return axios.delete(`${API_URL}/${id}`);
+        return apiClient.delete(`${RULES_URL}/${id}`);
     },
 };
 

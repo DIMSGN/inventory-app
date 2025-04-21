@@ -11,14 +11,12 @@ import ChefHeader from '../ChefHeader/ChefHeader';
 import RecipesSection from '../RecipesSection/RecipesSection';
 import { getActionItems, getStatsData } from '../../utils/dashboardUtils';
 import { useFoodRecipes } from '../../hooks';
-import { useChefContext } from '../../contexts/ChefContext';
+import { useChefContext, ChefProvider } from '../../contexts/ChefContext';
 
 /**
- * ChefDashboard component that serves as the main dashboard for chefs
- * 
- * @returns {JSX.Element} ChefDashboard component
+ * Inner ChefDashboard component that uses the context
  */
-const ChefDashboard = () => {
+const ChefDashboardInner = () => {
   const { getTopRecipeName } = useChefContext();
   
   // Use the custom hook to manage recipe data
@@ -59,6 +57,18 @@ const ChefDashboard = () => {
         setSearchQuery={setSearchQuery}
       />
     </div>
+  );
+};
+
+/**
+ * Wrapper component that ensures the context is available
+ * This makes the component work whether it's loaded through ChefPage or directly
+ */
+const ChefDashboard = (props) => {
+  return (
+    <ChefProvider>
+      <ChefDashboardInner {...props} />
+    </ChefProvider>
   );
 };
 

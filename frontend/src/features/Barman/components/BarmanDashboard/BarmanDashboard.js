@@ -13,14 +13,12 @@ import RecipesSection from '../RecipesSection';
 import { TABS } from '../../constants/tabs';
 import { getActionItems, getStatsData } from '../../utils/dashboardUtils';
 import { useBarRecipes } from '../../hooks';
-import { useBarmanContext } from '../../contexts/BarmanContext';
+import { useBarmanContext, BarmanProvider } from '../../contexts/BarmanContext';
 
 /**
- * BarmanDashboard component that serves as the main dashboard for bartenders
- * 
- * @returns {JSX.Element} BarmanDashboard component
+ * Inner BarmanDashboard component that uses the context
  */
-const BarmanDashboard = () => {
+const BarmanDashboardInner = () => {
   const { preferredTab } = useBarmanContext();
   
   // Use the custom hook to manage recipe data
@@ -60,6 +58,18 @@ const BarmanDashboard = () => {
         setActiveTab={setActiveTab}
       />
     </div>
+  );
+};
+
+/**
+ * Wrapper component that ensures the context is available
+ * This makes the component work whether it's loaded through BarmanPage or directly
+ */
+const BarmanDashboard = (props) => {
+  return (
+    <BarmanProvider>
+      <BarmanDashboardInner {...props} />
+    </BarmanProvider>
   );
 };
 

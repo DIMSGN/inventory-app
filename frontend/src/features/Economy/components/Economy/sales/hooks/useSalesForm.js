@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import moment from 'moment';
-import { salesService } from '../../mockServices';
+import { salesService } from '../../../../../../common/services';
 
 /**
  * Custom hook for managing sales form state and submission

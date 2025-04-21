@@ -51,6 +51,9 @@ const useRuleFiltering = () => {
   const getApplicableRules = useCallback((productId, amount) => {
     if (!productId || !rules || amount === undefined) return [];
     
+    // Make sure rules is an array before filtering
+    if (!Array.isArray(rules)) return [];
+    
     return rules
       .filter(rule => rule.product_id.toString() === productId.toString())
       .filter(rule => doesRuleApply(rule, amount));

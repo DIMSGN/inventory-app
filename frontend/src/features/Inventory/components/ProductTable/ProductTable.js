@@ -13,8 +13,8 @@ import moment from 'moment';
 
 const ProductTable = () => {
     const { 
-        filteredProducts, 
-        rules,
+        filteredProducts = [],
+        rules = [],
         getRuleColor,
         setEditingProduct,
         deleteProduct,

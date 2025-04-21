@@ -14,7 +14,8 @@ import { useAppContext } from '../../../common/contexts/AppContext';
  * @returns {Object} Recipe data and state management functions
  */
 const useFoodRecipes = ({ initialCategory } = {}) => {
-  const { recipes = [] } = useAppContext();
+  // Use empty array as default value to avoid filter errors
+  const { recipes = [] } = useAppContext() || {};
   const [foodRecipes, setFoodRecipes] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
   const [activeCategory, setActiveCategory] = useState(initialCategory);
@@ -23,16 +24,25 @@ const useFoodRecipes = ({ initialCategory } = {}) => {
   // Load recipes
   useEffect(() => {
     // In a real app, we would filter by type="food"
-    setFoodRecipes(recipes);
+    setFoodRecipes(Array.isArray(recipes) ? recipes : []);
     setIsLoading(false);
   }, [recipes]);
 
-  // Filter recipes based on search query and category
-  const filteredRecipes = foodRecipes.filter(recipe => 
-    recipe.name?.toLowerCase().includes(searchQuery.toLowerCase())
-    // We would also filter by category if activeCategory is set
-    // && (!activeCategory || recipe.category === activeCategory)
-  );
+  // Initialize a safe default first
+  let filteredRecipes = [];
+  
+  // Then try to filter if foodRecipes is an array
+  try {
+    if (Array.isArray(foodRecipes)) {
+      filteredRecipes = foodRecipes.filter(recipe => 
+        recipe && recipe.name && typeof recipe.name.toLowerCase === 'function' && 
+        recipe.name.toLowerCase().includes((searchQuery || '').toLowerCase())
+      );
+    }
+  } catch (error) {
+    console.error("Error filtering recipes:", error);
+    // Keep the default empty array if there's an error
+  }
 
   return {
     foodRecipes,

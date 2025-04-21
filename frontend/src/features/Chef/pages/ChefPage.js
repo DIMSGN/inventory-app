@@ -4,7 +4,7 @@
  */
 
 import React from 'react';
-import ChefDashboard from '../components/ChefDashboard';
+import ChefDashboard from '../components/ChefDashboard/ChefDashboard';
 import { ChefProvider } from '../contexts/ChefContext';
 
 /**

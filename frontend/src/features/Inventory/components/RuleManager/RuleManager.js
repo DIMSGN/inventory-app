@@ -20,8 +20,12 @@ const RuleManager = ({ currentProduct = null, openModalAutomatically = false }) 
   // State for error messages 
   const [error, setError] = useState(null);
 
-  // Get rule data from context
-  const { rules, fetchRules, isLoading } = useAppContext();
+  // Get rule data from context with safe defaults
+  const { 
+    rules = [], 
+    fetchRules = () => Promise.resolve([]), 
+    isLoading = { rules: false } 
+  } = useAppContext() || {};
 
   // Import methods from useRuleManagement
   const {
@@ -36,9 +40,9 @@ const RuleManager = ({ currentProduct = null, openModalAutomatically = false }) 
   } = useRuleManagement();
 
   // Filter rules for the current product if specified
-  const filteredRules = currentProduct
-    ? rules.filter(rule => rule.product_id.toString() === currentProduct.product_id.toString())
-    : rules;
+  const filteredRules = currentProduct && Array.isArray(rules)
+    ? rules.filter(rule => rule && rule.product_id && rule.product_id.toString() === currentProduct.product_id.toString())
+    : (Array.isArray(rules) ? rules : []);
 
   // Automatically open modal when product is selected from URL
   useEffect(() => {

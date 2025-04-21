@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { productService, recipeService } from '../../mockServices';
+import { productService, recipeService } from '../../../../../../common/services';
 
 /**
  * Custom hook for fetching and organizing sales data
