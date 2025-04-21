@@ -2,6 +2,7 @@ const express = require("express");
 const path = require("path");
 const cors = require("cors");
 const dotenv = require("dotenv");
+const fs = require("fs");
 
 // Try to load optional modules
 let helmet, compression;
@@ -149,11 +150,18 @@ app.use('/api', (req, res) => {
 });
 
 // Serve static files from React build
-app.use(express.static(path.join(__dirname, "../frontend/build")));
+const frontendBuildPath = path.join(__dirname, "../frontend/build");
+const localBuildPath = path.join(__dirname, "./build");
+
+// Check if frontend build exists in either location
+let buildPath = fs.existsSync(frontendBuildPath) ? frontendBuildPath : localBuildPath;
+console.log(`Serving static files from: ${buildPath}`);
+
+app.use(express.static(buildPath));
 
 // Catch-all route for React app - must be last
 app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, '../frontend/build/index.html'));
+  res.sendFile(path.join(buildPath, 'index.html'));
 });
 
 // Error handler

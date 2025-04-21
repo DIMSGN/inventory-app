@@ -8,7 +8,7 @@
       "force_https": true,
       "env": {
         "PORT": "8080",
-        "CC_PRE_BUILD_HOOK": "npm install && cd backend && npm install"
+        "CC_PRE_BUILD_HOOK": "npm install && cd frontend && npm install && npm run build && cd ../backend && npm install && mkdir -p build && cp -r ../frontend/build/* build/"
       }
     }
   ]
