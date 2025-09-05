@@ -1,0 +1,773 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Restaurant Management System</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="script.js" defer></script>
+</head>
+<body>
+    <button class="menu-toggle" onclick="toggleMobileMenu()">☰</button>
+    <div class="container">
+        <nav class="sidebar" id="sidebar">
+            <div class="logo">
+                <h1>RestaurantPro</h1>
+                <p>Management System</p>
+            </div>
+            <!-- Sidebar navigation: names unchanged -->
+            <div class="nav-item active" onclick="showPage('dashboard')">
+                <svg class="nav-icon" viewBox="0 0 24 24">
+                    <rect x="3" y="3" width="8" height="10" rx="2" fill="currentColor" />
+                    <rect x="3" y="15" width="8" height="6" rx="2" fill="currentColor" />
+                    <rect x="13" y="11" width="8" height="10" rx="2" fill="currentColor" />
+                    <rect x="13" y="3" width="8" height="6" rx="2" fill="currentColor" />
+                </svg>
+                Dashboard
+            </div>
+            <div class="nav-item" onclick="showPage('profit-loss')">
+                <svg class="nav-icon" viewBox="0 0 24 24">
+                    <path d="M16 6l2.29 2.29-4.88 4.88-4-4L2 16.59 3.41 18l6-6 4 4 6.3-6.29L22 12V6z"/>
+                </svg>
+                Profit & Loss Analysis
+            </div>
+            <div class="nav-item" onclick="showPage('inventory')">
+                <svg class="nav-icon" viewBox="0 0 24 24">
+                    <path d="M20 2H4c-1 0-2 .9-2 2v3.01c0 .72.43 1.34 1 1.69V20c0 1.1 1.1 2 2 2h14c.9 0 2-.9 2-2V8.7c.57-.35 1-.97 1-1.69V4c0-1.1-1-2-2-2zM19 20H5V9h14v11z"/>
+                </svg>
+                Product Inventory
+            </div>
+            <div class="nav-item" onclick="showPage('chef-recipes')">
+                <svg class="nav-icon" viewBox="0 0 24 24">
+                    <path d="M12.5 2C17 2 19 4 19 8.5c0 1.5-.4 2.8-1 3.8L20 22H4l2-9.7c-.6-1-.9-2.3-.9-3.8C5 4 7.1 2 12.5 2zm0 15c.8 0 1.5-.7 1.5-1.5S13.3 14 12.5 14s-1.5.7-1.5 1.5.7 1.5 1.5 1.5z"/>
+                </svg>
+                Chef Dashboard
+            </div>
+            <div class="nav-item" onclick="showPage('bar-recipes')">
+                <svg class="nav-icon" viewBox="0 0 24 24">
+                    <path d="M5 15l3-3 3 3 4-4 4 4v2a2 2 0 01-2 2H7a2 2 0 01-2-2v-2zm0-4V9a2 2 0 012-2h10a2 2 0 012 2v2l-4-4-4 4-3-3-3 3z"/>
+                </svg>
+                Bar Dashboard
+            </div>
+            <div class="nav-item" onclick="showPage('suppliers')">
+                <svg class="nav-icon" viewBox="0 0 24 24">
+                    <path d="M17 8C8 10 5.9 16.17 3.82 21.34l1.89.66.95-2.3c.48.17.98.3 1.34.3C19 20 22 3 22 3S17 8 17 8z"/>
+                </svg>
+                Suppliers Management
+            </div>
+        </nav>
+        <main class="main-content">
+            <!-- Dashboard Page -->
+            <div id="dashboard" class="page active">
+                <div class="page-header">
+                    <h2>Restaurant Dashboard</h2>
+                    <p>Overview of your restaurant operations</p>
+                </div>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-value">€15,420</div>
+                        <div class="stat-label">Monthly Revenue</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">234</div>
+                        <div class="stat-label">Products in Stock</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">45</div>
+                        <div class="stat-label">Active Recipes</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">8</div>
+                        <div class="stat-label">Suppliers</div>
+                    </div>
+                </div>
+                <div class="card">
+                    <h3>Quick Actions</h3>
+                    <div class="quick-actions-grid">
+                        <button class="btn" onclick="showPage('inventory')">Manage Inventory</button>
+                        <button class="btn btn-secondary" onclick="showPage('chef-recipes')">Add Recipe</button>
+                        <button class="btn" onclick="showPage('profit-loss')">View Reports</button>
+                        <button class="btn btn-secondary" onclick="showPage('suppliers')">Contact Suppliers</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Profit & Loss Analysis Page -->
+            <div id="profit-loss" class="page" style="display:none">
+                <div class="page-header">
+                    <h2>Profit & Loss Analysis</h2>
+                    <p>Financial analysis and reporting</p>
+                </div>
+                <div class="actions">
+                    <button class="btn" onclick="generateReport()">Generate Report</button>
+                    <button class="btn btn-secondary" onclick="exportPDF('profit-loss')">Export PDF</button>
+                </div>
+                <div class="card">
+                    <h3>Monthly Financial Overview</h3>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Category</th>
+                                <th>Jan</th>
+                                <th>Feb</th>
+                                <th>Mar</th>
+                                <th>Total</th>
+                            </tr>
+                        </thead>
+                        <tbody id="profit-loss-table">
+                            <tr>
+                                <td>Food Sales</td>
+                                <td>€1,000.00</td>
+                                <td>€1,200.00</td>
+                                <td>€1,100.00</td>
+                                <td>€3,300.00</td>
+                            </tr>
+                            <tr>
+                                <td>Beverage Sales</td>
+                                <td>€800.00</td>
+                                <td>€900.00</td>
+                                <td>€850.00</td>
+                                <td>€2,550.00</td>
+                            </tr>
+                            <tr>
+                                <td>Food Costs</td>
+                                <td>-€250.00</td>
+                                <td>-€300.00</td>
+                                <td>-€275.00</td>
+                                <td>-€825.00</td>
+                            </tr>
+                            <tr>
+                                <td>Labor Costs</td>
+                                <td>-€400.00</td>
+                                <td>-€420.00</td>
+                                <td>-€410.00</td>
+                                <td>-€1,230.00</td>
+                            </tr>
+                            <tr style="background: #f0f8ff; font-weight: bold;">
+                                <td>Net Profit</td>
+                                <td>€1,150.00</td>
+                                <td>€1,380.00</td>
+                                <td>€1,265.00</td>
+                                <td>€3,795.00</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Product Inventory Page -->
+            <div id="inventory" class="page" style="display:none">
+                <div class="page-header">
+                    <h2>Product Inventory</h2>
+                    <p>Manage your restaurant's stock and inventory</p>
+                </div>
+                <div class="actions">
+                    <button class="btn" onclick="showModal('add-product-modal')">Add Product</button>
+                    <button class="btn btn-secondary" onclick="showModal('add-rule-modal')">Add Rule</button>
+                    <button class="btn" onclick="showModal('manage-rules-modal')">Manage Rules</button>
+                    <button class="btn btn-secondary" onclick="exportPDF('inventory')">Export PDF</button>
+                    <button class="btn" onclick="exportShoppingList()">Export Shopping List</button>
+                </div>
+                <div class="filter-section">
+                    <h3>Filters</h3>
+                    <div class="filter-grid">
+                        <select class="form-control" id="category-filter" onchange="filterProducts()">
+                            <option value="">All Categories</option>
+                            <option value="Vegetables">Vegetables</option>
+                            <option value="Meat">Meat</option>
+                            <option value="Dairy">Dairy</option>
+                            <option value="Beverages">Beverages</option>
+                        </select>
+                        <select class="form-control" id="rule-filter" onchange="filterByRule()">
+                            <option value="">All Products</option>
+                            <option value="low-stock">Low Stock</option>
+                            <option value="expired-soon">Expiring Soon</option>
+                            <option value="high-price">High Price</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="card">
+                    <!-- Product table is styled in styles.css, no inline styles -->
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Product Name</th>
+                                <th>Category</th>
+                                <th>Price</th>
+                                <th>Unit</th>
+                                <th>Stock</th>
+                                <th>Expiry Date</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="products-table">
+                            <tr>
+                                <td>Tomatoes</td>
+                                <td>Vegetables</td>
+                                <td>€2.50</td>
+                                <td>kg</td>
+                                <td>15</td>
+                                <td>2025-09-10</td>
+                                <td>
+                                    <button class="btn" onclick="editProduct(this)">Edit</button>
+                                    <button class="btn btn-danger" onclick="deleteProduct(this)">Delete</button>
+                                </td>
+                            </tr>
+                            <tr class="highlight-low-stock">
+                                <td>Chicken Breast</td>
+                                <td>Meat</td>
+                                <td>€8.90</td>
+                                <td>kg</td>
+                                <td>5</td>
+                                <td>2025-09-06</td>
+                                <td>
+                                    <button class="btn" onclick="editProduct(this)">Edit</button>
+                                    <button class="btn btn-danger" onclick="deleteProduct(this)">Delete</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Mozzarella</td>
+                                <td>Dairy</td>
+                                <td>€4.20</td>
+                                <td>kg</td>
+                                <td>20</td>
+                                <td>2025-09-15</td>
+                                <td>
+                                    <button class="btn" onclick="editProduct(this)">Edit</button>
+                                    <button class="btn btn-danger" onclick="deleteProduct(this)">Delete</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Chef Dashboard Page -->
+            <div id="chef-recipes" class="page" style="display:none">
+                <div class="page-header">
+                    <h2>Chef Dashboard</h2>
+                    <p>Manage kitchen recipes and ingredients</p>
+                </div>
+                <div class="actions">
+                    <button class="btn" onclick="showModal('add-recipe-modal')">Add Recipe</button>
+                    <button class="btn btn-secondary" onclick="exportPDF('recipes')">Export Recipes</button>
+                </div>
+                <div class="card">
+                    <h3>Recipe Collection</h3>
+                    <div id="recipes-container">
+                        <div class="card">
+                            <h4>Margherita Pizza</h4>
+                            <p><strong>Servings:</strong> 4 | <strong>Prep Time:</strong> 30 min</p>
+                            <div class="ingredient-item">
+                                <span>Pizza Dough: 500g</span>
+                                <span>€2.50</span>
+                            </div>
+                            <div class="ingredient-item">
+                                <span>Tomato Sauce: 200ml</span>
+                                <span>€1.20</span>
+                            </div>
+                            <div class="ingredient-item">
+                                <span>Mozzarella: 250g</span>
+                                <span>€3.15</span>
+                            </div>
+                            <div class="ingredient-item">
+                                <span>Basil: 20g</span>
+                                <span>€0.50</span>
+                            </div>
+                            <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid #eee;">
+                                <strong>Total Cost: €7.35 | Cost per Serving: €1.84</strong>
+                            </div>
+                            <div style="margin-top: 1rem;">
+                                <button class="btn" onclick="editRecipe('margherita')">Edit</button>
+                                <button class="btn btn-danger" onclick="deleteRecipe('margherita')">Delete</button>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <h4>Caesar Salad</h4>
+                            <p><strong>Servings:</strong> 2 | <strong>Prep Time:</strong> 15 min</p>
+                            <div class="ingredient-item">
+                                <span>Romaine Lettuce: 300g</span>
+                                <span>€1.80</span>
+                            </div>
+                            <div class="ingredient-item">
+                                <span>Parmesan Cheese: 50g</span>
+                                <span>€2.20</span>
+                            </div>
+                            <div class="ingredient-item">
+                                <span>Caesar Dressing: 100ml</span>
+                                <span>€1.50</span>
+                            </div>
+                            <div class="ingredient-item">
+                                <span>Croutons: 80g</span>
+                                <span>€0.90</span>
+                            </div>
+                            <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid #eee;">
+                                <strong>Total Cost: €6.40 | Cost per Serving: €3.20</strong>
+                            </div>
+                            <div style="margin-top: 1rem;">
+                                <button class="btn" onclick="editRecipe('caesar')">Edit</button>
+                                <button class="btn btn-danger" onclick="deleteRecipe('caesar')">Delete</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bar Dashboard Page -->
+            <div id="bar-recipes" class="page" style="display:none">
+                <div class="page-header">
+                    <h2>Bar Dashboard</h2>
+                    <p>Manage cocktail recipes and bar inventory</p>
+                </div>
+                <div class="actions">
+                    <button class="btn" onclick="showModal('add-cocktail-modal')">Add Cocktail</button>
+                    <button class="btn btn-secondary" onclick="exportPDF('cocktails')">Export Menu</button>
+                </div>
+                <div class="card">
+                    <h3>Cocktail Recipes</h3>
+                    <div id="cocktails-container">
+                        <div class="card">
+                            <h4>Mojito</h4>
+                            <p><strong>Glass:</strong> Highball | <strong>Prep Time:</strong> 5 min</p>
+                            <div class="ingredient-item">
+                                <span>White Rum: 60ml</span>
+                                <span>€2.40</span>
+                            </div>
+                            <div class="ingredient-item">
+                                <span>Fresh Lime Juice: 30ml</span>
+                                <span>€0.30</span>
+                            </div>
+                            <div class="ingredient-item">
+                                <span>Sugar: 2 tsp</span>
+                                <span>€0.05</span>
+                            </div>
+                            <div class="ingredient-item">
+                                <span>Fresh Mint: 10 leaves</span>
+                                <span>€0.25</span>
+                            </div>
+                            <div class="ingredient-item">
+                                <span>Soda Water: 100ml</span>
+                                <span>€0.15</span>
+                            </div>
+                            <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid #eee;">
+                                <strong>Total Cost: €3.15 | Selling Price: €8.00 | Profit: €4.85</strong>
+                            </div>
+                            <div style="margin-top: 1rem;">
+                                <button class="btn" onclick="editCocktail('old-fashioned')">Edit</button>
+                                <button class="btn btn-danger" onclick="deleteCocktail('old-fashioned')">Delete</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Suppliers Management Page -->
+            <div id="suppliers" class="page" style="display:none">
+                <div class="page-header">
+                    <h2>Suppliers Management</h2>
+                    <p>Manage supplier relationships and compare prices</p>
+                </div>
+                <div class="actions">
+                    <button class="btn" onclick="showModal('add-supplier-modal')">Add Supplier</button>
+                    <button class="btn btn-secondary" onclick="compareSuppliers()">Compare Suppliers</button>
+                    <button class="btn" onclick="exportPDF('suppliers')">Export List</button>
+                </div>
+                <div class="card">
+                    <h3>Supplier Directory</h3>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Supplier Name</th>
+                                <th>Category</th>
+                                <th>Contact</th>
+                                <th>Quality Rating</th>
+                                <th>Price Range</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="suppliers-table">
+                            <tr>
+                                <td>Fresh Farm Co.</td>
+                                <td>Vegetables</td>
+                                <td>info@freshfarm.com<br>+30 210 1234567</td>
+                                <td>⭐⭐⭐⭐⭐</td>
+                                <td>€€</td>
+                                <td>
+                                    <button class="btn" style="padding: 5px 10px; font-size: 0.8rem;" onclick="viewSupplier('fresh-farm')">View</button>
+                                    <button class="btn btn-secondary" style="padding: 5px 10px; font-size: 0.8rem;" onclick="editSupplier('fresh-farm')">Edit</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Premium Meats Ltd</td>
+                                <td>Meat & Poultry</td>
+                                <td>orders@premiummeats.gr<br>+30 210 9876543</td>
+                                <td>⭐⭐⭐⭐</td>
+                                <td>€€€</td>
+                                <td>
+                                    <button class="btn" style="padding: 5px 10px; font-size: 0.8rem;" onclick="viewSupplier('premium-meats')">View</button>
+                                    <button class="btn btn-secondary" style="padding: 5px 10px; font-size: 0.8rem;" onclick="editSupplier('premium-meats')">Edit</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Dairy Dreams</td>
+                                <td>Dairy Products</td>
+                                <td>contact@dairydreams.gr<br>+30 210 5555555</td>
+                                <td>⭐⭐⭐⭐⭐</td>
+                                <td>€€</td>
+                                <td>
+                                    <button class="btn" style="padding: 5px 10px; font-size: 0.8rem;" onclick="viewSupplier('dairy-dreams')">View</button>
+                                    <button class="btn btn-secondary" style="padding: 5px 10px; font-size: 0.8rem;" onclick="editSupplier('dairy-dreams')">Edit</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Beverage World</td>
+                                <td>Beverages & Spirits</td>
+                                <td>sales@beverageworld.com<br>+30 210 7777777</td>
+                                <td>⭐⭐⭐⭐</td>
+                                <td>€€€</td>
+                                <td>
+                                    <button class="btn" style="padding: 5px 10px; font-size: 0.8rem;" onclick="viewSupplier('beverage-world')">View</button>
+                                    <button class="btn btn-secondary" style="padding: 5px 10px; font-size: 0.8rem;" onclick="editSupplier('beverage-world')">Edit</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="card">
+                    <h3>Price Comparison Tool</h3>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem;">
+                        <div>
+                            <h4>Product: Tomatoes (1kg)</h4>
+                            <div style="background: #f8f9ff; padding: 1rem; border-radius: 10px; margin-bottom: 0.5rem;">
+                                <strong>Fresh Farm Co.</strong><br>
+                                Price: €2.30/kg<br>
+                                Quality: ⭐⭐⭐⭐⭐<br>
+                                Delivery: Next day
+                            </div>
+                            <div style="background: #fff5f5; padding: 1rem; border-radius: 10px;">
+                                <strong>Garden Supply</strong><br>
+                                Price: €2.80/kg<br>
+                                Quality: ⭐⭐⭐⭐<br>
+                                Delivery: Same day
+                            </div>
+                        </div>
+                        <div>
+                            <h4>Product: Chicken Breast (1kg)</h4>
+                            <div style="background: #f8f9ff; padding: 1rem; border-radius: 10px; margin-bottom: 0.5rem;">
+                                <strong>Premium Meats Ltd</strong><br>
+                                Price: €8.50/kg<br>
+                                Quality: ⭐⭐⭐⭐⭐<br>
+                                Delivery: 2 days
+                            </div>
+                            <div style="background: #fff5f5; padding: 1rem; border-radius: 10px;">
+                                <strong>Local Butcher</strong><br>
+                                Price: €7.90/kg<br>
+                                Quality: ⭐⭐⭐⭐<br>
+                                Delivery: Next day
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Modals -->
+    
+    <!-- Add Product Modal -->
+    <div id="add-product-modal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('add-product-modal')">&times;</span>
+            <h3>Add New Product</h3>
+            <form onsubmit="addProduct(event)">
+                <div class="form-group">
+                    <label>Product Name</label>
+                    <input type="text" class="form-control" id="product-name" required>
+                </div>
+                <div class="form-group">
+                    <label>Category</label>
+                    <select class="form-control" id="product-category" required>
+                        <option value="">Select Category</option>
+                        <option value="Vegetables">Vegetables</option>
+                        <option value="Meat">Meat</option>
+                        <option value="Dairy">Dairy</option>
+                        <option value="Beverages">Beverages</option>
+                        <option value="Spices">Spices</option>
+                        <option value="Grains">Grains</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Price</label>
+                    <input type="number" step="0.01" class="form-control" id="product-price" required>
+                </div>
+                <div class="form-group">
+                    <label>Unit Type</label>
+                    <select class="form-control" id="product-unit" required>
+                        <option value="kg">Kilogram (kg)</option>
+                        <option value="g">Gram (g)</option>
+                        <option value="l">Liter (l)</option>
+                        <option value="ml">Milliliter (ml)</option>
+                        <option value="piece">Piece</option>
+                        <option value="package">Package</option>
+                        <option value="custom">Custom Unit</option>
+                    </select>
+                </div>
+                <div class="form-group" id="custom-unit-group" style="display: none;">
+                    <label>Custom Unit Name</label>
+                    <input type="text" class="form-control" id="custom-unit">
+                </div>
+                <div class="form-group">
+                    <label>Current Stock</label>
+                    <input type="number" class="form-control" id="product-stock" required>
+                </div>
+                <div class="form-group">
+                    <label>Expiry Date</label>
+                    <input type="date" class="form-control" id="product-expiry">
+                </div>
+                <button type="submit" class="btn">Add Product</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Add Rule Modal -->
+    <div id="add-rule-modal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('add-rule-modal')">&times;</span>
+            <h3>Add Inventory Rule</h3>
+            <form onsubmit="addRule(event)">
+                <div class="form-group">
+                    <label>Rule Name</label>
+                    <input type="text" class="form-control" id="rule-name" required>
+                </div>
+                <div class="form-group">
+                    <label>Condition Field</label>
+                    <select class="form-control" id="rule-field" required>
+                        <option value="stock">Stock Level</option>
+                        <option value="price">Price</option>
+                        <option value="expiry">Days Until Expiry</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Comparator</label>
+                    <select class="form-control" id="rule-comparator" required>
+                        <option value="<">Less than</option>
+                        <option value="<=">Less than or equal</option>
+                        <option value="=">Equal to</option>
+                        <option value=">=">Greater than or equal</option>
+                        <option value=">">Greater than</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Value</label>
+                    <input type="number" step="0.01" class="form-control" id="rule-value" required>
+                </div>
+                <div class="form-group">
+                    <label>Highlight Color</label>
+                    <input type="color" class="color-picker form-control" id="rule-color" value="#ffebee">
+                </div>
+                <button type="submit" class="btn">Add Rule</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Manage Rules Modal -->
+    <div id="manage-rules-modal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('manage-rules-modal')">&times;</span>
+            <h3>Manage Rules</h3>
+            <div id="rules-list">
+                <div class="rule-item">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <div>
+                            <strong>Low Stock Alert</strong><br>
+                            Stock Level < 10 units
+                            <div style="width: 30px; height: 15px; background: #ffebee; border: 1px solid #ccc; margin-top: 5px;"></div>
+                        </div>
+                        <div>
+                            <button class="btn" style="padding: 5px 10px; font-size: 0.8rem;" onclick="editRule('low-stock')">Edit</button>
+                            <button class="btn btn-danger" style="padding: 5px 10px; font-size: 0.8rem;" onclick="deleteRule('low-stock')">Delete</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="rule-item">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <div>
+                            <strong>High Price Items</strong><br>
+                            Price > €10.00
+                            <div style="width: 30px; height: 15px; background: #fff3cd; border: 1px solid #ccc; margin-top: 5px;"></div>
+                        </div>
+                        <div>
+                            <button class="btn" style="padding: 5px 10px; font-size: 0.8rem;" onclick="editRule('high-price')">Edit</button>
+                            <button class="btn btn-danger" style="padding: 5px 10px; font-size: 0.8rem;" onclick="deleteRule('high-price')">Delete</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Recipe Modal -->
+    <div id="add-recipe-modal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('add-recipe-modal')">&times;</span>
+            <h3>Add New Recipe</h3>
+            <form onsubmit="addRecipe(event)">
+                <div class="form-group">
+                    <label>Recipe Name</label>
+                    <input type="text" class="form-control" id="recipe-name" required>
+                </div>
+                <div class="form-group">
+                    <label>Servings</label>
+                    <input type="number" class="form-control" id="recipe-servings" required>
+                </div>
+                <div class="form-group">
+                    <label>Prep Time (minutes)</label>
+                    <input type="number" class="form-control" id="recipe-prep-time" required>
+                </div>
+                <h4>Ingredients</h4>
+                <div id="recipe-ingredients">
+                    <div class="ingredient-row" style="display: grid; grid-template-columns: 2fr 1fr 1fr auto; gap: 10px; margin-bottom: 10px; align-items: end;">
+                        <div class="form-group">
+                            <label>Ingredient</label>
+                            <input type="text" class="form-control" placeholder="Ingredient name" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Quantity</label>
+                            <input type="number" step="0.01" class="form-control" placeholder="Amount" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Unit</label>
+                            <select class="form-control" required>
+                                <option value="g">g</option>
+                                <option value="kg">kg</option>
+                                <option value="ml">ml</option>
+                                <option value="l">l</option>
+                                <option value="piece">piece</option>
+                                <option value="tbsp">tbsp</option>
+                                <option value="tsp">tsp</option>
+                            </select>
+                        </div>
+                        <button type="button" class="btn btn-danger" style="margin-bottom: 24px; padding: 10px;" onclick="removeIngredient(this)">×</button>
+                    </div>
+                </div>
+                <button type="button" class="btn btn-secondary" onclick="addIngredientRow()" style="margin-bottom: 20px;">Add Ingredient</button>
+                <button type="submit" class="btn">Add Recipe</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Add Cocktail Modal -->
+    <div id="add-cocktail-modal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('add-cocktail-modal')">&times;</span>
+            <h3>Add New Cocktail</h3>
+            <form onsubmit="addCocktail(event)">
+                <div class="form-group">
+                    <label>Cocktail Name</label>
+                    <input type="text" class="form-control" id="cocktail-name" required>
+                </div>
+                <div class="form-group">
+                    <label>Glass Type</label>
+                    <select class="form-control" id="cocktail-glass" required>
+                        <option value="Highball">Highball</option>
+                        <option value="Rocks">Rocks</option>
+                        <option value="Martini">Martini</option>
+                        <option value="Coupe">Coupe</option>
+                        <option value="Collins">Collins</option>
+                        <option value="Shot">Shot</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Prep Time (minutes)</label>
+                    <input type="number" class="form-control" id="cocktail-prep-time" required>
+                </div>
+                <div class="form-group">
+                    <label>Selling Price (€)</label>
+                    <input type="number" step="0.01" class="form-control" id="cocktail-price" required>
+                </div>
+                <h4>Ingredients</h4>
+                <div id="cocktail-ingredients">
+                    <div class="ingredient-row" style="display: grid; grid-template-columns: 2fr 1fr 1fr auto; gap: 10px; margin-bottom: 10px; align-items: end;">
+                        <div class="form-group">
+                            <label>Ingredient</label>
+                            <input type="text" class="form-control" placeholder="Ingredient name" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Quantity</label>
+                            <input type="number" step="0.01" class="form-control" placeholder="Amount" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Unit</label>
+                            <select class="form-control" required>
+                                <option value="ml">ml</option>
+                                <option value="l">l</option>
+                                <option value="dash">dash</option>
+                                <option value="splash">splash</option>
+                                <option value="piece">piece</option>
+                                <option value="slice">slice</option>
+                                <option value="leaves">leaves</option>
+                            </select>
+                        </div>
+                        <button type="button" class="btn btn-danger" style="margin-bottom: 24px; padding: 10px;" onclick="removeCocktailIngredient(this)">×</button>
+                    </div>
+                </div>
+                <button type="button" class="btn btn-secondary" onclick="addCocktailIngredientRow()" style="margin-bottom: 20px;">Add Ingredient</button>
+                <button type="submit" class="btn">Add Cocktail</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Add Supplier Modal -->
+    <div id="add-supplier-modal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('add-supplier-modal')">&times;</span>
+            <h3>Add New Supplier</h3>
+            <form onsubmit="addSupplier(event)">
+                <div class="form-group">
+                    <label>Supplier Name</label>
+                    <input type="text" class="form-control" id="supplier-name" required>
+                </div>
+                <div class="form-group">
+                    <label>Category</label>
+                    <select class="form-control" id="supplier-category" required>
+                        <option value="">Select Category</option>
+                        <option value="Vegetables">Vegetables</option>
+                        <option value="Meat & Poultry">Meat & Poultry</option>
+                        <option value="Dairy Products">Dairy Products</option>
+                        <option value="Beverages & Spirits">Beverages & Spirits</option>
+                        <option value="Spices & Herbs">Spices & Herbs</option>
+                        <option value="Grains & Bakery">Grains & Bakery</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" class="form-control" id="supplier-email" required>
+                </div>
+                <div class="form-group">
+                    <label>Phone</label>
+                    <input type="tel" class="form-control" id="supplier-phone" required>
+                </div>
+                <div class="form-group">
+                    <label>Quality Rating</label>
+                    <select class="form-control" id="supplier-rating" required>
+                        <option value="1">⭐ (1 star)</option>
+                        <option value="2">⭐⭐ (2 stars)</option>
+                        <option value="3">⭐⭐⭐ (3 stars)</option>
+                        <option value="4">⭐⭐⭐⭐ (4 stars)</option>
+                        <option value="5">⭐⭐⭐⭐⭐ (5 stars)</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Price Range</label>
+                    <select class="form-control" id="supplier-price-range" required>
+                        <option value="€">€ (Budget)</option>
+                        <option value="€€">€€ (Moderate)</option>
+                        <option value="€€€">€€€ (Premium)</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn">Add Supplier</button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>
